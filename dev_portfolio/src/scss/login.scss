@@ -22,26 +22,68 @@
 
 .title {
   position: relative;
-  font-family: 'polenta';
+  font-family:'Courier New', Courier, monospace;
   font-size: 72px;
   color: #FFFFFF;
   margin-left: auto;
   margin-right: auto;
-  margin-block-end: 20%;
+  margin-block-end: 5%;
   text-align: center;
 
 }
 
 .login_button {
-  color: #444;
+  background-color: #9d8b2c;
+  font-size: 20px;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-radius: 500px;
+  border: 1px #000000;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px #000000;
+  display: block;
+  margin: 0 0 10%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 50%;
+  height: 50px;
 }
 
+.login_button :hover span {
+  padding-right: 25px;
+}
+
+.login_button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.login_button_google {
+  background-color: #FFFFFF;
+  color: #f00606;
+  font-size: 20px;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  border-radius: 500px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px #000000;
+  display: block;
+  margin: 0 0 10%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 50%;
+  height: 50px;
+}
 
 form label{
   color: #979797;
   margin: 0 0 10px;
   display: block;
   font-size: 50px;
+  font-family:'Courier New', Courier, monospace;
   text-align: center;
 }
 
@@ -52,13 +94,50 @@ form input {
   margin-right: auto;
   margin-left: auto;
   border-radius: 500px;
-  border: 1px solid #BBBBBB;
+  border: 1px solid #000000;
+  // box-shadow: 0px 4px 4px #000000;
   height: 36px;
-  // padding: 5px 10px;
   width: 50%;
   text-align: center;
 }
 
-form button {
+.botoes_extras_1{
+  background-color: #9d8b2c;
+  display: inline-block;
+  font-size: 20px;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-right: 10%;
+  margin-left: 10%;
   border-radius: 500px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px #000000;
+  height: 36px;
+  width: 30%;
 }
+
+.botoes_extras_2{
+  background-color: #9d8b2c;
+  display: inline-block;
+  font-size: 20px;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: #FFFFFF;
+  margin-right: 10%;
+  margin-left: 10%;
+  border-radius: 500px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px #000000;
+  height: 36px;
+  width: 30%;
+}
+
+.div_botoes_extras{
+  display: block;
+  height: 50px;
+}
+
+//form button {
+//  border-radius: 500px;
+// }
