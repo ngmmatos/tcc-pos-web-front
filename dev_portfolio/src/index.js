@@ -1,11 +1,9 @@
 import './scss/index.scss';
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-// import Primeiro from './components/Primeiro'
-import ImagemRH from './components/ImagemRH'
+import App from './App'
 
 ReactDOM.render(
-    <ImagemRH></ImagemRH>,
+        <App/>,
     document.getElementById('root')
 )

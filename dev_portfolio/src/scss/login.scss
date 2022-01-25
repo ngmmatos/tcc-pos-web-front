@@ -1,143 +1,115 @@
 .rh_image {
   width: 100%;
   background-color: #444;
-  height: 100%;
+  height: 100vh;
   border: 1px solid #000000;
-  box-sizing: border-box;
-  filter: drop-shadow(0px 4px 4px #000000);
+  margin: 0;
+}
+
+@media (max-width:720px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow-y: scroll;
+    .div_image {
+      display: none;
+    }
+    .form {
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      margin-bottom: 3rem;
+    }
+    .div_login {
+      width: 100vw;
+    }
+    .auxiliar_buttons {
+      button {
+        font-size: 1rem;
+      }
+    }
+    .google_button {
+      span {
+        font-size: 1rem;
+      }
+    }
+  }
+} 
+
+@media (max-width:1080px) {
+  .auxiliar_buttons {
+    button {
+      font-size: 0.5rem;
+    }
+  }
+  .google_button {
+    span {
+      font-size: 0.5rem;
+    }
+  }
+} 
+
+.container{
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 4rem;
+  .login_field {
+    width: 60%;
+  }
+  .login_button {
+    width: 60%;
+    padding: 0.5rem 0;
+    margin: 2rem 0;
+  }
+  .google_button {
+    width: 60%;
+    padding: 0.5rem 0;
+    display: flex;
+    margin-bottom: 1.5rem;
+
+    span {
+      margin-left: 0.5rem;
+    }
+  } 
+  .auxiliar_buttons {
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    flex-direction: row;
+  }
 }
 
 .div_image {
-  display: inline-block;
   width: 50%;
-  height: 100%;
+  // height: 100%;
 }
 
 .div_login {
   background-color: #444;
   width: 50%;
-  height: 100%;
-  float: right;
+  // height: 100%;
 }
 
 .title {
-  position: relative;
-  font-family:'Courier New', Courier, monospace;
-  font-size: 72px;
+  font-size: 3rem;
   color: #FFFFFF;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 3rem auto 0;
   margin-block-end: 5%;
   text-align: center;
 
 }
-
-.login_button {
-  background-color: #9d8b2c;
-  font-size: 20px;
-  font-family:'Courier New', Courier, monospace;
-  font-weight: bold;
-  color: #FFFFFF;
-  border-radius: 500px;
-  border: 1px #000000;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px #000000;
-  display: block;
-  margin: 0 0 10%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  width: 50%;
-  height: 50px;
-}
-
-.login_button :hover span {
-  padding-right: 25px;
-}
-
-.login_button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.login_button_google {
-  background-color: #FFFFFF;
-  color: #f00606;
-  font-size: 20px;
-  font-family:'Courier New', Courier, monospace;
-  font-weight: bold;
-  border-radius: 500px;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px #000000;
-  display: block;
-  margin: 0 0 10%;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  width: 50%;
-  height: 50px;
-}
-
-form label{
-  color: #979797;
-  margin: 0 0 10px;
-  display: block;
-  font-size: 50px;
-  font-family:'Courier New', Courier, monospace;
-  text-align: center;
-}
-
-form input {
-  background: #f5f3e5;
-  display: block;
-  margin: 0 0 10%;
-  margin-right: auto;
-  margin-left: auto;
-  border-radius: 500px;
-  border: 1px solid #000000;
-  // box-shadow: 0px 4px 4px #000000;
-  height: 36px;
-  width: 50%;
-  text-align: center;
-}
-
-.botoes_extras_1{
-  background-color: #9d8b2c;
-  display: inline-block;
-  font-size: 20px;
-  font-family:'Courier New', Courier, monospace;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-right: 10%;
-  margin-left: 10%;
-  border-radius: 500px;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px #000000;
-  height: 36px;
-  width: 30%;
-}
-
-.botoes_extras_2{
-  background-color: #9d8b2c;
-  display: inline-block;
-  font-size: 20px;
-  font-family:'Courier New', Courier, monospace;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-right: 10%;
-  margin-left: 10%;
-  border-radius: 500px;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px #000000;
-  height: 36px;
-  width: 30%;
-}
-
-.div_botoes_extras{
-  display: block;
-  height: 50px;
-}
-
-//form button {
-//  border-radius: 500px;
-// }
