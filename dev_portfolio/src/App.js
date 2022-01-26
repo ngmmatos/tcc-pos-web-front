@@ -1,13 +1,13 @@
-import ImagemRH from './components/ImagemRH'
+import Cadastro from './components/Cadastro'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './components/Tema'
 
 function App() {
   return (
     <div className="App">
-          <ThemeProvider theme={theme}>
-           <ImagemRH/>
-          </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Cadastro/>
+      </ThemeProvider>
     </div>
   );
 }

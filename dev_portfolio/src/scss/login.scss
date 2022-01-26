@@ -7,7 +7,7 @@
 }
 
 @media (max-width:720px) {
-  .container {
+  .container_login {
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -52,13 +52,13 @@
   }
 } 
 
-.container{
+.container_login{
   display: flex;
   width: 100%;
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow-y: scroll;
+  overflow-y:visible;
 }
 
 .form {
@@ -69,6 +69,7 @@
   padding: 0 4rem;
   .login_field {
     width: 60%;
+    background: #FFFFFF;
   }
   .login_button {
     width: 60%;

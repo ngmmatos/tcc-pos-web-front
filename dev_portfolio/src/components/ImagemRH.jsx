@@ -1,6 +1,5 @@
 import React from "react";
 import RHpicture from '../resources/rhbarbearia.jpg'
-import '../scss/fonts/Risque-Regular.ttf'
 import Button from '@mui/material/Button'
 import TextField  from '@mui/material/TextField'
 import {ImGooglePlus} from 'react-icons/im'
@@ -9,7 +8,7 @@ import {ImGooglePlus} from 'react-icons/im'
 const UserLogin = () => {
     return(
     <>
-    <section className="container">
+    <section className="container_login">
         <div className="div_image">
             <img src={RHpicture} alt="Logotipo RH Barbearia" className="rh_image"/>
         </div>
@@ -18,7 +17,7 @@ const UserLogin = () => {
             <form className="form">  
 
                 <TextField className="login_field" label="Usuário" margin="normal" variant="filled"/>
-                <TextField className="login_field" label="Senha" margin="normal"/>
+                <TextField className="login_field" label="Senha" margin="normal" variant="filled"/>
 
                 <Button variant="contained" color="primary" className="login_button">Entrar</Button>
 
