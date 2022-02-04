@@ -1,12 +1,15 @@
-import Cadastro from './components/Cadastro'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './components/Tema'
+import "./styles/global.scss";
+
+import { Layout } from './components/Layout';
+import { Routes } from './routes';
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Cadastro/>
+        <Routes />
       </ThemeProvider>
     </div>
   );
