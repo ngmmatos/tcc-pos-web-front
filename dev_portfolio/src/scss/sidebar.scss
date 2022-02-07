@@ -1,0 +1,149 @@
+.image-text {
+  border: none;
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+}
+
+.sidebar {
+
+  position: relative;
+  height: 100vh;
+  width: 250px;
+  background: #9d8b2c;
+  transition: all 0.3s ease;
+
+  &.close{
+    width:5rem;
+  }
+
+  header {
+    background: #8D7C1F;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    border-bottom: 2px solid black;
+    border-right:  1px solid black;
+
+    button {
+      position: absolute;
+      top: 0.4rem;
+      right: -0.85rem;
+    
+      border: none;
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 50%;
+      background: black;
+
+      svg {
+        margin: 0 auto;
+        height: 1.5rem;
+        margin-left: 1px;
+        color: #fff;
+      }
+    }
+  }
+
+  .menuContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    margin: 4rem auto;
+    transition: all 1s ease;
+
+    ul {
+      padding: 0;
+      margin: 0;
+
+      li {
+        list-style: none;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.25rem;
+        white-space: nowrap;
+
+        a {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          color: black;
+
+            position: relative;
+            padding: 0.2rem 0.5 rem;
+
+          svg {
+
+            margin-right: 1rem;
+            color:black;
+          }
+  
+          .itemList {
+            width: fit-content;
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+            // visibility: hidden;
+            display: none;
+
+            &:before {
+              content: "";
+              position: absolute;
+              visibility: hidden;
+              width: 100%;
+              height: 0.125rem;
+              bottom: -0.5rem;
+              left: 0;
+              background: black;
+              transform: scaleX(0);
+              -webkit-transform: scaleX(0);
+              -webkit-transition: all 0.3s ease-in-out 0s;
+              transition: all 0.3s ease-in-out 0s;
+            }
+            
+            &:hover:before {
+              visibility: visible;
+              -webkit-transform: scaleX(1);
+              transform: scaleX(1);
+            }
+
+            &.pinned {
+              display: block;
+            }
+          }
+        }
+
+        &.withSubMenu {
+
+          div {
+            display: flex;
+            align-items: center;
+          }
+
+          .subMenu {
+
+            display: none;
+            padding: 1rem 0 0 3rem;
+
+            li {
+              font-size: 1.25rem;
+
+              &:hover {
+                filter: brightness(0.7);
+
+              }
+            }
+
+            &.expanded {
+                display: block;
+                // color: red;
+            }
+          }
+
+      }
+    }
+  }
+}
+}

@@ -1,0 +1,51 @@
+:root {
+  --background: #F0F8FF;  
+  
+  --blue-500: #3634a0;
+  --blue-300: #1468a3;
+  --cyan-500: #61dafb;
+  
+  --green-500: #34af23;;
+  --red-500: #E62E4D;
+  --yellow-500: #eba417;
+
+  --gray-300: #a8a8b3;
+  --gray-800: #29292e;
+  --gray-850: #1f2729;
+  --gray-900: #121214;
+
+}
+html {
+  scroll-behavior: smooth;
+
+}
+
+body {
+  background-color: var(--background);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body, input, textarea,h1, p, button {
+  font: 400 1rem "Roboto", sans-serif;
+}
+
+html {
+  @media(max-width: 1080px) {
+      font-size: 93.75%;
+  }
+  @media(max-width: 720px) {
+      font-size: 87.5%;
+  }
+}
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration:none;
+  color: inherit;
+}
