@@ -20,7 +20,6 @@ const UserLogin = () => {
     e.preventDefault();
     response.email = email
     response.password = password
-
     console.log(response);
     };
 
