@@ -11,7 +11,7 @@ export const Routes = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={ImagemRH} />
-                <Route exact path="/cadastro/" component={Cadastro} />
+                <Route exact path="/cadastro" component={Cadastro} />
                 {/* <Route exact path="/layout" component={Layout} /> */}
                 {/* <Route exact path="/agenda" component={Agenda} /> */}
                 <Route exact path="/calendario" component={Calendario} />
