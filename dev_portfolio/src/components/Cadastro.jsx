@@ -14,10 +14,10 @@ const Cadastro = () => {
                 <div className="cadastro">
                     
                     <div className="cadastro_1">
-                        <TextField className="cadastro_field" label="Nome" margin="normal" variant="filled"/>
-                        <TextField className="cadastro_field" label="Email" margin="normal" variant="filled"/>
-                        <TextField className="cadastro_field" label="CPF" margin="normal" variant="filled"/>
-                        <TextField className="cadastro_field" label="Data de nascimento" margin="normal" variant="filled"/>                    
+                        <TextField className="cadastro_field" label="Nome" margin="normal" variant="filled" required/>
+                        <TextField className="cadastro_field" label="Email" margin="normal" variant="filled" required/>
+                        <TextField className="cadastro_field" label="CPF" margin="normal" variant="filled" required/>
+                        <TextField className="cadastro_field" label="Data de nascimento" margin="normal" variant="filled" required/>                    
                     </div>
                     <div className="cadastro_2">
                         <InputLabel  className="escolhe_sexo_index"variant="standard" >Sexo</InputLabel>
@@ -26,8 +26,8 @@ const Cadastro = () => {
                             <option value={'F'}>Feminino</option>
                         </NativeSelect>
 
-                        <TextField className="cadastro_field" label="Senha" margin="normal" variant="filled"/>
-                        <TextField className="cadastro_field" label="Confirme sua senha" margin="normal" variant="filled"/>
+                        <TextField className="cadastro_field" label="Senha" margin="normal" variant="filled" required/>
+                        <TextField className="cadastro_field" label="Confirme sua senha" margin="normal" variant="filled"required/>
                         <Button variant="contained" color="primary" className="salvar_button">Salvar</Button>
                     </div>
                     

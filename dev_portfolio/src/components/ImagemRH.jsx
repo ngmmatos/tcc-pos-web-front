@@ -4,6 +4,14 @@ import Button from '@mui/material/Button'
 import TextField  from '@mui/material/TextField'
 import {ImGooglePlus} from 'react-icons/im'
 import Loading from './Loading';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import FilledInput from '@mui/material/FilledInput';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as yup from "yup"
 import Axios from "axios"
 import { useHistory } from 'react-router-dom'
@@ -15,17 +23,22 @@ const UserLogin = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loggedInState, setLoggedInState] = useState();
+    const [loggedInState, setLoggedInState] = useState('');
+    const [values, setValues] = useState({showPassword: false});
 
     const history = useHistory()
 
-    // const handleSubmit = e => {
-    // e.preventDefault();
-    // response.email = email
-    // response.password = password
-    // console
-    // .log(response);
-    // };
+    const handleClickShowPassword = () => {
+        setValues({
+          ...values,
+          showPassword: !values.showPassword,
+        });
+      };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      };
+
 
     const handleSubmit = (values) => {
         values.preventDefault();
@@ -35,6 +48,7 @@ const UserLogin = () => {
             email: email,
             senha: password
         }).then((response) => {
+            console.log(response)
             if (response.status === 200) {
                 // storeUser(response.data)
                 history.push("/carrosel");
@@ -58,28 +72,49 @@ const UserLogin = () => {
 
                 <TextField 
                 className="login_field" 
-                label="Usuário" 
+                label="Email" 
                 margin="normal" 
                 variant="filled" 
                 required 
-                value={email} 
+                value={email}
                 onChange={e => setEmail(e.target.value)} />
 
-                <TextField 
+                {/* <TextField 
                 className="login_field" 
                 label="Senha" margin="normal" 
                 variant="filled" 
                 required 
                 value={password} 
-                onChange={e => setPassword(e.target.value)} />
+                onChange={e => setPassword(e.target.value)} /> */}
 
-                <div>
-                    {loggedInState === "Fazendo login" ? <Loading /> : ""}
-                </div>   
+                <FormControl variant="filled" className="login_field" margin="normal">
+                    <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                    <FilledInput
+                        id="filled-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
+                    />
+                </FormControl>
+
+
                 <Button 
                 type="Submit" 
                 variant="contained" 
-                color="primary" 
+                color="primary"
+                startIcon={loggedInState === "Fazendo login" ? <Loading /> : ""}
                 className="login_button">Entrar</Button>
 
                 <Button  

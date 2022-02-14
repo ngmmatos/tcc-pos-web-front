@@ -9,10 +9,14 @@ import Rh2 from '../resources/RH2.jpg'
 import Rh3 from '../resources/RH3.jpg'
 import Rh4 from '../resources/RH4.jpg'
 import {FaArrowRight, FaArrowLeft} from "react-icons/fa"
+import { ToastContainer, toast } from 'react-toastify';
 
 let slides = [Rh1, Rh2, Rh3, Rh4];
 
+toast.success("Bem vindo a RH Barbearia!!")
+
 export function Carrosel () {
+
 
     const NextArrow = ({ onClick }) => {
         return (
@@ -46,6 +50,7 @@ export function Carrosel () {
 
     return(
         <Layout title="RH Barbearia">
+            <ToastContainer theme="dark"/>
             <div className="Carrosel" >
                 <Slider {...settings}>
                     {slides.map((img, idx) => (
