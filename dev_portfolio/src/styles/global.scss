@@ -1,15 +1,13 @@
 :root {
-  --background: #F0F8FF;  
-  
-  --blue-500: #3634a0;
-  --blue-300: #1468a3;
-  --cyan-500: #61dafb;
+  --background: #F0F8FF; 
   
   --green-500: #34af23;;
   --red-500: #E62E4D;
   --yellow-500: #eba417;
+  --gold: #9d8b2c;
 
   --gray-300: #a8a8b3;
+  --gray-500: #444;
   --gray-800: #29292e;
   --gray-850: #1f2729;
   --gray-900: #121214;
@@ -31,7 +29,7 @@ body {
 }
 
 body, input, textarea,h1, p, button {
-  font: 400 1rem "Roboto", sans-serif;
+  font: 400 1rem 'Luxurious Roman', sans-serif;
 }
 
 html {
@@ -48,4 +46,40 @@ button {
 a {
   text-decoration:none;
   color: inherit;
+}
+
+.react-modal-overlay {
+  background: rgb(0,0,0,0.5);
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.react-modal-content {
+  width: auto;
+  max-height: 95vh;
+  display: flex;
+  background: var(--gray-800);
+  padding: 2rem 1rem;
+  position: relative;
+  border-radius:0.75rem;
+  height: fit-content;
+  overflow-y: none;
+}
+.react-modal-close {
+  position:absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  border: 0;
+  color: #Fff;
+  background: transparent;
+  transition: filter 0.2s;
+  &:hover {
+    filter:brightness(0.8)
+  }
 }

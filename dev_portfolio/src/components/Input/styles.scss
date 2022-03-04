@@ -1,0 +1,36 @@
+.nameInputContainer {
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 2.5rem;
+
+    svg {
+        margin-right: 0.75em;
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #ccc;
+    }
+
+    
+    div {
+        display: block;
+
+        label {
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+            color: #ccc;
+            display: block;
+        }
+
+        input {
+            padding: 0.25rem 0.5rem;
+            background: transparent;
+            border: none;
+            color: #ccc;
+
+        }
+    }
+
+}

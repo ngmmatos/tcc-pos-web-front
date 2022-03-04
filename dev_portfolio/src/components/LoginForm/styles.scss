@@ -1,0 +1,242 @@
+.loginSideContainer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 0;
+      overflow-y: hidden;
+      height: 100vh;
+  
+      .title {
+        font-size: 3rem;
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+  
+      .form {
+        max-width: 600px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 5rem auto;
+        padding: 2rem 0;
+
+        .usernameInputContainer {
+          height: 4rem;
+          border: 2px solid #fff;
+          padding: 0.25rem 1rem;
+          display: flex;
+          align-items: center;
+          width: 60%;
+          border-radius: 2.5rem;
+
+          svg {
+              margin-right: 0.75em;
+              width: 1.25rem;
+              height: 1.25rem;
+              color: var(--yellow-500);
+
+          }
+
+          
+          div {
+              display: block;
+
+              label {
+                  font-size: 0.75rem;
+                  margin-bottom: 0.25rem;
+                  color: #fff;
+                  display: block;
+              }
+
+              input {
+                  padding: 0.25rem 0.5rem;
+                  background: transparent;
+                  border: none;
+                  outline: none;
+                  color: #fff;
+
+                  &:focus {
+                    background:transparent;
+                  }
+
+                  &:-webkit-autofill {
+                    -webkit-box-shadow: 0 0 0 30px var(--gray-500) inset;
+                  }
+
+                  &:-webkit-autofill {
+                    -webkit-text-fill-color: #fff ;
+                }
+              }
+          }
+
+          &:focus-within {
+            border: 2px solid var(--yellow-500);
+          }
+
+      }
+
+      .passwordInputContainer {
+          height: 4rem;
+          position: relative;
+          margin-top: 1.5rem;
+          padding: 0.5rem 1rem;
+          display: flex;
+          align-items: center;
+          width: 60%;
+          border: 2px solid #fff;
+          border-radius: 2.5rem;
+
+          svg {
+              margin-right: 0.75em;
+              width: 1.25rem;
+              height: 1.25rem;
+              color: var(--yellow-500);
+          }
+
+          
+          div {
+              display: block;
+
+              label {
+                  font-size: 0.75rem;
+                  margin-bottom: 0.25rem;
+                  color: #fff;
+                  display: block;
+              }
+
+              input {
+                  padding: 0.25rem 0.5rem;
+                  background: transparent;
+                  border: none;
+                  outline: none;
+                  color: #fff;
+
+                  &:focus {
+                    background:transparent;
+                  }
+
+                  &:-webkit-autofill {
+                    -webkit-box-shadow: 0 0 0 30px var(--gray-500) inset;
+                  }
+
+                  &:-webkit-autofill {
+                    -webkit-text-fill-color: #fff ;
+                }
+              }
+          }
+
+          .showPasswordButton {
+              
+              position: absolute;
+              margin-top:1.125rem;
+              right: 1rem;
+              border: none;
+              background: transparent;
+
+              svg {
+                  width: 1.25rem;
+                  height: 1.25rem;
+                  color: var(--yellow-500);
+              }
+
+          }
+
+          &:focus-within {
+            border: 2px solid var(--yellow-500);
+          }
+      }
+  
+        .emailLoginButton{
+          width: 60%;
+          border-radius: 2.5rem;
+          border: none;
+          padding: 0.5rem 1rem;
+          font-size: 1.5rem;
+          margin: 2.5rem 0 1rem;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            background: var(--yellow-500);
+            color: #fff;
+            font-weight: 600;
+          }
+        }
+
+        .googleLoginButton {
+          width: 60%;
+          border-radius: 2.5rem;
+          border: none;
+          padding: 0.5rem 1rem;
+          font-size: 1.5rem;
+          margin: 1rem 0;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease-in-out;
+  
+          svg {
+            margin-right: 1rem;
+          }
+
+          &:hover {
+            background: var(--gray-300);
+            color: #fff;
+
+          }
+        }
+  
+  
+        .loginHelperContainer {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-gap: 1rem;
+  
+          button {
+            padding: 0.5rem 0.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            
+          }
+      
+        }
+      }
+}
+  
+  @media (max-width:720px) {
+    .container_login {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      overflow-y: scroll;
+      .div_image {
+        display: none;
+      }
+      .form {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 3rem;
+      }
+      .div_login {
+        width: 100vw;
+      }
+      .auxiliar_buttons {
+        button {
+          font-size: 1rem;
+        }
+      }
+      .google_button {
+        span {
+          font-size: 1rem;
+        }
+      }
+    }
+  } 
