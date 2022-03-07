@@ -49,7 +49,7 @@ export const LoginForm = () => {
                     <FaUserAlt />
                     <div>
                         <label htmlFor="email">E-mail</label>
-                        <input type="email" id="email"  onChange={ ({target}) => setEmail(target.value)}/>
+                        <input type="email" id="email"  onChange={ ({target}) => setEmail(target.value)} required/>
                     </div>
             </div>            
 
@@ -58,7 +58,7 @@ export const LoginForm = () => {
                     <FaLock />
                     <div>
                         <label htmlFor="password">Senha</label>
-                        <input type={togglePassword ? 'text' : 'password'} id="password" onChange={ ({target}) => setPassword(target.value)}/>
+                        <input type={togglePassword ? 'text' : 'password'} id="password" onChange={ ({target}) => setPassword(target.value)} required/>
                     </div>
                     <button
                         type="button"

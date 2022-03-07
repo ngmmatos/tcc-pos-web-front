@@ -3,7 +3,7 @@ import { Layout } from '../../components/Layout';
 import { ProcedureModal } from '../../components/Modals/ProcedureModal';
 
 import { useAuth } from '../../hooks/useAuth';
-import CustomCalendar from '../../components/Calendario';
+import Carrosel from '../../components/Carrosel';
 
 export function General () {
 
@@ -22,7 +22,7 @@ export function General () {
         <Layout title="Menu">
 
 
-            <CustomCalendar onClickDay={() => handleOpenProcedureModal}/>
+            <Carrosel onClickDay={() => handleOpenProcedureModal}/>
 
         </Layout>
     );

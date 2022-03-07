@@ -12,7 +12,7 @@ import './styles.scss';
 
 let slides = [Rh1, Rh2, Rh3, Rh4];
 
-export function Carrosel () {
+const Carrosel = ({ setToggleModal }) => {
 
     const NextArrow = ({ onClick }) => {
         return (
@@ -58,3 +58,5 @@ export function Carrosel () {
         </Layout>
     );
 }
+
+export default Carrosel;

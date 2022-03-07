@@ -4,13 +4,17 @@ import { useHistory } from "react-router-dom";
 import InputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
 import Loading from "../../components/Loading";
-import { FaUserAlt, FaLock, FaEyeSlash, FaEye, FaCalendarAlt  } from 'react-icons/fa';
+import { FaUserAlt, FaLock, FaEyeSlash, FaEye, FaCalendarAlt } from 'react-icons/fa';
+import { IoMaleFemale } from "react-icons/io5";
 import { FiMail } from 'react-icons/fi';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import barberSVG from '../../assets/barber.svg';
 import './styles.scss';
 import { CustomSelect } from "../../components/CustomSelect";
 import { useAuth } from "../../hooks/useAuth";
+const moment = require("moment");
+
+process.env.TZ = "America/Sao_Paulo";
 
 export const Cadastro = () => {
 
@@ -26,12 +30,16 @@ export const Cadastro = () => {
 
     const { createUser , loading } = useAuth();
     const history = useHistory();
+
+
+    // const dateNow = moment().format("YYYY-MM-DD")
+    // console.log(`${(moment().format("YYYY")-120)}-${moment().format("MM")}-${moment().format("DD")}`)
     
 
     function handleSubmit(event) {
         
         event.preventDefault();
-        createUser(name, email, password, birthDate, tel, gender );
+        createUser(name, email, password, confirmPassword, birthDate, tel, gender );
 
 
     }
@@ -42,7 +50,7 @@ export const Cadastro = () => {
             <div className="registerContainer">
                 <h1>Faça seu cadastro</h1>
                 <form onSubmit={handleSubmit}>
-                        <div className='inputContainer'>
+                        <div className='inputContainer inputMask'>
                             <FaUserAlt />
                             <div>
                                 <label htmlFor="email">Nome Completo</label>
@@ -60,11 +68,14 @@ export const Cadastro = () => {
                             <FaCalendarAlt />
                             <div>
                                 <label htmlFor="birthdate">Nascimento</label>
-                                <input type="date" id="birthdate"  onChange={ ({target}) => setBirthDate(target.value)} required/>
+                                <input type="date"
+                                 id="birthdate" max={moment().format("YYYY-MM-DD")}
+                                 min={`${(moment().format("YYYY")-120)}-${moment().format("MM-DD")}`}
+                                  onChange={ ({target}) => setBirthDate(new Date(target.value).getTime() / 1000)} required/>
                             </div>
                         </div>   
                         <div className='selectContainer'>
-                            <FiMail />
+                            <IoMaleFemale />
                             <div>
                                 <label htmlFor="email">Sexo</label>
                                 <select onChange={ ({target}) => setGender(target.value)} required>
@@ -75,7 +86,7 @@ export const Cadastro = () => {
                             </div>
                         </div>  
 
-                        <div className='inputContainer inputMask'>
+                        <div className='inputContainer'>
                             <BsFillTelephoneFill />
                             <div>
                                 <label htmlFor="email">Telefone</label>
@@ -95,7 +106,8 @@ export const Cadastro = () => {
                             <FaLock />
                             <div>
                                 <label htmlFor="password">Senha</label>
-                                <input type={togglePassword ? 'text' : 'password'} id="password" onChange={ ({target}) => setPassword(target.value)} required/>
+                                <input type={togglePassword ? 'text' : 'password'} id="password" minLength="6"
+                                 onChange={ ({target}) => setPassword(target.value)} required/>
                             </div>
                             <button
                                 type="button"
@@ -116,7 +128,8 @@ export const Cadastro = () => {
                             <FaLock />
                             <div>
                                 <label htmlFor="confirmPassword">Confirme a senha</label>
-                                <input type={toggleConfirmPassword ? 'text' : 'password'} id="confirmPassword" onChange={ ({target}) => setConfirmPassword(target.value)} />
+                                <input type={toggleConfirmPassword ? 'text' : 'password'} id="confirmPassword" minLength="6"
+                                 onChange={ ({target}) => setConfirmPassword(target.value)} required/>
                             </div>
                             <button
                                 type="button"

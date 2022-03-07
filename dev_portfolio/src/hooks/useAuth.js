@@ -21,7 +21,7 @@ export const AuthContextProvider = ({ children }) => {
 
 
 
-    async function signin(email, password)  {
+    async function signin(email, password, redirect = true)  {
 
         setLoading(true);
 
@@ -44,14 +44,17 @@ export const AuthContextProvider = ({ children }) => {
             setSigned(true);
             setLoading(false);
 
-            setTimeout(() => {
-                
-            history.push('/geral');
-            }, 800);
-        } catch (error) {
-            setLoading(false);
-            toast.error('Usuário ou senha incorretos');
-        } 
+            if (redirect === true) {
+              setTimeout(() => {
+                  
+              history.push('/geral');
+              }, 800);
+            }
+          } catch (error) {
+              setLoading(false);
+              toast.error('Usuário ou senha incorretos');
+          }
+         
     }
 
     const signout = async () => {
@@ -103,28 +106,52 @@ export const AuthContextProvider = ({ children }) => {
 
     }
 
-    const createUser = async(nome, email,senha, data_nascimento,telefone, sexo ) => {
+    const createUser = async(nome, email,senha, confirma_senha, data_nascimento,telefone, sexo ) => {
 
-      try {
-        setLoading(true);
-        await api.post('/usuario', {
-          nome,
-          email,
-          senha,
-          data_nascimento,
-          telefone,
-          sexo
-        });
-        setLoading(false);
-        toast.success('Usuário cadastrado com sucesso!');
-        setTimeout(() => {
-          history.push('/');
-        }, 1000);
-        
-      } catch (error) {
-        toast.error(error);
-        setLoading(false);
-        // history.push('/');
+      if(senha !== confirma_senha) {
+        toast.error("Senhas diferentes!");
+      } else {
+        try {
+          setLoading(true);
+          await api.post('/usuario', {
+            nome,
+            email,
+            senha,
+            data_nascimento,
+            telefone,
+            sexo
+          });
+
+        // try {
+
+        //     signin(email, senha, false);
+
+        // } catch(error) {
+        //     console.log(error);
+        //     toast.error("Erro ao gravar informações -"+ error)
+        // }
+
+        //   const user = await api.get('/usuario', {
+        //     nome,
+        //     email,
+        //     senha,
+        //     data_nascimento,
+        //     telefone,
+        //     sexo
+        //   });
+        //   console.log(user.data)
+
+          setLoading(false);
+          toast.success('Usuário cadastrado com sucesso!');
+          setTimeout(() => {
+            history.push('/');
+          }, 1000);
+          
+        } catch (error) {
+          toast.error(error);
+          setLoading(false);
+          // history.push('/');
+        }
       }
     }
     return (
