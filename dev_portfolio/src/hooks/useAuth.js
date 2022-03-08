@@ -21,8 +21,7 @@ export const AuthContextProvider = ({ children }) => {
       }, []);
 
 
-
-    async function signin(email, password)  {
+    async function signin(email, password, redirect = true)  {
 
         setLoading(true);
 
@@ -31,16 +30,16 @@ export const AuthContextProvider = ({ children }) => {
                 email,
                 senha: password
             });
-
+            console.log("111")
             setUserSigned(response.data);
-
+            console.log("222")
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-
+            console.log("333")
             cookies.set('barbearia', response.data, { 
                 path: '/' ,
                 expires: new Date(Date.now() + 3600 * 1000)
             });
-
+            console.log("1444")
 
             setSigned(true);
             setLoading(false);
@@ -51,6 +50,7 @@ export const AuthContextProvider = ({ children }) => {
               history.push('/geral');
               }, 800);
             }
+            console.log("5555")
           } catch (error) {
               setLoading(false);
               toast.error('Usuário ou senha incorretos');
