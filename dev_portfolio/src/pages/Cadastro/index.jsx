@@ -12,7 +12,9 @@ import barberSVG from '../../assets/barber.svg';
 import './styles.scss';
 import { CustomSelect } from "../../components/CustomSelect";
 import { useAuth } from "../../hooks/useAuth";
+
 const moment = require("moment");
+var bcrypt = require('bcryptjs');
 
 process.env.TZ = "America/Sao_Paulo";
 
@@ -39,8 +41,7 @@ export const Cadastro = () => {
     function handleSubmit(event) {
         
         event.preventDefault();
-        createUser(name, email, password, confirmPassword, birthDate, tel, gender );
-
+        createUser(name, email, password, confirmPassword, birthDate, tel, gender);
 
     }
 

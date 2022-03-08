@@ -5,6 +5,7 @@ import { api } from '../services/api';
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext({});
+const bcrypt = require('bcryptjs');
 const cookies = new Cookies();
 
 export const AuthContextProvider = ({ children }) => {
@@ -21,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
 
 
 
-    async function signin(email, password, redirect = true)  {
+    async function signin(email, password)  {
 
         setLoading(true);
 
@@ -113,6 +114,11 @@ export const AuthContextProvider = ({ children }) => {
       } else {
         try {
           setLoading(true);
+
+          const salt = bcrypt.genSaltSync(10);
+          const passHash = bcrypt.hashSync(senha, salt);  
+          senha = passHash
+
           await api.post('/usuario', {
             nome,
             email,
@@ -149,6 +155,7 @@ export const AuthContextProvider = ({ children }) => {
           
         } catch (error) {
           toast.error(error);
+          console.log(error)
           setLoading(false);
           // history.push('/');
         }
