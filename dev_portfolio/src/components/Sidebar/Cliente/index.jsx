@@ -42,15 +42,16 @@ export const SidebarCliente = () => {
 
                     <li className='withSubMenu'>
                         <div>
-                            <Link to="#" onClick={ () => document.getElementById('subMenu').classList.toggle('expanded') }>
+                            {/* <Link to="" onClick={ () => document.getElementById('subMenu').classList.toggle('expanded') }> */}
+                            <Link to="/agenda">
                                 <BiCalendarEvent size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Agenda</span>
                             </Link>                 
                         </div>
-                        <ul id="subMenu" className="subMenu">
+                        {/* <ul id="subMenu" className="subMenu">
                             <li><Link to="">Geral</Link></li>
                             <li><Link to="">Por Barbeiro</Link></li>
-                        </ul>
+                        </ul> */}
                     </li>
 
                     <li>

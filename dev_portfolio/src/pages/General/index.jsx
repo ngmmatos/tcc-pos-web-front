@@ -9,20 +9,20 @@ export function General () {
 
     const { userSigned } = useAuth();
 
-    const [ isProcedureModalOpen ,setIsProcedureModalOpen ] = useState(false);
+    // const [ isProcedureModalOpen ,setIsProcedureModalOpen ] = useState(false);
 
-    function handleOpenProcedureModal () {
-        setIsProcedureModalOpen(true);
-    }
-    function handleCloseProcedureModal () {
-        setIsProcedureModalOpen(false);
-    }
+    // function handleOpenProcedureModal () {
+    //     setIsProcedureModalOpen(true);
+    // }
+    // function handleCloseProcedureModal () {
+    //     setIsProcedureModalOpen(false);
+    // }
 
     return(
         <Layout title="Menu">
 
-
-            <Carrosel onClickDay={() => handleOpenProcedureModal}/>
+            {/* <Carrosel onClickDay={() => handleOpenProcedureModal}/> */}
+            <Carrosel />
 
         </Layout>
     );

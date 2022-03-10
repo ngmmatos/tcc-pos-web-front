@@ -1,0 +1,36 @@
+.wrapperContent {
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    gap: 3rem;
+
+    .columnContent {
+
+        h2 {
+
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .periodList {
+            display: flex;
+            flex-direction: column;
+    
+            button {
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 0.5rem;
+                background: var(--gold);
+                margin-bottom: 0.75rem;
+
+                p {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    color: #000;
+                }
+            }
+        }
+    }
+
+}

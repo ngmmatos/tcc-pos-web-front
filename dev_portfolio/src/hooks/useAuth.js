@@ -3,9 +3,8 @@ import Cookies from 'universal-cookie';
 import { useHistory } from 'react-router-dom';
 import { api } from '../services/api';
 import { toast } from 'react-toastify';
-
-const AuthContext = createContext({});
 const bcrypt = require('bcryptjs');
+const AuthContext = createContext({});
 const cookies = new Cookies();
 
 export const AuthContextProvider = ({ children }) => {
@@ -21,6 +20,7 @@ export const AuthContextProvider = ({ children }) => {
       }, []);
 
 
+
     async function signin(email, password, redirect = true)  {
 
         setLoading(true);
@@ -30,16 +30,16 @@ export const AuthContextProvider = ({ children }) => {
                 email,
                 senha: password
             });
-            console.log("111")
+
             setUserSigned(response.data);
-            console.log("222")
+
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-            console.log("333")
+
             cookies.set('barbearia', response.data, { 
                 path: '/' ,
                 expires: new Date(Date.now() + 3600 * 1000)
             });
-            console.log("1444")
+
 
             setSigned(true);
             setLoading(false);
@@ -50,7 +50,6 @@ export const AuthContextProvider = ({ children }) => {
               history.push('/geral');
               }, 800);
             }
-            console.log("5555")
           } catch (error) {
               setLoading(false);
               toast.error('Usuário ou senha incorretos');
@@ -106,6 +105,55 @@ export const AuthContextProvider = ({ children }) => {
     function hasPermission() {
 
     }
+
+    // const createUser = async(nome, email,senha, confirma_senha, data_nascimento,telefone, sexo ) => {
+
+    //   if(senha !== confirma_senha) {
+    //     toast.error("Senhas diferentes!");
+    //   } else {
+    //     try {
+    //       setLoading(true);
+    //       await api.post('/usuario', {
+    //         nome,
+    //         email,
+    //         senha,
+    //         data_nascimento,
+    //         telefone,
+    //         sexo
+    //       });
+
+    //     // try {
+
+    //     //     signin(email, senha, false);
+
+    //     // } catch(error) {
+    //     //     console.log(error);
+    //     //     toast.error("Erro ao gravar informações -"+ error)
+    //     // }
+
+    //     //   const user = await api.get('/usuario', {
+    //     //     nome,
+    //     //     email,
+    //     //     senha,
+    //     //     data_nascimento,
+    //     //     telefone,
+    //     //     sexo
+    //     //   });
+    //     //   console.log(user.data)
+
+    //       setLoading(false);
+    //       toast.success('Usuário cadastrado com sucesso!');
+    //       setTimeout(() => {
+    //         history.push('/');
+    //       }, 1000);
+          
+    //     } catch (error) {
+    //       toast.error(error);
+    //       setLoading(false);
+    //       // history.push('/');
+    //     }
+    //   }
+    // }
 
     const createUser = async(nome, email,senha, confirma_senha, data_nascimento,telefone, sexo ) => {
 

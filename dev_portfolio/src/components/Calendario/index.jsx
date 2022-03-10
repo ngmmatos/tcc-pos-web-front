@@ -10,14 +10,14 @@ import {
 } from 'react-icons/fa';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-import { ProcedureModal } from '../../components/Modals/ProcedureModal';
+import { ProcedureModal } from '../Modals/ProcedureModal';
 
 
 import 'react-calendar/dist/Calendar.css';
 import './styles.scss';
 
 
-const CustomCalendar = ({ setToggleModal }) => {
+export const CustomCalendar = ({ setToggleModal }) => {
 
   const [eventsByDay, setEventsByDay] = useState([]);
   const [day, setDay] = useState(0);
@@ -25,7 +25,6 @@ const CustomCalendar = ({ setToggleModal }) => {
   const [selectedDay, setSelectedDay] = useState(0);
 
   const [ isProcedureModalOpen ,setIsProcedureModalOpen ] = useState(false);
-
 
   const [year, setYear] = useState(0);
 
@@ -96,5 +95,3 @@ const CustomCalendar = ({ setToggleModal }) => {
     </div>
   );
 };
-
-export default CustomCalendar;

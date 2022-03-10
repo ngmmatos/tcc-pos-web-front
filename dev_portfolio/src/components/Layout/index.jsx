@@ -13,7 +13,8 @@ export const Layout = ({ title, children}) => {
 
     return(
         <div className='container'>
-            { userSigned?.roles?.includes('admin') ? <SidebarCliente /> : <SidebarAdm /> }
+            {/* { userSigned?.roles?.includes('admin') ? <SidebarCliente /> : <SidebarAdm /> } */}
+            <SidebarCliente />
             <div className='content'>
                 { console.log(userSigned)}
                 <Header title={title} />

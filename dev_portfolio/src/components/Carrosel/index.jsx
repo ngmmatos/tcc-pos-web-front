@@ -45,17 +45,16 @@ const Carrosel = ({ setToggleModal }) => {
     }
 
     return(
-        <Layout title="RH Barbearia">
-            <div className="Carrosel" >
-                <Slider {...settings}>
-                    {slides.map((img, idx) => (
-                        <div className={idx === imageIndex ? "slide activeSlide" : "slide"}>
-                            <img src={img} alt={img} />
-                        </div>
-                    ))}
-                </Slider>        
-            </div>     
-        </Layout>
+        <div className="Carrosel" >
+            <Slider {...settings}>
+                {slides.map((img, idx) => (
+                    <div className={idx === imageIndex ? "slide activeSlide" : "slide"}>
+                        <img src={img} alt={img} />
+                    </div>
+                ))}
+            </Slider>        
+        </div>     
+
     );
 }
 
