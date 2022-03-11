@@ -174,26 +174,27 @@ export const AuthContextProvider = ({ children }) => {
             data_nascimento,
             telefone,
             sexo
-          });
+          }).then((response) => {
 
-        // try {
+            const createClient = async(id_usuario) => {
+              try {
 
-        //     signin(email, senha, false);
+                await api.post('/cliente', {
+                  id_usuario
+                });
 
-        // } catch(error) {
-        //     console.log(error);
-        //     toast.error("Erro ao gravar informações -"+ error)
-        // }
+              } catch (error) {
+                toast.error(`Erro na criação de cliente - ${error}` );
+                setLoading(false);
+              }
+            };
 
-        //   const user = await api.get('/usuario', {
-        //     nome,
-        //     email,
-        //     senha,
-        //     data_nascimento,
-        //     telefone,
-        //     sexo
-        //   });
-        //   console.log(user.data)
+          const id_usuario = response.data.id_usuario
+          createClient(id_usuario)
+
+          }, (error) => {
+            toast.error(`Erro na criação de usuario - ${error}` );
+          })
 
           setLoading(false);
           toast.success('Usuário cadastrado com sucesso!');
