@@ -106,21 +106,6 @@ export const AuthContextProvider = ({ children }) => {
 
     }
 
-    // const createUser = async(nome, email,senha, confirma_senha, data_nascimento,telefone, sexo ) => {
-
-    //   if(senha !== confirma_senha) {
-    //     toast.error("Senhas diferentes!");
-    //   } else {
-    //     try {
-    //       setLoading(true);
-    //       await api.post('/usuario', {
-    //         nome,
-    //         email,
-    //         senha,
-    //         data_nascimento,
-    //         telefone,
-    //         sexo
-    //       });
 
     //     // try {
 
@@ -210,10 +195,68 @@ export const AuthContextProvider = ({ children }) => {
         }
       }
     }
+
+    const alterUser = async(nome, telefone, sexo, data_nascimento, senha, user, currentPass) => {
+
+      let alter = false      
+      if (senha !== '') {
+        const salt = bcrypt.genSaltSync(10);
+        const passHash = bcrypt.hashSync(senha, salt);  
+        senha = passHash
+      } else {
+        if(currentPass === ''){
+          toast.error('Erro processando a requisição!');
+        } else{
+          senha = currentPass
+        }
+      }
+
+      try {
+      await api.put(`/usuario/${user}`, {
+        nome,
+        data_nascimento,
+        telefone,
+        sexo,
+        senha
+        }).then(() => {
+
+        setLoading(false);
+        toast.success('Dados alterados com sucesso!');
+        alter = true
+      }, (error) => {
+        toast.error(`Erro na alteração de dados dousuário - ${error}` );
+      })
+        
+      } catch (error) {
+        toast.error(error);
+        console.log(error)
+        setLoading(false);
+      };
+
+      if (alter === true) {
+      setTimeout(() => {
+        history.push('/geral');
+      }, 1000);
+      }
+    }
+
+
+    const searchUser = async (id) => {
+
+        try{
+          const { data } = await api.get(`/usuario/${id}`)
+          return data
+          
+        } catch (error) {
+          toast.error(error);
+          setLoading(false);
+        };
+    }
+
     return (
-        <AuthContext.Provider value={{signin, signout, createUser, userSigned, signed, loading}}>
+        <AuthContext.Provider value={{signin, signout, createUser, alterUser, searchUser, userSigned, signed, loading}}>
             {children}
-        </AuthContext.Provider>
+        </AuthContext.Provider> 
     );
 }
 
@@ -222,3 +265,4 @@ export const useAuth = () => {
 
     return context;
 }
+

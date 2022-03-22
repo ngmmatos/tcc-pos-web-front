@@ -10,7 +10,7 @@ export const Login = () => {
     return(
     <>
     <section className="loginContainer">
-        { console.log(userSigned)}
+        {/* { console.log(userSigned)} */}
         <div className="imageSideContainer">
             <img src={RHpicture} alt="Logotipo RH Barbearia"/>
         </div>

@@ -34,7 +34,7 @@ export const SidebarCliente = () => {
         <div className="menuContainer">
                 <ul>
                     <li>
-                        <Link to="/">
+                        <Link to="/alteracliente">
                             <BiUser size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Meus Dados</span>
                         </Link>
@@ -62,7 +62,7 @@ export const SidebarCliente = () => {
                     </li>
 
                     <li>
-                        <Link to="/">
+                        <Link to="/rhbarbearia">
                             <BsInfoCircleFill size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>RH Barbearia</span>
                         </Link>

@@ -16,7 +16,7 @@ export const Layout = ({ title, children}) => {
             {/* { userSigned?.roles?.includes('admin') ? <SidebarCliente /> : <SidebarAdm /> } */}
             <SidebarCliente />
             <div className='content'>
-                { console.log(userSigned)}
+                {/* { console.log(userSigned)} */}
                 <Header title={title} />
                 {children}
             </div>
