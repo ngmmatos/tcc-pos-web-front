@@ -6,6 +6,8 @@ import { General } from '../pages/General';
 import { Agenda } from '../pages/Agenda';
 import { RHbarbearia } from '../pages/RHbarbearia';
 import { AlteraDadosCliente } from '../pages/AlteraDadosCliente';
+import { ListaProcedimentos } from '../pages/ListaProcedimentos';
+import { MeusAgendamentos } from '../pages/MeusAgendamentos';
 
 export const Routes = () => {
     return(
@@ -17,6 +19,8 @@ export const Routes = () => {
             <Route exact path="/cadastro" component={Cadastro} />
             <Route exact path="/rhbarbearia" component={RHbarbearia} />
             <Route exact path="/alteracliente" component={AlteraDadosCliente} />
+            <Route exact path="/listaprocedimento" component={ListaProcedimentos} />
+            <Route exact path="/meusagendamentos" component={MeusAgendamentos} />
         </Switch>
     );
 }

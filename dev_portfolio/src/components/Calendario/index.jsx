@@ -1,20 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import {
-  FaBirthdayCake,
-  FaCalendarCheck,
-  FaCalendarDay,
   FaChevronLeft,
   FaChevronRight,
-  FaPlusSquare,
 } from 'react-icons/fa';
-import { format } from 'date-fns';
+import { format, setMonth } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ProcedureModal } from '../Modals/ProcedureModal';
-
+import {toast} from 'react-toastify';
 
 import 'react-calendar/dist/Calendar.css';
 import './styles.scss';
+import { useProcedures } from '../../hooks/useProcedures';
 
 
 export const CustomCalendar = ({ setToggleModal }) => {
@@ -27,6 +24,8 @@ export const CustomCalendar = ({ setToggleModal }) => {
   const [ isProcedureModalOpen ,setIsProcedureModalOpen ] = useState(false);
 
   const [year, setYear] = useState(0);
+
+  const { loadAgenda, monthlyAgenda, loadProceduresByDay, setDateSelected, barberId } = useProcedures();
 
   useEffect(() => {
     const today = new Date(Date.now());
@@ -69,28 +68,41 @@ export const CustomCalendar = ({ setToggleModal }) => {
         nextLabel={<FaChevronRight />}
         prev2Label={null}
         prevLabel={<FaChevronLeft />}
-        // onActiveStartDateChange={(value, event) => {
-        //   setEventsByDay([]);
-        //   const newMonth = new Date(value.activeStartDate);
-        // //   setCalendarMonth(newMonth.getUTCMonth());
-        // //   loadEventsByMonth(newMonth.getUTCMonth());
-        // }}
+        onActiveStartDateChange={(value, event) => {
+          loadAgenda(format(value.activeStartDate, 'MM'), format(value.activeStartDate, 'yyyy'));
+        }}
         onClickDay={(value) => {
-          // if (
-          //   value.getMonth() === calendarMonth &&
-          //   eventsByDay?.filter((item) => {
-          //     return item.day === value.getDate();
-          //   }).length > 0
-          // ) {
-            handleOpenProcedureModal();
-            setSelectedDay(value.getDate());
-            // setEvents(
-            //   eventsByDay?.filter((item) => {
-            //     return item.day === value.getDate();
-            //   })[0],
-            // );
-          // }
+
+          if(!barberId) {
+            return toast.info('Selecione um barbeiro para agendar um procedimento.');
+          }
+
+          if( Number(new Date(value).getTime()) <= Number(new Date().getTime()) ) {
+            return toast.info('Não é possível agendar nesse dia');
+          }
+
+          loadProceduresByDay(format(value, 'dd', { locale: ptBR }) , format(value, 'MM'), format(value, 'yyyy'));
+          handleOpenProcedureModal();
+          setDateSelected({
+            day: format(value, 'dd', { locale: ptBR }),
+            month: format(value, 'MM') -1,
+            year: format(value, 'yyyy'),
+          });
         }}   
+        tileContent={({ date, view }) => {
+          if (view === 'month') {
+            return (
+              <div className="tile-content">
+                <div className="tile-content-day">
+                  {/* {date.getUTCDate()} */}
+                </div>
+                <div className="tile-content-month">
+                  {/* {date.getUTCMonth()} */}
+                </div>
+              </div>
+            );
+          }
+        }}
       />
     </div>
   );

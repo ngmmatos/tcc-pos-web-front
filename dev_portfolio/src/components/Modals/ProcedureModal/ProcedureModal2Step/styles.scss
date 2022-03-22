@@ -29,6 +29,14 @@
                     font-weight: bold;
                     color: #000;
                 }
+
+                &.selected {
+                    background: var(--green-500);
+                }
+
+                &.busy {
+                    background: var(--red-500);
+                }
             }
         }
     }

@@ -2,7 +2,8 @@ import React , { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { BiUser, BiCalendarEvent } from 'react-icons/bi';
+import { BiUser, BiCalendarEvent, GrScheduleNew } from 'react-icons/bi';
+import { AiOutlineSchedule } from 'react-icons/ai';
 import { ImScissors } from 'react-icons/im';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import RHpicture from '../../../resources/rhbarbeariadiminuido.jpg'
@@ -21,13 +22,13 @@ export const SidebarCliente = () => {
     <nav className={pinned ? 'sidebar' : 'sidebar close'}>
         <header>
             <img src={RHpicture} alt="Logotipo RH Barbearia" className="image-text"/>
-        <button
+        {/* <button
             type="button"
             className={pinned ? 'pin-button-active' : 'pin-button-inactive'}
             onClick={handlePinSidebar}
           >
             {pinned ? <IoIosArrowBack  /> : <IoIosArrowForward  />  }
-          </button>
+          </button> */}
 
         </header>
 
@@ -37,6 +38,12 @@ export const SidebarCliente = () => {
                         <Link to="/alteracliente">
                             <BiUser size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Meus Dados</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="meusagendamentos">
+                            <AiOutlineSchedule size="2rem"/>
+                            <span className={pinned ? 'itemList pinned' : 'itemList'}>Agendamentos</span>
                         </Link>
                     </li>
 
@@ -55,7 +62,7 @@ export const SidebarCliente = () => {
                     </li>
 
                     <li>
-                        <Link to="/">
+                        <Link to="/listaprocedimento">
                             <ImScissors size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Serviços</span>
                         </Link>

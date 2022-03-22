@@ -4,14 +4,30 @@ import { CustomCalendar } from '../../components/Calendario';
 import { ImScissors } from 'react-icons/im';
 import { useProcedures } from '../../hooks/useProcedures';
 
+import './styles.scss';
+
 export function Agenda () {
     
-    const [ barberId, setBarberId ] = useState(null);
-    const { barberList, getBarberList, setBarberSelected , agenda } = useProcedures();
+    const { 
+        barberList, 
+        getBarberList, 
+        setBarberSelected , 
+        agenda , 
+        dailyAgenda, 
+        loadAgenda , 
+        todaAgenda , 
+        loadAgendaByMonth, 
+        monthlyAgenda, 
+        barberId, 
+        setBarberId } = useProcedures();
 
     useEffect(() => {
         getBarberList();
     }, []);
+
+    useEffect(() => {
+        loadAgenda();
+    } , [barberList]);
 
     
 
@@ -21,9 +37,8 @@ export function Agenda () {
                 <div className='selectContainer'>
                     <ImScissors />
                     <div>
-                        { console.log(agenda)}
                         <label htmlFor="barberList">Barbeiro(a)</label>
-                        <select onChange={ ({target}) => setBarberSelected(target.value)} required>
+                        <select onChange={ ({target}) => setBarberId(target.value)} required>
                             <option value="">Selecione um barbeiro</option>
                             { barberList && barberList.map(barber =>
                                 <option key={barber.id_barbeiro} value={barber.id_barbeiro}>{barber.Usuario.nome}</option> 

@@ -4,26 +4,27 @@ import './styles.scss';
 
 export const ProcedureModal1Step = () => {
 
-  const { proceduresSelected, setProceduresSelected } = useProcedures();
+  const { proceduresSelected, setProceduresSelected, setTimeNeedeToRealizeProcedure } = useProcedures();
 
     const procedureList = [
-        { id: 1, name: 'Corte de Cabelo' , value: 25, estimatedTiime: 40 },
-        { id: 2, name: 'Sobrancelha' , value: 15, estimatedTiime: 20 },
-        { id: 3, name: 'Barba' , value: 15, estimatedTiime: 30 },
-        { id: 4, name: 'Luzes' , value: 50, estimatedTiime: 120 },
+        { id: 1, name: 'Corte de Cabelo' , value: 25, estimatedTime: 40 },
+        { id: 2, name: 'Sobrancelha' , value: 15, estimatedTime: 20 },
+        { id: 3, name: 'Barba' , value: 15, estimatedTime: 30 },
+        { id: 4, name: 'Luzes' , value: 50, estimatedTime: 120 },
       ]
 
     function handleChange({ target }) {
+
       if (target.checked) {
-        setProceduresSelected([...proceduresSelected, target.value]);
+        let formatedProcedure = procedureList && procedureList.find(procedure => procedure.id === Number(target.value));
+        setProceduresSelected([...proceduresSelected, formatedProcedure]);
+
       } else {
-        setProceduresSelected(proceduresSelected.filter((procedure) => procedure.id !== target.value.id));
+        setProceduresSelected(proceduresSelected && proceduresSelected.filter((procedure) => Number(procedure?.id) !== Number(target.value)));
       }
     }
-  
-    function handleChecked(procedure) {
-      return proceduresSelected.includes(procedure);
-    }
+
+
 
     return(
 
@@ -41,13 +42,14 @@ export const ProcedureModal1Step = () => {
               {procedureList.map(procedure => (
                 <tr key={procedure.id}>
                   <td>
-                    <input type="checkbox" value={procedure} checked={handleChecked(procedure)} onChange={handleChange} />
+                  <input type="checkbox" checked={ proceduresSelected.some( element => Number(element.id) === Number(procedure.id))} value={procedure.id} onChange={handleChange} />
                   </td>
                   <td>{procedure.name}</td>
                   <td>R$ {procedure.value}</td>
-                  <td>{procedure.estimatedTiime}</td>
+                  <td>{procedure.estimatedTime}</td>
                 </tr>
               ))}
+              { console.log(proceduresSelected) }
             </tbody>
           </table>
         </div>
