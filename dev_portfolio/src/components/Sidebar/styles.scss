@@ -118,6 +118,10 @@
 
         &.withSubMenu {
 
+          .chageRole {
+            color: brown;
+          }
+
           div {
             display: flex;
             align-items: center;

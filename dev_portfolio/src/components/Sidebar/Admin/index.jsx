@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { BiUser, BiCalendarEvent, BiCreditCard, BiLineChartDown } from 'react-icons/bi';
-// import RHpicture from '../resources/rhbarbeariadiminuido.jpg'
+import RHpicture from '../../../resources/rhbarbeariadiminuido.jpg'
 
 import '../styles.scss';
 
@@ -18,7 +18,7 @@ export const SidebarAdm = () => {
   return (
     <nav className={pinned ? 'sidebar' : 'sidebar close'}>
         <header>
-            {/* <img src={RHpicture} alt="Logotipo RH Barbearia" className="image-text"/> */}
+            <img src={RHpicture} alt="Logotipo RH Barbearia" className="image-text"/>
         <button
             type="button"
             className={pinned ? 'pin-button-active' : 'pin-button-inactive'}
@@ -32,7 +32,7 @@ export const SidebarAdm = () => {
         <div className="menuContainer">
                 <ul>
                     <li>
-                        <Link to="/">
+                        <Link to="#">
                             <BiUser size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Meus Dados</span>
                         </Link>
@@ -65,7 +65,7 @@ export const SidebarAdm = () => {
                     </li>
                     <li>
                         <div>
-                             <Link to="/">
+                             <Link to="#">
                                 <BiLineChartDown size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Relatorios</span>
                             </Link>                 

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { BiUser, BiCalendarEvent, BiCreditCard } from 'react-icons/bi';
-import RHpicture from '../resources/rhbarbeariadiminuido.jpg'
+import { FaExchangeAlt } from "react-icons/fa";
+import RHpicture from '../../../resources/rhbarbeariadiminuido.jpg'
 
 import '../styles.scss';
 
-export const Sidebar = () => {
+export const SidebarBarbeiro = () => {
 
     const [pinned, setPinned] = useState(true);
 
@@ -38,31 +39,34 @@ export const Sidebar = () => {
                         </Link>
                     </li>
 
-                    <li className='withSubMenu'>
+                    <li>
                         <div>
-                            <Link to="#" onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded') }>
+                            <Link to="#">
                                 <BiCalendarEvent size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Minha Agenda</span>
                             </Link>                 
                         </div>
-                        <ul id="subMenu1" className="subMenu">
-                            <li><Link to="">Consultar</Link></li>
-                            <li><Link to="">Editar</Link></li>
-                        </ul>
                     </li>
 
-                    <li>
+                    <li className='withSubMenu'>
                         <div>
-                            <Link to="#" onClick={ () => document.getElementById('subMenu2').classList.toggle('expanded') }>
+                            <Link to="#" onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded') }>
                                 <BiCreditCard size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Pagamentos</span>
                             </Link>                 
                         </div>
-                        <ul id="subMenu2" className="subMenu">
+                        <ul id="subMenu1" className="subMenu">
                             <li><Link to="">Consultar</Link></li>
                             <li><Link to="">Receber</Link></li>
-                            <li><Link to="">Editar</Link></li>
                         </ul>
+                    </li>
+                    <li>
+                        <div>
+                            <Link to="#">
+                                <FaExchangeAlt size="2rem"/>
+                                <span className={pinned ? 'itemList pinned' : 'itemList'}>Alterar Visão</span>
+                            </Link>                 
+                        </div>
                     </li>
                 </ul>
             </div>
