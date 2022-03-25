@@ -2,6 +2,9 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+const moment = require("moment");
+
+process.env.TZ = "America/Sao_Paulo";
 
 
 const ProcedureContext = createContext({});
@@ -15,6 +18,8 @@ export const ProcedureProvider = ({ children }) => {
     const [ barberId, setBarberId ] = useState(null);
     const [ barberList, setBarberList ] = useState([]);
     const [ procedureList, setProcedureList ] = useState([]);
+    const [ clientScheduler, setClientScheduler ] = useState([]);
+    const [ barber, setBarber ] = useState([]);
     const [ barberSelected, setBarberSelected ] = useState(null);
     const [ proceduresSelected, setProceduresSelected ] = useState([]);
     const [ periodSelected, setPeriodSelected ] = useState([]);
@@ -30,19 +35,50 @@ export const ProcedureProvider = ({ children }) => {
         setBarberList(data);
     }
 
+    async function getBarber(id) {
+        const { data } = await api.get(`/barbeiro/${id}`);
+        setBarber(data);
+    }
+
     async function getProcedureList() {
         const { data } = await api.get('/procedimento');
         setProcedureList(data);
-        console.log(data)
     }
 
 
-    async function getProcedureList() {
-        const { data } = await api.get('/procedimento');
-        setProcedureList(data);
-        console.log(data)
+    async function getClientScheduler(id) {
+        const { data } = await api.get(`/agendamento?id_cliente=${id}`)
+        const dataFormatted = data.map( scheduler => {
+
+            return {
+                id: scheduler.id_agendamento,
+                id_barbeiro: scheduler.Agenda.id_barbeiro,
+                barbeiro: scheduler.Agenda.Barbeiro.Usuario.nome,
+                periodo: scheduler.Agenda.periodo,
+                realizacao: moment.unix(scheduler.data_realizacao).format('DD/MM/yyy'),
+                agendamento: moment.unix(scheduler.data_agendamento).format('DD/MM/yyy'),
+                hora_atendimento: `${moment(scheduler.data_agendamento).hour()}:${moment(scheduler.data_agendamento).minute()}`
+            }
+        })
+             setClientScheduler(dataFormatted);
+        }
+
+    async function getAgendaByBarber() {
+        const { data } = await api.get(`/agenda?id_barbeiro=${barberSelected}`);
+
+        const dataFormatted = data.map( agenda => {
+            return {
+                dataAgendamento: agenda.data,
+                periodo: agenda.periodo,
+                inicioAtendimento: new Date(agenda.hr_inicio ),
+                fimAtendimento: new Date(agenda.hr_fim ),
+            }
+        })
+        setAgenda(dataFormatted);
     }
 
+
+    
     async function loadAgenda( month, year ) {
         const { data } = await api.get('/agenda');
 
@@ -81,7 +117,7 @@ export const ProcedureProvider = ({ children }) => {
         });
 
         const dailyData = await monthlyData.filter( element => {
-            return format(new Date(element.hr_inicio * 1000 ), 'dd/MM/yyyy', { locale: ptBR }) == `${day}/${month}/${year}`;
+            return format(new Date(element.hr_inicio * 1000 ), 'dd/MM/yyyy', { locale: ptBR }) === `${day}/${month}/${year}`;
         })
 
         const dailyDataFormatted = dailyData.map( agenda => {
@@ -98,20 +134,6 @@ export const ProcedureProvider = ({ children }) => {
 
     }
 
-    async function getAgendaByBarber() {
-        const { data } = await api.get(`/agenda?id_barbeiro=${barberSelected}`);
-
-        const dataFormatted = data.map( agenda => {
-            return {
-                dataAgendamento: agenda.data,
-                periodo: agenda.periodo,
-                inicioAtendimento: new Date(agenda.hr_inicio ),
-                fimAtendimento: new Date(agenda.hr_fim ),
-            }
-        })
-        setAgenda(dataFormatted);
-    }
-
     async function createProcedure(data, periodo, hr_inicio, hr_fim, agendado, id_barbeiro) {
 
         try {
@@ -126,11 +148,14 @@ export const ProcedureProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error)
+
         }
     }
 
     return (
         <ProcedureContext.Provider value={{ 
+            getBarber,
+            getClientScheduler,
             getProcedureList,
             getBarberList,
             loadAgenda, 
@@ -154,7 +179,9 @@ export const ProcedureProvider = ({ children }) => {
             timeNeedeToRealizeProcedure, 
             periodSelected,
             dateSelected,
-            barberId
+            barberId,
+            barber,
+            clientScheduler,
         }}
         >
             {children}

@@ -1,130 +1,86 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Layout } from '../../components/Layout';
-import { useHistory } from "react-router-dom";
-import InputMask from 'react-input-mask';
-import { toast } from 'react-toastify';
-import Loading from "../../components/Loading";
-import { FaUserAlt, FaLock, FaEyeSlash, FaEye, FaCalendarAlt } from 'react-icons/fa';
-import { IoMaleFemale } from "react-icons/io5";
-import { FiMail } from 'react-icons/fi';
-import { BsFillTelephoneFill } from 'react-icons/bs';
 import './styles.scss';
-import { CustomSelect } from "../../components/CustomSelect";
-import { useAuth } from "../../hooks/useAuth";
 import Cookies from 'universal-cookie';
 import { useProcedures } from '../../hooks/useProcedures';
-import { AiFillDelete } from 'react-icons/ai'
-
-const moment = require("moment");
-
+import { AiFillDelete } from 'react-icons/ai';
+import { useAuth } from "../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 process.env.TZ = "America/Sao_Paulo";
 
 
 export function MeusAgendamentos () {
 
+    const { deleteScheduler } = useAuth();
 
-    const { 
-        getProcedureList , 
-        procedureList
+    const cookies = new Cookies();
+    const cookieLoaded = cookies.get('barbearia');
+
+    const id_client = cookieLoaded.roles.find( obj => 'cliente' in obj );
+
+    if (id_client === 'undefined') {
+        toast.error("Erro ao obter dados do usuário")
+    }
+
+    const {
+        clientScheduler,
+        getClientScheduler,
      } = useProcedures();
 
     useEffect(() => {
-        getProcedureList();
+        getClientScheduler(id_client.cliente);
     }, []);
 
-    useEffect(() => {} , [procedureList]);
-
-    // const cookies = new Cookies();
-    // const cookieLoaded = cookies.get('barbearia');
-
-    // const [ name, setName ] = useState('');
-    // const [ birthDate, setBirthDate ] = useState('');
-    // const [ gender, setGender ] = useState('');
-    // const [ tel, setTel ] = useState('');
-    // const [ password, setPassword ] = useState('')
-    // const [ confirmPassword, setConfirmPassword ] = useState('');
-    // const [ currentPassword, setCurrentPassword ] = useState('');
-    // const [togglePassword, setTogglePassword] = useState(false);
-    // const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
-    // const [disabled, setDisabled] = useState(true);
-
-    // const { alterUser , loading, searchUser } = useAuth();
-
-    // useEffect(() => {
-    //     (async () => {
-    //       const resp = await searchUser(cookieLoaded.user.id_usuario)
-    //       setName(resp.nome)
-    //       setBirthDate(resp.data_nascimento)
-    //       setGender(resp.sexo)
-    //       setTel(resp.telefone)
-    //       setCurrentPassword(resp.senha)
-    //     })()
-    //   }, [])
-
-    // const nascimento = moment.unix(birthDate).add(1, 'd').format('DD/MM/yyy')
-
-        
-    // function enableCreateUser() {
-    //     setDisabled(!disabled);
-    //     if (disabled) {
-    //         document.getElementById("disable").classList.remove('disableSection')
-    //     } else {
-    //         document.getElementById("disable").classList.add('disableSection')
-    //     }
-    // }
-
-
-    // function handleSubmit(event) {
-    //     event.preventDefault();
-    //     if (password !== '') {
-    //         if (confirmPassword === ''){
-    //             toast.error("Preencha a confirmação de senha");
-    //             throw new Error("Preencha a confirmação de senha");
-    //         }
-    //         if (password !== confirmPassword) {
-    //             toast.error("Senhas diferentes!");
-    //             throw new Error("Senhas diferentes");
-    //         }
-    //     } else {
-    //         if (confirmPassword !== ''){
-    //             toast.error("Preencha o campo senha ");
-    //             throw new Error("Preencha o campo senha");
-    //         }
-    //     }
-    
-    //     alterUser(name, tel, gender, birthDate, password, cookieLoaded.user.id_usuario, currentPassword);
-    // }
+    const handleClick = (id) => {
+        if (window.confirm('Tem certeza que quer desmarcar o atendimento?')) {
+            deleteScheduler(id)
+                getClientScheduler(id_client.cliente);  
+        } else {
+            return false;
+        }
+    }
 
     return (
         <>
-        <Layout title="Meus Dados">
-            <div className='procedureModalContent'>
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Barbeiro</th>
-                    <th>Data agendamento</th>
-                    <th>Data atendimento</th>
-                    <th>
-                    <AiFillDelete size="2rem"/>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {procedureList.map(procedure => (
-                    <tr key={procedure.id_procedimento}>
-                    <td>{procedure.procedimento}</td>
-                    <td>R$ {procedure.valor},00</td>
-                    <td>{procedure.tempo_medio}</td>
+            <Layout title="Meus Agendamentos">
+                <div className='meusAgendamentos'>
+
+                <table>
+                    <thead>
+                        {clientScheduler == "" ?
+                        <tr></tr> :
+                    <tr>
+                        <th>Barbeiro</th>
+                        <th>Data agendamento</th>
+                        <th>Data atendimento</th>
+                        <th>Periodo</th>
+                        <th>Horário</th>
+                        <th>Excluir</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
-            </div>   
-        </Layout> 
+                    }</thead>
+                    <tbody>
+                    {clientScheduler == "" ?
+                    <tr>
+                        <td>Não há agendamentos marcados</td>
+                    </tr> :
+                    clientScheduler.map(scheduler => (
+                        <tr key={scheduler.id}>
+                        <td>{scheduler.barbeiro}</td>
+                        <td>{scheduler.agendamento}</td>
+                        <td>{scheduler.realizacao}</td>
+                        <td>{scheduler.periodo}</td>
+                        <td>{scheduler.hora_atendimento}</td>
+                        <td>
+                            <button onClick={() => handleClick(scheduler.id)}><AiFillDelete size="2rem"/></button>
+                        </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                </div>   
+            </Layout> 
         </>
     );
 }

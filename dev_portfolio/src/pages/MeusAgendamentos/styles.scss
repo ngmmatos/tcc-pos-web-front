@@ -1,62 +1,59 @@
-.procedureModalContainer {
-    min-width: 600px;
+.meusAgendamentos {
     color: #fff;
     margin: 0 auto;
     display: flex;
+    width: 80%;
+    height: 80%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin: 2rem 0 1rem;
-        text-align: center;
-    }
-
-    .procedureModalContent {
-        padding: 2rem;
-        display: flex;
-        justify-content: center;
-
-        table {
-            width: 100%;
-
-            thead {
-                // margin-bottom: 1rem;
-
-                th {
-                    text-align: left;
-                    padding: 0.5rem;
-                    // font-weight: 700;
-                    padding: 0 1.5rem;
-                    font-size: 1.5rem;
-                }
-            }
-
-            tbody {
-                tr {
-
-                    td {
-                        padding: 0.25rem 0.5rem;
-                        font-size: 1.5rem;
-                        text-align: center;
-
-                        input {
-                            padding: 0.5rem;
-                            height: 1.25rem;
-                            width: 1.25rem;
-                        }
-
-                       
-                    }
-                }
-            }
-            
-
-        }
-    }
-
-
-
-}
+  
+  
+      table {
+          width: 80%;
+          border-collapse: collapse;
+  
+          thead {
+            padding: 10rem;
+              // margin-bottom: 1rem;
+  
+              th {
+                  text-align: center;
+                  // padding: 10rem;
+                  // font-weight: 700;
+                  padding: 0 2rem;
+                  font-size: 1.5rem;
+                  margin: 1rem;
+                  background-color: #9d8b2c;
+                  border: 2px solid black
+              }
+          }
+  
+          tbody {
+              tr:hover {opacity: 0.8;}
+              tr:nth-child(even){background-color: #decf78;}
+              tr {
+                  background: #fff;
+                  color: black;
+                  border: 2px solid black;
+                  td {
+                      padding: 0.25rem 0.5rem;
+                      font-size: 1.25rem;
+                      text-align: center;
+  
+                      input {
+                          background: #fff;
+                          padding: 0.5rem;
+                          height: 1.25rem;
+                          width: 1.25rem;
+                      }
+                      
+                  }
+              }
+          }
+          
+  
+      }
+  }
+  
+  

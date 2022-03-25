@@ -253,8 +253,23 @@ export const AuthContextProvider = ({ children }) => {
         };
     }
 
+    async function deleteScheduler(id) {
+
+      try {
+          await api.delete(`/agendamento/${id}`);
+          setLoading(false);
+          toast.success('Agendamento removido com sucesso');
+          setTimeout(() => {
+            history.push('/meusagendamentos');
+          }, 1000);
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Erro ao excluir agendamento - ${error}`);
+      }
+  }
+
     return (
-        <AuthContext.Provider value={{signin, signout, createUser, alterUser, searchUser, userSigned, signed, loading}}>
+        <AuthContext.Provider value={{signin, signout, createUser, alterUser, searchUser, deleteScheduler, userSigned, signed, loading}}>
             {children}
         </AuthContext.Provider> 
     );
