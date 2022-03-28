@@ -57,22 +57,25 @@
     margin: 4rem auto;
     transition: all 1s ease;
 
+
     ul {
       padding: 0;
       margin: 0;
 
       li {
+        font-size: 5rem;
         list-style: none;
         margin-bottom: 1rem;
         padding: 0.5rem 0.25rem;
         white-space: nowrap;
-
+        
+          
         a {
           display: flex;
           align-items: center;
           text-decoration: none;
           color: black;
-
+          
             position: relative;
             padding: 0.2rem 0.5 rem;
 
@@ -118,15 +121,21 @@
 
         &.withSubMenu {
 
-          .chageRole {
-            color: brown;
-          }
-
           div {
             display: flex;
             align-items: center;
           }
-
+          
+          div#hiddenTrue {
+            visibility: hidden;
+          }
+          
+          div#hiddenFalse {
+            visibility: visible;
+            display: flex;
+            align-items: center;
+            }
+          
           .subMenu {
 
             display: none;
@@ -137,6 +146,7 @@
 
               &:hover {
                 filter: brightness(0.7);
+
 
               }
             }

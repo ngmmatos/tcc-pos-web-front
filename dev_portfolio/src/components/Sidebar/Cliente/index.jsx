@@ -15,17 +15,10 @@ import '../styles.scss';
 export const SidebarCliente = () => {
 
     const { userSigned, signed } = useAuth();
-
-    console.log(userSigned.roles)
+    const [pinned, setPinned] = useState(true);
     
     const adm = userSigned.roles.find( obj => 'admin' in obj );
     const barber = userSigned.roles.find( obj => 'barbeiro' in obj );
-
-    if (adm === undefined && barber === undefined) {
-        const render = false
-    }
-
-    const [pinned, setPinned] = useState(true);
 
     function handlePinSidebar() {
         setPinned(!pinned);
@@ -45,58 +38,72 @@ export const SidebarCliente = () => {
 
         </header>
 
-        <div className="menuContainer">
+
+            <div className="menuContainer">
                 <ul>
                     <li>
-                        <Link to="/alteracliente">
+                        <Link to={{
+                                pathname: "/alteracliente",
+                                state: "cliente"}}>
                             <BiUser size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Meus Dados</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="meusagendamentos">
+                        <Link to={{
+                                pathname: "/meusagendamentos",
+                                state: "cliente"}}>
                             <AiOutlineSchedule size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Agendamentos</span>
                         </Link>
                     </li>
 
-                    <li className='withSubMenu'>
+                    <li>
                         <div>
-                            {/* <Link to="" onClick={ () => document.getElementById('subMenu').classList.toggle('expanded') }> */}
-                            <Link to="/agenda">
+                            <Link to={{
+                                pathname: "/agenda",
+                                state: "cliente"}}>
                                 <BiCalendarEvent size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Agenda</span>
                             </Link>                 
                         </div>
-                        {/* <ul id="subMenu" className="subMenu">
-                            <li><Link to="">Geral</Link></li>
-                            <li><Link to="">Por Barbeiro</Link></li>
-                        </ul> */}
                     </li>
 
                     <li>
-                        <Link to="/listaprocedimento">
+                        <Link to={{
+                                pathname: "/listaprocedimento",
+                                state: "cliente"}}>
                             <ImScissors size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Serviços</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="/rhbarbearia">
+                        <Link to={{
+                                pathname: "/rhbarbearia",
+                                state: "cliente"}}>
                             <BsInfoCircleFill size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>RH Barbearia</span>
                         </Link>
                     </li>
-                    <li className='withSubMenu' 
-                    id={adm === undefined && barber === undefined ? 'chageRole' : 'role'}>
-                        <Link to="#" onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded')}>
-                            <FaExchangeAlt size="2rem"/>
-                            <span className={pinned ? 'itemList pinned' : 'itemList'}>Alterar Visão</span>
-                        </Link>
+                    <li className='withSubMenu' id="chageRole">
+                        <div id={adm === undefined && barber === undefined ? 'hiddenTrue' : 'hiddenFalse'}>
+                            <Link onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded')}>
+                                <FaExchangeAlt size="2rem"/>
+                                <span className={pinned ? 'itemList pinned' : 'itemList'}>Alterar Visão</span>
+                            </Link>
+                        </div>  
                         <ul id="subMenu1" className="subMenu">
-                            <li>{adm !== undefined ? <Link to="">Administrador</Link> : ''}</li>
-                            <li>{barber !== undefined ? <Link to="">Barbeiro</Link> : ''}</li>
+                            <li>{adm !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "adm"
+                            }}>Administrador</Link> : null}</li>
+
+                            <li>{barber !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "barbeiro"
+                            }}>Barbeiro</Link> : null}</li>
                         </ul>
-                </li>
+                    </li>
                 </ul>
             </div>
 
@@ -104,16 +111,3 @@ export const SidebarCliente = () => {
 
   );
 };
-
-{/* <li className='withSubMenu'>
-<div>
-    <Link to="#" onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded') }>
-        <BiCreditCard size="2rem"/>
-        <span className={pinned ? 'itemList pinned' : 'itemList'}>Pagamentos</span>
-    </Link>                 
-</div>
-<ul id="subMenu1" className="subMenu">
-    <li><Link to="">Consultar</Link></li>
-    <li><Link to="">Receber</Link></li>
-</ul>
-</li> */}

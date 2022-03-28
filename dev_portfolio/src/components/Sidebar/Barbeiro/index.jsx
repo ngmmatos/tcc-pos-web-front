@@ -5,12 +5,17 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import { BiUser, BiCalendarEvent, BiCreditCard } from 'react-icons/bi';
 import { FaExchangeAlt } from "react-icons/fa";
 import RHpicture from '../../../resources/rhbarbeariadiminuido.jpg'
+import { useAuth } from '../../../hooks/useAuth';
 
 import '../styles.scss';
 
 export const SidebarBarbeiro = () => {
 
+    const { userSigned, signed } = useAuth();
     const [pinned, setPinned] = useState(true);
+
+    const adm = userSigned.roles.find( obj => 'admin' in obj );
+    const cliente = userSigned.roles.find( obj => 'cliente' in obj );
 
     function handlePinSidebar() {
         setPinned(!pinned);
@@ -33,7 +38,7 @@ export const SidebarBarbeiro = () => {
         <div className="menuContainer">
                 <ul>
                     <li>
-                        <Link to="/">
+                        <Link>
                             <BiUser size="2rem"/>
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>Meus Dados</span>
                         </Link>
@@ -41,7 +46,7 @@ export const SidebarBarbeiro = () => {
 
                     <li>
                         <div>
-                            <Link to="#">
+                            <Link>
                                 <BiCalendarEvent size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Minha Agenda</span>
                             </Link>                 
@@ -50,23 +55,34 @@ export const SidebarBarbeiro = () => {
 
                     <li className='withSubMenu'>
                         <div>
-                            <Link to="#" onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded') }>
+                            <Link onClick={ () => document.getElementById('subMenu1').classList.toggle('expanded') }>
                                 <BiCreditCard size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Pagamentos</span>
                             </Link>                 
                         </div>
                         <ul id="subMenu1" className="subMenu">
-                            <li><Link to="">Consultar</Link></li>
-                            <li><Link to="">Receber</Link></li>
+                            <li><Link>Consultar</Link></li>
+                            <li><Link>Receber</Link></li>
                         </ul>
                     </li>
-                    <li>
-                        <div>
-                            <Link to="#">
+                    <li className='withSubMenu' id="chageRole">
+                        <div id={adm === undefined && cliente === undefined ? 'hiddenTrue' : 'hiddenFalse'}>
+                            <Link onClick={ () => document.getElementById('subMenu2').classList.toggle('expanded')}>
                                 <FaExchangeAlt size="2rem"/>
                                 <span className={pinned ? 'itemList pinned' : 'itemList'}>Alterar Visão</span>
-                            </Link>                 
-                        </div>
+                            </Link>
+                        </div>  
+                        <ul id="subMenu2" className="subMenu">
+                            <li>{adm !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "adm"
+                            }}>Administrador</Link> : null}</li>
+
+                            <li>{cliente !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "cliente"
+                            }}>Cliente</Link> : null}</li>
+                        </ul>
                     </li>
                 </ul>
             </div>
