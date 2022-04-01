@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import {ImGooglePlus} from 'react-icons/im'
 import { FaUserAlt, FaLock, FaEyeSlash, FaEye  } from 'react-icons/fa'
 import Loading from '../Loading';
+import { Link } from 'react-router-dom';
 import { api } from "../../services/api";
 
 import './styles.scss';
@@ -17,6 +18,13 @@ export const LoginForm = () => {
     const { userSigned , signin, loading } = useAuth();
 
     const history = useHistory()
+
+    const setNewPass = () => {
+        setTimeout(() => {
+            history.push('/solicitasenha'); 
+            
+        }, 100);
+    }
 
     const handleSubmit = (event) => {
 
@@ -77,11 +85,11 @@ export const LoginForm = () => {
             </div>
 
             <button type="submit" className="emailLoginButton">{loading ? <Loading /> : "Entrar"}</button>
-            <button type="submit" className="googleLoginButton"><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
+            <button disabled type="submit" className="googleLoginButton"><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
            
             <div className="loginHelperContainer">
                 <button className="firstAccess" onClick={() => { history.push("/cadastro") }}>Primeiro Acesso</button>
-                <button >Esqueci a senha</button>
+                <button onClick={setNewPass} >Esqueci a senha</button>
             </div>
         </form>
     </div>

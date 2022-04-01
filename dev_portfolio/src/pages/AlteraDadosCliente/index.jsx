@@ -189,7 +189,8 @@ export function AlteraDadosCliente () {
                                 
                             </div>
 
-                            <button type="submit" disabled={disabled}>{ loading ? <Loading /> : "Confirmar"}</button>
+                            <button type="submit" disabled={disabled} 
+                            className="emailLoginButton">{ loading ? <Loading /> : "Confirmar"}</button>
                     </form>
                 </div>
             </section>

@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from '../../components/Layout';
-import { CustomCalendar } from '../../components/Calendario';
-import { ImScissors } from 'react-icons/im';
+import { useHistory } from 'react-router-dom'
 import { useProcedures } from '../../hooks/useProcedures';
+import { ProcedureModal1Step } from '../../components/Modals/ProcedureModal/ProcedureModal1Step'
 
+import '../../components/Modals/ProcedureModal/styles.scss';
 import './styles.scss';
 
-export function Agenda () {
-    
-    const { 
-        barberList, 
-        getBarberList, 
-        setBarberSelected , 
-        agenda , 
-        dailyAgenda, 
-        loadAgenda , 
-        todaAgenda , 
-        loadAgendaByMonth, 
-        monthlyAgenda, 
-        barberId, 
-        setBarberId } = useProcedures();
+export function Agenda() {
+    const [isProcedureNotSelected, setIsProcedureNotSelected] = useState(false);
+    const history = useHistory();
+
+    const {
+        proceduresSelected,
+        barberList,
+        getBarberList,
+        loadAgenda, } = useProcedures();
 
     useEffect(() => {
         getBarberList();
@@ -27,26 +23,29 @@ export function Agenda () {
 
     useEffect(() => {
         loadAgenda();
-    } , [barberList]);
+    }, [barberList]);
 
-    
+    useEffect(() => {
+        console.log('procedimentos selecionados', proceduresSelected)
+    }, [proceduresSelected]);
 
-    return(
+    const handleNavigate = () => {
+        if (proceduresSelected.length > 0) {
+            setIsProcedureNotSelected(false)
+            history.push('/agenda-calendar')
+        }
+        else {
+            setIsProcedureNotSelected(true)
+        }
+    }
+
+    return (
         <Layout title="Agenda">
-            <div className='agendaContainer'>
-                <div className='selectContainer'>
-                    <ImScissors />
-                    <div>
-                        <label htmlFor="barberList">Barbeiro(a)</label>
-                        <select onChange={ ({target}) => setBarberId(target.value)} required>
-                            <option value="">Selecione um barbeiro</option>
-                            { barberList && barberList.map(barber =>
-                                <option key={barber.id_barbeiro} value={barber.id_barbeiro}>{barber.Usuario.nome}</option> 
-                            )}
-                        </select>
-                    </div>
-                </div>  
-                <CustomCalendar />
+            <div className='procedureModalContainer'>
+                <h1>Escolha o Procedimento</h1>
+                <ProcedureModal1Step />
+                {isProcedureNotSelected && <strong className="errorText">Selecione um procedimento para prosseguir com o agendamento</strong>}
+                <button className="nextStep" type="button" onClick={handleNavigate}>Continuar</button>
             </div>
         </Layout>
     );

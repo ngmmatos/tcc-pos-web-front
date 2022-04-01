@@ -6,53 +6,49 @@ import { HiX } from 'react-icons/hi';
 import './styles.scss';
 
 
-const FormTitles = [ 'Escolha o Procedimento', 'Escolha o Horário'];
+const FormTitles = ['Escolha o Procedimento', 'Escolha o Horário'];
 
 
 
 export const ProcedureModal = ({ isOpen, onRequestClose, onSubmit }) => {
 
-  const [ step, setStep ] = useState(1);
+  const [step, setStep] = useState(1);
 
-  const renderFormView = () => {
-    if(step === 1) {
-      return <ProcedureModal1Step />
-    } else {
-      return <ProcedureModal2Step />
-    }
-  }
+  // const renderFormView = () => {
+  //   if (step === 1) {
+  //     return <ProcedureModal1Step />
+  //   } else {
+  //     return <ProcedureModal2Step />
+  //   }
+  // }
 
   const hanldeCloseModal = () => {
     onRequestClose();
     setStep(1);
   }
 
-
-
-    return(
-        <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-        overlayClassName="react-modal-overlay"
-        className="react-modal-content"
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        type="button"
+        onClick={hanldeCloseModal}
+        className="react-modal-close"
       >
-        <button
-          type="button"
-          onClick={hanldeCloseModal}
-          className="react-modal-close"
-        >
-          <HiX size="1.5rem" />
-        </button>
+        <HiX size="1.5rem" />
+      </button>
 
-        <div className='procedureModalContainer'>
-          <h1>{FormTitles[step-1]}</h1>
-          { renderFormView() }
+      <div className='procedureModalContainer'>
+        <h1>Escolha o Horário</h1>
+        <ProcedureModal2Step />
+        <button className="nextStep" type="button">Continuar</button>
 
-          { step > 1 && <button className="nextStep" type="button" onClick={() => setStep(step - 1)}>Voltar</button> }
-          { step !== FormTitles.length && <button className="nextStep" type="button" onClick={() => setStep(step +1 )}>Continuar</button> }
+      </div>
 
-        </div>
-
-      </Modal>
-    );
+    </Modal>
+  );
 }

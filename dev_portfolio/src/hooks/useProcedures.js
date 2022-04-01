@@ -42,7 +42,18 @@ export const ProcedureProvider = ({ children }) => {
 
     async function getProcedureList() {
         const { data } = await api.get('/procedimento');
-        setProcedureList(data);
+        const dataFormatted = data.map( scheduler => {
+
+            return {
+                id_procedimento: scheduler.id_procedimento,
+                procedimento: scheduler.procedimento,
+                valor: scheduler.valor,
+                tempo_medio: scheduler.tempo_medio,
+                descricao: scheduler.descricao,
+            }
+        })
+
+        setProcedureList(dataFormatted);
     }
 
 

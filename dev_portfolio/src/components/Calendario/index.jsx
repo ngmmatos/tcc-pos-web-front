@@ -1,31 +1,52 @@
 import { useContext, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import {
+  FaBirthdayCake,
+  FaCalendarCheck,
+  FaCalendarDay,
   FaChevronLeft,
   FaChevronRight,
+  FaPlusSquare,
 } from 'react-icons/fa';
-import { format, setMonth } from 'date-fns';
+import { format, getTime } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ProcedureModal } from '../Modals/ProcedureModal';
-import {toast} from 'react-toastify';
+import { useProcedures } from '../../hooks/useProcedures';
+
+import { api } from '../../services/api'
 
 import 'react-calendar/dist/Calendar.css';
 import './styles.scss';
-import { useProcedures } from '../../hooks/useProcedures';
-
 
 export const CustomCalendar = ({ setToggleModal }) => {
+
+  const { barberId, setBarberId } = useProcedures();
 
   const [eventsByDay, setEventsByDay] = useState([]);
   const [day, setDay] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [selectedDay, setSelectedDay] = useState(0);
 
-  const [ isProcedureModalOpen ,setIsProcedureModalOpen ] = useState(false);
+  const [firstDayMonth, setFirstDayMonth] = useState(0);
+  const [lastDayMonth, setLastDayMonth] = useState(0);
+  const [actualMonthSchedule, setActualMonthSchedule] = useState([]);
+
+  const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
 
   const [year, setYear] = useState(0);
 
-  const { loadAgenda, monthlyAgenda, loadProceduresByDay, setDateSelected, barberId } = useProcedures();
+  useEffect(() => {
+    (async () => {
+      if (barberId.length === 6) {
+        const { data } = await api.get('/agenda', {
+          id_barbeiro: barberId,
+          hr_inicio: firstDayMonth,
+          hr_fim: lastDayMonth
+        })
+        setActualMonthSchedule(data);
+      }
+    })()
+  }, [barberId, firstDayMonth, lastDayMonth]);
 
   useEffect(() => {
     const today = new Date(Date.now());
@@ -35,11 +56,18 @@ export const CustomCalendar = ({ setToggleModal }) => {
     setYear(today.getUTCFullYear());
   }, []);
 
-  function handleOpenProcedureModal () {
+  function handleOpenProcedureModal() {
     setIsProcedureModalOpen(true);
   }
-  function handleCloseProcedureModal () {
-      setIsProcedureModalOpen(false);
+  function handleCloseProcedureModal() {
+    setIsProcedureModalOpen(false);
+  }
+
+  function getMonthInnerDaysTimestamp(year, month) {
+    const firstDayMonth = getTime(new Date(year, month, 1)) / 1000;
+    const lastDayMonth = getTime(new Date(year, month + 1, 0).setHours(23, 59, 59) / 1000);
+
+    return { firstDayMonth, lastDayMonth }
   }
 
   return (
@@ -68,40 +96,35 @@ export const CustomCalendar = ({ setToggleModal }) => {
         nextLabel={<FaChevronRight />}
         prev2Label={null}
         prevLabel={<FaChevronLeft />}
+        tileDisabled={({ activeStartDate, date, view }) => date.getDate() === 25}
         onActiveStartDateChange={(value, event) => {
-          loadAgenda(format(value.activeStartDate, 'MM'), format(value.activeStartDate, 'yyyy'));
+          setEventsByDay([]);
+          const newMonth = new Date(value.activeStartDate);
+
+          const { firstDayMonth, lastDayMonth } = getMonthInnerDaysTimestamp(newMonth.getUTCFullYear(), newMonth.getUTCMonth())
+          console.log(firstDayMonth, lastDayMonth);
+
+          // setFirstDayMonth(firstDayMonth);
+          // setLastDayMonth(lastDayMonth);
+
+          //   setCalendarMonth(newMonth.getUTCMonth());
+          //   loadEventsByMonth(newMonth.getUTCMonth());
         }}
         onClickDay={(value) => {
-
-          if(!barberId) {
-            return toast.info('Selecione um barbeiro para agendar um procedimento.');
-          }
-
-          if( Number(new Date(value).getTime()) <= Number(new Date().getTime()) ) {
-            return toast.info('Não é possível agendar nesse dia');
-          }
-
-          loadProceduresByDay(format(value, 'dd', { locale: ptBR }) , format(value, 'MM'), format(value, 'yyyy'));
+          // if (
+          //   value.getMonth() === calendarMonth &&
+          //   eventsByDay?.filter((item) => {
+          //     return item.day === value.getDate();
+          //   }).length > 0
+          // ) {
           handleOpenProcedureModal();
-          setDateSelected({
-            day: format(value, 'dd', { locale: ptBR }),
-            month: format(value, 'MM') -1,
-            year: format(value, 'yyyy'),
-          });
-        }}   
-        tileContent={({ date, view }) => {
-          if (view === 'month') {
-            return (
-              <div className="tile-content">
-                <div className="tile-content-day">
-                  {/* {date.getUTCDate()} */}
-                </div>
-                <div className="tile-content-month">
-                  {/* {date.getUTCMonth()} */}
-                </div>
-              </div>
-            );
-          }
+          setSelectedDay(value.getDate());
+          // setEvents(
+          //   eventsByDay?.filter((item) => {
+          //     return item.day === value.getDate();
+          //   })[0],
+          // );
+          // }
         }}
       />
     </div>
