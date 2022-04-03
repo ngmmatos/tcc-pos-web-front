@@ -6,6 +6,7 @@ import { ProcedureModal1Step } from '../../components/Modals/ProcedureModal/Proc
 
 import '../../components/Modals/ProcedureModal/styles.scss';
 import './styles.scss';
+import { toast } from 'react-toastify';
 
 export function Agenda() {
     const [isProcedureNotSelected, setIsProcedureNotSelected] = useState(false);
@@ -25,17 +26,14 @@ export function Agenda() {
         loadAgenda();
     }, [barberList]);
 
-    useEffect(() => {
-        console.log('procedimentos selecionados', proceduresSelected)
-    }, [proceduresSelected]);
-
     const handleNavigate = () => {
         if (proceduresSelected.length > 0) {
             setIsProcedureNotSelected(false)
             history.push('/agenda-calendar')
         }
         else {
-            setIsProcedureNotSelected(true)
+            toast.error("Selecione ao menos um procedimento!")
+            // setIsProcedureNotSelected(true)
         }
     }
 

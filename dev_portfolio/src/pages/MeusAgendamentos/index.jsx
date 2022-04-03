@@ -57,6 +57,8 @@ export function MeusAgendamentos () {
                         <th>Data atendimento</th>
                         <th>Periodo</th>
                         <th>Horário</th>
+                        <th>Procedimentos</th>
+                        <th>Valor Total</th>
                         <th>Excluir</th>
                     </tr>
                     }</thead>
@@ -72,6 +74,8 @@ export function MeusAgendamentos () {
                         <td>{scheduler.realizacao}</td>
                         <td>{scheduler.periodo}</td>
                         <td>{scheduler.hora_atendimento}</td>
+                        <td>{scheduler.procedimentos}</td>
+                        <td>R$ {scheduler.valor},00</td>
                         <td>
                             <button onClick={() => handleClick(scheduler.id)}><AiFillDelete size="2rem"/></button>
                         </td>

@@ -148,54 +148,72 @@ export const AuthContextProvider = ({ children }) => {
       if(senha !== confirma_senha) {
         toast.error("Senhas diferentes!");
       } else {
-        try {
+
           setLoading(true);
 
           const salt = bcrypt.genSaltSync(10);
           const passHash = bcrypt.hashSync(senha, salt);  
           senha = passHash
 
-          await api.post('/usuario', {
-            nome,
-            email,
-            senha,
-            data_nascimento,
-            telefone,
-            sexo
-          }).then((response) => {
 
-            const createClient = async(id_usuario) => {
-              try {
+          await api.get(`/usuario?email=${email}`, {
+            auth: {
+            username: process.env.REACT_APP_API_USER,
+            password: process.env.REACT_APP_API_PASS
+            }
+          }).then((resp) => {
+      
+            if (resp.status === 200) {
+              if ((resp.data).length !== 0) {
 
-                await api.post('/cliente', {
-                  id_usuario
-                });
-
-              } catch (error) {
-                toast.error(`Erro na criação de cliente - ${error}` );
+                toast.error(`Email ${email} já possuí cadastro!`)
                 setLoading(false);
-              }
-            };
+                return false
+              } else {
 
-          const id_usuario = response.data.id_usuario
-          createClient(id_usuario)
-
-          }, (error) => {
-            toast.error(`Erro na criação de usuario - ${error}` );
-          })
-
-          setLoading(false);
-          toast.success('Usuário cadastrado com sucesso!');
-          setTimeout(() => {
-            history.push('/');
-          }, 1000);
-          
-        } catch (error) {
-          toast.error(error);
-          console.log(error)
-          setLoading(false);
-          // history.push('/');
-        }
+                const alterUser = api.post('/usuario', {
+                  nome,
+                  email,
+                  senha,
+                  data_nascimento,
+                  telefone,
+                  sexo
+                }).then((response) => {
+      
+                  const createClient = async(id_usuario) => {
+                    try {
+      
+                      await api.post('/cliente', {
+                        id_usuario
+                      });
+      
+                    } catch (error) {
+                      toast.error(`Erro na criação de cliente - ${error}` );
+                      setLoading(false);
+                    }
+                  };
+      
+                const id_usuario = response.data.id_usuario
+                createClient(id_usuario)
+      
+                setLoading(false);
+                toast.success('Usuário cadastrado com sucesso!');
+                setTimeout(() => {
+                  history.push('/');
+                }, 1000);
+      
+                }, (error) => {
+                  toast.error(`Erro na criação de usuario - ${error}` );
+                  setLoading(false);
+                  return false
+                })
+              } 
+            } else {
+                toast.error(`Erro buscando se este email já está cadastrado. Tente novamente em instantes.`)
+                setLoading(false);
+                return false  
+            }
+          });
       }
     }
 
@@ -469,8 +487,92 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
+
+  const registerScheduler = (id_agenda, user, procedimentos) => {
+    setLoading(true);
+
+    const buscaCliente = api.get(`/cliente?id_usuario=${user.id_usuario}`).then((respCliente) => {
+      if (respCliente.status !== 200){
+        toast.error("Erro ao busca cliente. Favor tente novamente em instantes")
+        setLoading(false);
+        return false
+      } else {
+        const id_cliente = respCliente.data[0].id_cliente
+        
+        const buscaAgenda = api.get(`/agenda/${id_agenda}`).then((respAgenda) => {
+          if (respAgenda.status === 200) {
+            const inicio_agenda = respAgenda.data.hr_inicio
+            
+            const minutos_agenda = respAgenda.data.minutos_disponiveis
+
+            const hora = new Date(Date.now());
+            const agora = hora.getTime()
+
+            const data_agora = parseInt(agora/1000)
+    
+            const criaAgendamento = api.post('agendamento', {
+              id_agenda: id_agenda,
+              id_cliente: id_cliente,
+              data_realizacao: inicio_agenda,
+              data_agendamento: data_agora
+            }).then((respCriaAgendamento) => {
+              if (respCriaAgendamento.status === 200) {
+
+                let tempo_total = 0
+                const criaProcedimentos = procedimentos.map (proc => {
+                  tempo_total = tempo_total + proc.tempo_medio
+
+                  const criaProc = api.post('procedimentoAgendamento', {
+                    id_procedimento: proc.id_procedimento,
+                    id_agendamento: respCriaAgendamento.data.id_agendamento
+                  });
+                })
+
+                let agendado = false
+                const minutos_sobraram = minutos_agenda - tempo_total
+                const nova_dt_inicio_agenda = respAgenda.data.hr_inicio + (tempo_total * 60)
+
+                if (minutos_sobraram <= 0 ) {
+                  agendado = true
+                }
+
+                const alteraAgenda = api.put(`agenda/${id_agenda}`, {
+                  agendado: agendado,
+                  minutos_disponiveis: minutos_sobraram,
+                  hr_inicio:  nova_dt_inicio_agenda
+                }).then((respAlteraAgenda =>{
+
+                  console.log(respAlteraAgenda)
+
+                  if (respAlteraAgenda.status === 200) {
+                    setLoading(false);
+                    toast.success("Agendamento criado com sucesso!")
+                    setTimeout(() => {
+                      history.push('/geral'); 
+                  }, 1000);
+
+                  } else {
+                    toast.error("Erro na criação do agendamento.")
+                    setLoading(false);
+                  }
+                })
+                )
+              } else{
+                toast.error("Erro na criação do agendamento.")
+                setLoading(false);
+              }
+            })
+          } else {
+            toast.error("Erro ao buscar informações de agenda. Por favor tente novamente em instantes")
+            setLoading(false);
+          }
+        });
+      }
+    })
+}
+
     return (
-        <AuthContext.Provider value={{signin, signout, createUser,changePass,
+        <AuthContext.Provider value={{signin, signout, createUser,changePass, registerScheduler,
          alterUser, searchUser, deleteScheduler, sendEmail, userSigned, signed, loading}}>
             {children}
         </AuthContext.Provider> 

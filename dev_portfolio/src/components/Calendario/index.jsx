@@ -8,10 +8,12 @@ import {
   FaChevronRight,
   FaPlusSquare,
 } from 'react-icons/fa';
-import { format, getTime } from 'date-fns';
+import { format, getTime, getUnixTime, fromUnixTime } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ProcedureModal } from '../Modals/ProcedureModal';
 import { useProcedures } from '../../hooks/useProcedures';
+
+import { filterDaysAvaliable } from './filterDaysAvaliable'
 
 import { api } from '../../services/api'
 
@@ -20,33 +22,66 @@ import './styles.scss';
 
 export const CustomCalendar = ({ setToggleModal }) => {
 
-  const { barberId, setBarberId } = useProcedures();
+  const {
+    barberId,
+    proceduresSelected,
+    daysAgendaMonthCurrent,
+    setDaysAgendaMonthCurrent,
+    setDaySelected
+  } = useProcedures();
 
+  const date = new Date()
   const [eventsByDay, setEventsByDay] = useState([]);
   const [day, setDay] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
-  const [selectedDay, setSelectedDay] = useState(0);
 
-  const [firstDayMonth, setFirstDayMonth] = useState(0);
-  const [lastDayMonth, setLastDayMonth] = useState(0);
-  const [actualMonthSchedule, setActualMonthSchedule] = useState([]);
+  const [firstDayMonth, setFirstDayMonth] = useState(getUnixTime(new Date(date.getFullYear(), date.getMonth(), 1)));
+  const [lastDayMonth, setLastDayMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
+  const [daysAvailable, setDaysAvailable] = useState([]);
 
   const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
 
   const [year, setYear] = useState(0);
 
+  function getTimeSelectedProcedures(proceduresSelected) {
+    let getTimeSelectedProcedures = [...proceduresSelected]
+    if (getTimeSelectedProcedures.length > 1) {
+      let timeSelectedProcedures = (getTimeSelectedProcedures.map(value => value.estimatedTime)).reduce((previousValue, currentValue) => previousValue + currentValue)
+      return timeSelectedProcedures
+    } else {
+      return proceduresSelected[0].estimatedTime
+    }
+  }
+
   useEffect(() => {
     (async () => {
       if (barberId.length === 6) {
-        const { data } = await api.get('/agenda', {
-          id_barbeiro: barberId,
-          hr_inicio: firstDayMonth,
-          hr_fim: lastDayMonth
-        })
-        setActualMonthSchedule(data);
+        try {
+          const { data } = await api.get('/agenda', {
+            params:
+            {
+              id_barbeiro: barberId,
+              hr_inicio: firstDayMonth,
+              hr_fim: lastDayMonth
+            }
+          })
+          setDaysAgendaMonthCurrent(data);
+        } catch (e) {
+          console.log(e)
+        }
+
+      } else {
+        setDaysAgendaMonthCurrent([])
       }
     })()
   }, [barberId, firstDayMonth, lastDayMonth]);
+
+  useEffect(() => {
+    if (proceduresSelected.length > 0) {
+      const finalArrayFiltered = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
+      setDaysAvailable(finalArrayFiltered)
+    }
+  }, [daysAgendaMonthCurrent, proceduresSelected])
 
   useEffect(() => {
     const today = new Date(Date.now());
@@ -63,11 +98,12 @@ export const CustomCalendar = ({ setToggleModal }) => {
     setIsProcedureModalOpen(false);
   }
 
-  function getMonthInnerDaysTimestamp(year, month) {
-    const firstDayMonth = getTime(new Date(year, month, 1)) / 1000;
-    const lastDayMonth = getTime(new Date(year, month + 1, 0).setHours(23, 59, 59) / 1000);
+  function tileDisabled({ date, view }) {
+    const monthSelected = fromUnixTime(firstDayMonth).getMonth()
 
-    return { firstDayMonth, lastDayMonth }
+    if (view === 'month' && date.getUTCMonth() === monthSelected) {
+      return daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || date.getDay() === 6 || date.getDay() === 0
+    }
   }
 
   return (
@@ -91,34 +127,36 @@ export const CustomCalendar = ({ setToggleModal }) => {
         maxDetail="month"
         minDetail="month"
         maxDate={new Date(year, 11, 31)}
-        minDate={new Date(year, 0, 1)}
+        minDate={new Date(year, new Date().getUTCMonth(), 1)}
         next2Label={null}
         nextLabel={<FaChevronRight />}
         prev2Label={null}
         prevLabel={<FaChevronLeft />}
-        tileDisabled={({ activeStartDate, date, view }) => date.getDate() === 25}
+        tileDisabled={barberId.length === 6 ? tileDisabled : undefined}
         onActiveStartDateChange={(value, event) => {
-          setEventsByDay([]);
-          const newMonth = new Date(value.activeStartDate);
+          if (value.action) {
+            const newMonth = new Date(value.activeStartDate);
 
-          const { firstDayMonth, lastDayMonth } = getMonthInnerDaysTimestamp(newMonth.getUTCFullYear(), newMonth.getUTCMonth())
-          console.log(firstDayMonth, lastDayMonth);
+            const firstDayMonth = getUnixTime(new Date(newMonth.getFullYear(), newMonth.getMonth()));
+            const lastDayMonth = (new Date(newMonth.getFullYear(), newMonth.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
 
-          // setFirstDayMonth(firstDayMonth);
-          // setLastDayMonth(lastDayMonth);
-
+            setFirstDayMonth(firstDayMonth);
+            setLastDayMonth(lastDayMonth);
+          }
           //   setCalendarMonth(newMonth.getUTCMonth());
           //   loadEventsByMonth(newMonth.getUTCMonth());
         }}
         onClickDay={(value) => {
+          if (barberId.length === 6) {
+            handleOpenProcedureModal();
+            setDaySelected(value.getDate());
+          }
           // if (
           //   value.getMonth() === calendarMonth &&
           //   eventsByDay?.filter((item) => {
           //     return item.day === value.getDate();
           //   }).length > 0
           // ) {
-          handleOpenProcedureModal();
-          setSelectedDay(value.getDate());
           // setEvents(
           //   eventsByDay?.filter((item) => {
           //     return item.day === value.getDate();

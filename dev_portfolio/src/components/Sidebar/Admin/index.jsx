@@ -53,9 +53,8 @@ export const SidebarAdm = () => {
                             </Link>                 
                         </div>
                         <ul id="subMenu1" className="subMenu">
-                            <li><Link>Consultar</Link></li>
-                            <li><Link>Pagar</Link></li>
-                            <li><Link>Receber</Link></li>
+                            <li><Link>Recebidos</Link></li>
+                            <li><Link>Realizados</Link></li>
                         </ul>
                     </li>
                     <li className='withSubMenu'>

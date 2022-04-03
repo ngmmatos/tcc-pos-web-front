@@ -30,7 +30,7 @@ export const SolicitaSenha = () => {
 
     return(
     <>
-        <section className="mainSection">
+        <section className="mainSection2">
             <div className="registerContainer">
                 <h1>Esqueceu a senha? Refaça aqui!</h1>
                 <form ref={form} onSubmit={sendSubmit}>

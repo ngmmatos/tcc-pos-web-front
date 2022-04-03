@@ -28,7 +28,7 @@ export const MudaSenha = () => {
 
     return(
     <>
-        <section className="mainSection">
+        <section className="mainSection2">
             <div className="registerContainer">
                 <h1>Crie uma nova senha</h1>
                 <form onSubmit={handleSubmit}>

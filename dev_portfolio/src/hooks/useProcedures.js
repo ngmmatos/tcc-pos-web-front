@@ -15,16 +15,21 @@ export const ProcedureProvider = ({ children }) => {
     const [ monthlyAgenda, setMonthlyAgenda ] = useState([]);
     const [ dailyAgenda, setDailyAgenda ] = useState([]);
     const [ todaAgenda, setTodaAgenda ] = useState([]);
-    const [ barberId, setBarberId ] = useState(null);
+    const [ barberId, setBarberId ] = useState('');
     const [ barberList, setBarberList ] = useState([]);
     const [ procedureList, setProcedureList ] = useState([]);
     const [ clientScheduler, setClientScheduler ] = useState([]);
-    const [ barber, setBarber ] = useState([]);
+    // const [ barber, setBarber ] = useState([]);
     const [ barberSelected, setBarberSelected ] = useState(null);
     const [ proceduresSelected, setProceduresSelected ] = useState([]);
     const [ periodSelected, setPeriodSelected ] = useState([]);
     const [ dateSelected, setDateSelected ] = useState({});
     const [ timeNeedeToRealizeProcedure, setTimeNeedeToRealizeProcedure ] = useState(0);
+
+    const [daysAgendaMonthCurrent, setDaysAgendaMonthCurrent] = useState([]);
+    const [daySelected, setDaySelected] = useState([]);
+
+    const [idAgenda, setIdAgenda] = useState(null)
 
     useEffect(() => {
         getAgendaByBarber();
@@ -35,10 +40,10 @@ export const ProcedureProvider = ({ children }) => {
         setBarberList(data);
     }
 
-    async function getBarber(id) {
-        const { data } = await api.get(`/barbeiro/${id}`);
-        setBarber(data);
-    }
+    // async function getBarber(id) {
+    //     const { data } = await api.get(`/barbeiro/${id}`);
+    //     setBarber(data);
+    // }
 
     async function getProcedureList() {
         const { data } = await api.get('/procedimento');
@@ -61,6 +66,19 @@ export const ProcedureProvider = ({ children }) => {
         const { data } = await api.get(`/agendamento?id_cliente=${id}`)
         const dataFormatted = data.map( scheduler => {
 
+            let lista_procedimentos = []
+            let valor_total = 0
+
+            const procedimento = (scheduler.ProcedimentoAgendamentos).map(proc =>{
+                lista_procedimentos.push(`${proc.Procedimento.procedimento}, `)
+
+                valor_total = valor_total + proc.Procedimento.valor
+            });
+
+            const hora_correta = (scheduler.data_realizacao + 10800)
+            console.log(scheduler.data_realizacao)
+            console.log(hora_correta)
+
             return {
                 id: scheduler.id_agendamento,
                 id_barbeiro: scheduler.Agenda.id_barbeiro,
@@ -68,7 +86,9 @@ export const ProcedureProvider = ({ children }) => {
                 periodo: scheduler.Agenda.periodo,
                 realizacao: moment.unix(scheduler.data_realizacao).format('DD/MM/yyy'),
                 agendamento: moment.unix(scheduler.data_agendamento).format('DD/MM/yyy'),
-                hora_atendimento: `${moment(scheduler.data_agendamento).hour()}:${moment(scheduler.data_agendamento).minute()}`
+                hora_atendimento: moment.unix(hora_correta).format('HH:mm'),
+                procedimentos: lista_procedimentos,
+                valor: valor_total
             }
         })
              setClientScheduler(dataFormatted);
@@ -90,28 +110,28 @@ export const ProcedureProvider = ({ children }) => {
 
 
     
-    async function loadAgenda( month, year ) {
+    async function loadAgenda(month, year) {
         const { data } = await api.get('/agenda');
 
-        const dataFormatted = data.map( agenda => {
-             return {
-                dataAgendamento: agenda.data,
-                periodo: agenda.periodo,
-                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000 ), 'dd/MM/yyyy-HH', { locale: ptBR }),
-                fimAtendimento: format(new Date(agenda.hr_fim * 1000 ), 'dd/MM/yyyy-HH', { locale: ptBR }),
-            }
-        });
-
-        const monthlyData = data.filter( agenda => {
-            return format(new Date(agenda.hr_inicio * 1000 ), 'MM/yyyy', { locale: ptBR }) === `${month}/${year}`;
-        });
-
-        const formatMonthlyData = monthlyData.map( agenda => {
+        const dataFormatted = data.map(agenda => {
             return {
                 dataAgendamento: agenda.data,
                 periodo: agenda.periodo,
-                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000 ), 'dd/MM/yyyy-HH', { locale: ptBR }),
-                fimAtendimento: format(new Date(agenda.hr_fim * 1000 ), 'dd/MM/yyyy-HH', { locale: ptBR }),
+                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000), 'dd/MM/yyyy-HH', { locale: ptBR }),
+                fimAtendimento: format(new Date(agenda.hr_fim * 1000), 'dd/MM/yyyy-HH', { locale: ptBR }),
+            }
+        });
+
+        const monthlyData = data.filter(agenda => {
+            return format(new Date(agenda.hr_inicio * 1000), 'MM/yyyy', { locale: ptBR }) === `${month}/${year}`;
+        });
+
+        const formatMonthlyData = monthlyData.map(agenda => {
+            return {
+                dataAgendamento: agenda.data,
+                periodo: agenda.periodo,
+                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000), 'dd/MM/yyyy-HH', { locale: ptBR }),
+                fimAtendimento: format(new Date(agenda.hr_fim * 1000), 'dd/MM/yyyy-HH', { locale: ptBR }),
             }
         });
 
@@ -119,29 +139,29 @@ export const ProcedureProvider = ({ children }) => {
         setMonthlyAgenda(formatMonthlyData);
     }
 
-    const loadProceduresByDay = async ( day, month, year ) => {
+    const loadProceduresByDay = async (day, month, year) => {
 
         const { data } = await api.get('/agenda');
 
-        const monthlyData = data.filter( agenda => {
-            return format(new Date(agenda.hr_inicio * 1000 ), 'MM/yyyy', { locale: ptBR }) === `${month}/${year}`;
+        const monthlyData = data.filter(agenda => {
+            return format(new Date(agenda.hr_inicio * 1000), 'MM/yyyy', { locale: ptBR }) === `${month}/${year}`;
         });
 
-        const dailyData = await monthlyData.filter( element => {
-            return format(new Date(element.hr_inicio * 1000 ), 'dd/MM/yyyy', { locale: ptBR }) === `${day}/${month}/${year}`;
+        const dailyData = await monthlyData.filter(element => {
+            return format(new Date(element.hr_inicio * 1000), 'dd/MM/yyyy', { locale: ptBR }) === `${day}/${month}/${year}`;
         })
 
-        const dailyDataFormatted = dailyData.map( agenda => {
+        const dailyDataFormatted = dailyData.map(agenda => {
             return {
                 dataAgendamento: agenda.data,
                 periodo: agenda.periodo,
-                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000 ), 'HH', { locale: ptBR }),
-                fimAtendimento: format(new Date(agenda.hr_fim * 1000 ), 'HH', { locale: ptBR }),
+                inicioAtendimento: format(new Date(agenda.hr_inicio * 1000), 'HH', { locale: ptBR }),
+                fimAtendimento: format(new Date(agenda.hr_fim * 1000), 'HH', { locale: ptBR }),
             }
         })
-        
+
         setDailyAgenda(dailyDataFormatted);
-        
+
 
     }
 
@@ -163,9 +183,10 @@ export const ProcedureProvider = ({ children }) => {
         }
     }
 
+
     return (
         <ProcedureContext.Provider value={{ 
-            getBarber,
+            // getBarber,
             getClientScheduler,
             getProcedureList,
             getBarberList,
@@ -188,11 +209,17 @@ export const ProcedureProvider = ({ children }) => {
             procedureList,
             proceduresSelected, 
             timeNeedeToRealizeProcedure, 
+            daysAgendaMonthCurrent,
+            setDaysAgendaMonthCurrent,
             periodSelected,
             dateSelected,
             barberId,
-            barber,
+            // barber,
             clientScheduler,
+            daySelected,
+            setDaySelected,
+            idAgenda,
+            setIdAgenda,
         }}
         >
             {children}
