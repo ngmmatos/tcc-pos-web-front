@@ -2,7 +2,6 @@ import { Layout } from '../../components/Layout';
 import { CustomCalendar } from '../../components/Calendario';
 import { useProcedures } from '../../hooks/useProcedures';
 import { ImScissors } from 'react-icons/im';
-import './styles.scss';
 
 const CalendarScheduler = () => {
 
@@ -22,7 +21,7 @@ const CalendarScheduler = () => {
                      )}
                   </select>
                </div>
-            </div>
+               </div>
             {barberId === '' ?
             <div className='divAviso'>
                <p>Selecione um barbeiro para ver os dias disponíveis</p>

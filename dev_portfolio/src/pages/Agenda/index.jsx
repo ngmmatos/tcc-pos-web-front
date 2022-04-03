@@ -28,11 +28,11 @@ export function Agenda() {
 
     const handleNavigate = () => {
         if (proceduresSelected.length > 0) {
-            setIsProcedureNotSelected(false)
+            // setIsProcedureNotSelected(false)
             history.push('/agenda-calendar')
         }
         else {
-            toast.error("Selecione ao menos um procedimento!")
+            toast.error("Selecione pelo menos um procedimento para continuar!")
             // setIsProcedureNotSelected(true)
         }
     }
@@ -40,9 +40,9 @@ export function Agenda() {
     return (
         <Layout title="Agenda">
             <div className='procedureModalContainer'>
-                <h1>Escolha os Procedimentos</h1>
+                <h1>Escolha o Procedimento</h1>
                 <ProcedureModal1Step />
-                {isProcedureNotSelected && <strong className="errorText">Selecione um procedimento para prosseguir com o agendamento</strong>}
+                {/* {isProcedureNotSelected && <strong className="errorText">Selecione um procedimento para prosseguir com o agendamento</strong>} */}
                 <button className="nextStep" type="button" onClick={handleNavigate}>Continuar</button>
             </div>
         </Layout>

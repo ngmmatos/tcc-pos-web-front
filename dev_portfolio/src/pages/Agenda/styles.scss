@@ -7,6 +7,7 @@
     ;
   }
 
+
 .agendaContainer {
     display: flex;
     width: 100%;
@@ -15,7 +16,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 3rem 0 ;
 
     .selectContainer {
         // position: absolute;
@@ -34,12 +34,10 @@
 
         }
 
-        
         div {
-            
+
             display: block;
             min-width: 80%;
-
 
             label {
                 font-size: 0.75rem;

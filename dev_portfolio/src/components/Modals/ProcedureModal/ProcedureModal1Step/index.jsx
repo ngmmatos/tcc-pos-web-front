@@ -4,7 +4,7 @@ import './styles.scss';
 
 export const ProcedureModal1Step = () => {
 
-  const { proceduresSelected, setProceduresSelected, setTimeNeedeToRealizeProcedure } = useProcedures();
+  const { proceduresSelected, setProceduresSelected, setTimeNeedeToRealizeProcedure,  } = useProcedures();
 
   const { 
     getProcedureList , 
@@ -13,6 +13,7 @@ export const ProcedureModal1Step = () => {
 
   useEffect(() => {
       getProcedureList();
+      setProceduresSelected([])
   }, []);
 
   useEffect(() => {} , [procedureList]);  

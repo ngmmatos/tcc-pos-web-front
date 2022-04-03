@@ -7,10 +7,11 @@ import Rh1 from '../../resources/RH1.jpg'
 import Rh2 from '../../resources/RH2.jpg'
 import Rh3 from '../../resources/RH3.jpg'
 import Rh4 from '../../resources/RH4.jpg'
+import Rh5 from '../../resources/RH5.jpg'
 import {FaArrowRight, FaArrowLeft} from "react-icons/fa"
 import './styles.scss';
 
-let slides = [Rh1, Rh2, Rh3, Rh4];
+let slides = [Rh1, Rh2, Rh3, Rh4, Rh5];
 
 const Carrosel = ({ setToggleModal }) => {
 

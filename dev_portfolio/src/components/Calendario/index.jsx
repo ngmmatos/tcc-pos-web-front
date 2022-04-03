@@ -12,8 +12,10 @@ import { format, getTime, getUnixTime, fromUnixTime } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ProcedureModal } from '../Modals/ProcedureModal';
 import { useProcedures } from '../../hooks/useProcedures';
+import { useWindowDimensions } from '../../hooks/useDimensions';
 
-import { filterDaysAvaliable } from './filterDaysAvaliable'
+import { filterDaysAvaliable, catchDays } from './filterDaysAvaliable'
+import { getTimeSelectedProcedures } from './filterProcedures'
 
 import { api } from '../../services/api'
 
@@ -21,6 +23,8 @@ import 'react-calendar/dist/Calendar.css';
 import './styles.scss';
 
 export const CustomCalendar = ({ setToggleModal }) => {
+
+  const { width } = useWindowDimensions();
 
   const {
     barberId,
@@ -43,15 +47,19 @@ export const CustomCalendar = ({ setToggleModal }) => {
 
   const [year, setYear] = useState(0);
 
-  function getTimeSelectedProcedures(proceduresSelected) {
-    let getTimeSelectedProcedures = [...proceduresSelected]
-    if (getTimeSelectedProcedures.length > 1) {
-      let timeSelectedProcedures = (getTimeSelectedProcedures.map(value => value.estimatedTime)).reduce((previousValue, currentValue) => previousValue + currentValue)
-      return timeSelectedProcedures
-    } else {
-      return proceduresSelected[0].estimatedTime
+  const [calendarWidth, setCalendarWidth] = useState(0);
+
+  useEffect(() => {
+    if (width > 1093) {
+      setCalendarWidth('')
+    } else if (width < 1093 && width > 870) {
+      setCalendarWidth('calendar-Md')
+    } else if (width < 870 && width > 513) {
+      setCalendarWidth('calendar-Sm')
+    } else if (width < 513) {
+      setCalendarWidth('calendar-Ssm')
     }
-  }
+  }, [width])
 
   useEffect(() => {
     (async () => {
@@ -65,6 +73,7 @@ export const CustomCalendar = ({ setToggleModal }) => {
               hr_fim: lastDayMonth
             }
           })
+          console.log(data)
           setDaysAgendaMonthCurrent(data);
         } catch (e) {
           console.log(e)
@@ -78,7 +87,7 @@ export const CustomCalendar = ({ setToggleModal }) => {
 
   useEffect(() => {
     if (proceduresSelected.length > 0) {
-      const finalArrayFiltered = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
+      const { finalArrayFiltered } = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
       setDaysAvailable(finalArrayFiltered)
     }
   }, [daysAgendaMonthCurrent, proceduresSelected])
@@ -101,8 +110,24 @@ export const CustomCalendar = ({ setToggleModal }) => {
   function tileDisabled({ date, view }) {
     const monthSelected = fromUnixTime(firstDayMonth).getMonth()
 
-    if (view === 'month' && date.getUTCMonth() === monthSelected) {
-      return daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || date.getDay() === 6 || date.getDay() === 0
+    const constDaysMonthSelected = fromUnixTime(lastDayMonth)
+
+    const { finalArray } = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
+
+    const disableDates = catchDays(constDaysMonthSelected.getDate(), finalArray)
+
+    if (view === 'month' && date.getUTCMonth() === currentMonth && barberId.length === 6) {
+      const daysArray = (Array.from(Array(day + 1).keys()))
+      daysArray.shift()
+      return (
+        daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || disableDates.find(dDate => date.getUTCDate() === dDate) || daysArray.find(dDate => date.getUTCDate() === dDate)
+      )
+    }
+
+    if (view === 'month' && date.getUTCMonth() === monthSelected && barberId.length === 6) {
+      return (
+        daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || disableDates.find(dDate => date.getUTCDate() === dDate)
+      )
     }
   }
 
@@ -113,58 +138,60 @@ export const CustomCalendar = ({ setToggleModal }) => {
         onRequestClose={() => handleCloseProcedureModal()}
       />
 
-      <Calendar
-        formatMonthYear={(locale, date) => {
-          let formatDate = format(date, "MMMM 'de' yyyy", {
-            locale: ptBR,
-          });
-          formatDate = formatDate.charAt(0).toUpperCase() + formatDate.slice(1);
-          return formatDate;
-        }}
-        /* calendarType="US" */
-        locale="pt-BR"
-        showNavigation
-        maxDetail="month"
-        minDetail="month"
-        maxDate={new Date(year, 11, 31)}
-        minDate={new Date(year, new Date().getUTCMonth(), 1)}
-        next2Label={null}
-        nextLabel={<FaChevronRight />}
-        prev2Label={null}
-        prevLabel={<FaChevronLeft />}
-        tileDisabled={barberId.length === 6 ? tileDisabled : undefined}
-        onActiveStartDateChange={(value, event) => {
-          if (value.action) {
-            const newMonth = new Date(value.activeStartDate);
+      <div className={calendarWidth}>
+        <Calendar
+          formatMonthYear={(locale, date) => {
+            let formatDate = format(date, "MMMM 'de' yyyy", {
+              locale: ptBR,
+            });
+            formatDate = formatDate.charAt(0).toUpperCase() + formatDate.slice(1);
+            return formatDate;
+          }}
+          /* calendarType="US" */
+          locale="pt-BR"
+          showNavigation
+          maxDetail="month"
+          minDetail="month"
+          maxDate={new Date(year, 11, 31)}
+          minDate={new Date(year, new Date().getUTCMonth(), 1)}
+          next2Label={null}
+          nextLabel={<FaChevronRight />}
+          prev2Label={null}
+          prevLabel={<FaChevronLeft />}
+          tileDisabled={tileDisabled}
+          onActiveStartDateChange={(value, event) => {
+            if (value.action) {
+              const newMonth = new Date(value.activeStartDate);
 
-            const firstDayMonth = getUnixTime(new Date(newMonth.getFullYear(), newMonth.getMonth()));
-            const lastDayMonth = (new Date(newMonth.getFullYear(), newMonth.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
+              const firstDayMonth = getUnixTime(new Date(newMonth.getFullYear(), newMonth.getMonth()));
+              const lastDayMonth = (new Date(newMonth.getFullYear(), newMonth.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
 
-            setFirstDayMonth(firstDayMonth);
-            setLastDayMonth(lastDayMonth);
-          }
-          //   setCalendarMonth(newMonth.getUTCMonth());
-          //   loadEventsByMonth(newMonth.getUTCMonth());
-        }}
-        onClickDay={(value) => {
-          if (barberId.length === 6) {
-            handleOpenProcedureModal();
-            setDaySelected(value.getDate());
-          }
-          // if (
-          //   value.getMonth() === calendarMonth &&
-          //   eventsByDay?.filter((item) => {
-          //     return item.day === value.getDate();
-          //   }).length > 0
-          // ) {
-          // setEvents(
-          //   eventsByDay?.filter((item) => {
-          //     return item.day === value.getDate();
-          //   })[0],
-          // );
-          // }
-        }}
-      />
+              setFirstDayMonth(firstDayMonth);
+              setLastDayMonth(lastDayMonth);
+            }
+            //   setCalendarMonth(newMonth.getUTCMonth());
+            //   loadEventsByMonth(newMonth.getUTCMonth());
+          }}
+          onClickDay={(value) => {
+            if (barberId.length === 6) {
+              handleOpenProcedureModal();
+              setDaySelected(value.getDate());
+            }
+            // if (
+            //   value.getMonth() === calendarMonth &&
+            //   eventsByDay?.filter((item) => {
+            //     return item.day === value.getDate();
+            //   }).length > 0
+            // ) {
+            // setEvents(
+            //   eventsByDay?.filter((item) => {
+            //     return item.day === value.getDate();
+            //   })[0],
+            // );
+            // }
+          }}
+        />
+      </div>
     </div>
   );
 };

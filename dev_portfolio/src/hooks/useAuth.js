@@ -5,10 +5,10 @@ import { api } from '../services/api';
 import { toast } from 'react-toastify';
 import emailjs from '@emailjs/browser'
 
-
 const bcrypt = require('bcryptjs');
 const AuthContext = createContext({});
 const cookies = new Cookies();
+
 
 export const AuthContextProvider = ({ children }) => {
 

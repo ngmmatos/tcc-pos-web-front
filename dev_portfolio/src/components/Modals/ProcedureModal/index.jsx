@@ -23,7 +23,7 @@ export const ProcedureModal = ({ isOpen, onRequestClose, onSubmit }) => {
 
   const { idAgenda, setIdAgenda, proceduresSelected } = useProcedures();
   const [step, setStep] = useState(1);
-  const [scheduleNotSelected, setScheduleNotSelected] = useState(false);
+  // const [scheduleNotSelected, setScheduleNotSelected] = useState(false);
 
   const history = useHistory();
   // const renderFormView = () => {
@@ -79,7 +79,7 @@ export const ProcedureModal = ({ isOpen, onRequestClose, onSubmit }) => {
         <h1>Escolha o Horário</h1>
         <ProcedureModal2Step />
 
-        {scheduleNotSelected && <strong style={{ color: '#f00' }}>Para prosseguir, selecione um horario</strong>}
+        {/* {scheduleNotSelected && <strong style={{ color: '#f00' }}>Para prosseguir, selecione um horario</strong>} */}
         <button
           className="nextStep"
           onClick={handleSubmitAgenda}

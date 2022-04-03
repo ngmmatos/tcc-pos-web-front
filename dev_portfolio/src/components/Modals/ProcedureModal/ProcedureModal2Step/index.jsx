@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useProcedures } from '../../../../hooks/useProcedures';
 import './styles.scss';
 import { fromUnixTime } from 'date-fns'
+import { getTimeSelectedProcedures } from '../../../Calendario/filterProcedures'
 
 export const ProcedureModal2Step = () => {
   const {
@@ -10,7 +11,8 @@ export const ProcedureModal2Step = () => {
     daysAgendaMonthCurrent,
     daySelected,
     idAgenda,
-    setIdAgenda
+    setIdAgenda,
+    proceduresSelected
   } = useProcedures();
   const [timeAvailabilityDay, setTimeAvailabilityDay] = useState([]);
 
@@ -35,15 +37,15 @@ export const ProcedureModal2Step = () => {
     return data.map(item => {
       return {
         ...item,
-        hr_inicio: convertTimestampValue((item.hr_inicio) + 10800),
-        hr_fim: convertTimestampValue((item.hr_fim) + 10800)
+        hr_inicio: convertTimestampValue(item.hr_inicio + 10800),
+        hr_fim: convertTimestampValue(item.hr_fim + 10800)
       }
     })
   }
 
   useEffect(() => {
     let copyDaysAgendaMonthCurrent = [...daysAgendaMonthCurrent]
-    const daysSelectedFiltered = copyDaysAgendaMonthCurrent.filter(item => item.data === daySelected)
+    const daysSelectedFiltered = copyDaysAgendaMonthCurrent.filter(item => item.data === daySelected).filter(data => data.agendado === false).filter(data => data.minutos_disponiveis >= getTimeSelectedProcedures(proceduresSelected))
     setTimeAvailabilityDay(newArrayDataValues(daysSelectedFiltered))
   }, [daySelected, daysAgendaMonthCurrent])
 

@@ -76,8 +76,6 @@ export const ProcedureProvider = ({ children }) => {
             });
 
             const hora_correta = (scheduler.data_realizacao + 10800)
-            console.log(scheduler.data_realizacao)
-            console.log(hora_correta)
 
             return {
                 id: scheduler.id_agendamento,

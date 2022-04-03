@@ -16,17 +16,35 @@ function filterDaysAvaliable(valueVector, hoursNeeded) {
 
       if (verifyAllDays) {
          agendado = true;
+         finalArray.push({ data: dateNumber, agendado });
+         return
       }
 
-      allSameDates.forEach((item) => {
-         if (item.agendado === false && item.minutos_disponiveis < hoursNeeded) {
-            agendado = true
-         }
-      });
+      const filterDatas = allSameDates.filter((item) => item.agendado === false).filter(item => item.minutos_disponiveis >= hoursNeeded)
+
+      filterDatas.length > 0 ? agendado = false : agendado = true;
 
       finalArray.push({ data: dateNumber, agendado });
    });
-   return finalArray.filter(data => data.agendado === true);
+   const finalArrayFiltered = finalArray.filter((item) => item.agendado === true);
+
+   return { finalArray, finalArrayFiltered };
 }
 
-export { filterDaysAvaliable }
+function catchDays(actualMonth, vectorCompare) {
+   let finalArray = [];
+
+   const daysArray = (Array.from(Array(actualMonth + 1).keys()))
+   daysArray.shift()
+
+   daysArray.forEach((data) => {
+      const hasInArray = vectorCompare.find(element => element.data === data);
+      if (hasInArray === undefined) {
+         finalArray.push(data)
+      }
+   })
+
+   return finalArray;
+}
+
+export { filterDaysAvaliable, catchDays }
