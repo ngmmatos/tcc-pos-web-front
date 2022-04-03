@@ -38,7 +38,7 @@
               margin-right: 0.75em;
               width: 1.25rem;
               height: 1.25rem;
-              color: var(--yellow-500);
+              color: #8d7c1f;
 
           }
 
@@ -75,7 +75,7 @@
           }
 
           &:focus-within {
-            border: 2px solid var(--yellow-500);
+            border: 2px solid #8d7c1f;
           }
 
       }
@@ -95,7 +95,7 @@
               margin-right: 0.75em;
               width: 1.25rem;
               height: 1.25rem;
-              color: var(--yellow-500);
+              color: #8d7c1f;
           }
 
           
@@ -141,13 +141,13 @@
               svg {
                   width: 1.25rem;
                   height: 1.25rem;
-                  color: var(--yellow-500);
+                  color: #8d7c1f;
               }
 
           }
 
           &:focus-within {
-            border: 2px solid var(--yellow-500);
+            border: 2px solid #8d7c1f;
           }
       }
   
@@ -161,7 +161,7 @@
           transition: all 0.2s ease-in-out;
 
           &:hover {
-            background: var(--yellow-500);
+            background: #8d7c1f;
             color: #fff;
             font-weight: 600;
           }
@@ -205,7 +205,7 @@
             transition: all 0.2s ease-in-out;
             
             &:hover {
-              background: var(--yellow-500);
+              background: #8d7c1f;
               color: #fff;
               font-weight: 600;
             }
