@@ -2,10 +2,11 @@ import { Layout } from '../../components/Layout';
 import { CustomCalendar } from '../../components/Calendario';
 import { useProcedures } from '../../hooks/useProcedures';
 import { ImScissors } from 'react-icons/im';
+import './styles.scss';
 
 const CalendarScheduler = () => {
 
-   const { barberList, setBarberId } = useProcedures();
+   const { barberList, setBarberId, barberId } = useProcedures();
 
    return (
       <Layout title="Agenda">
@@ -22,8 +23,12 @@ const CalendarScheduler = () => {
                   </select>
                </div>
             </div>
+            {barberId === '' ?
+            <div className='divAviso'>
+               <p>Selecione um barbeiro para ver os dias disponíveis</p>
+            </div> :
             <CustomCalendar />
-         </div>
+                     }</div>
       </Layout>
    )
 }

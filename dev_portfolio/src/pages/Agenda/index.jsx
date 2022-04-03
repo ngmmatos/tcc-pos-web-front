@@ -40,7 +40,7 @@ export function Agenda() {
     return (
         <Layout title="Agenda">
             <div className='procedureModalContainer'>
-                <h1>Escolha o Procedimento</h1>
+                <h1>Escolha os Procedimentos</h1>
                 <ProcedureModal1Step />
                 {isProcedureNotSelected && <strong className="errorText">Selecione um procedimento para prosseguir com o agendamento</strong>}
                 <button className="nextStep" type="button" onClick={handleNavigate}>Continuar</button>

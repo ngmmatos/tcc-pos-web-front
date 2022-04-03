@@ -35,11 +35,6 @@ export const LoginForm = () => {
 
             signin(email, password);
 
-            // setTimeout(() => {
-            //     history.push('/geral'); 
-                
-            // }, 1500);
-
         } catch(error) {
             console.log(error);
         }
@@ -49,9 +44,6 @@ export const LoginForm = () => {
         <div className="loginSideContainer">
         <h1 className="title">Fazer Login</h1>
         <form className="form" onSubmit={handleSubmit}>  
-
-            {/* <input type="email" placeholder="Email" value={email} onChange={ ({ target }) => setEmail(target.value)}/>
-            <input type="text" placeholder="Senha" value={password} onChange={ ({ target }) => setPassword(target.value)}/> */}
 
             <div className='usernameInputContainer'>
                     <FaUserAlt />

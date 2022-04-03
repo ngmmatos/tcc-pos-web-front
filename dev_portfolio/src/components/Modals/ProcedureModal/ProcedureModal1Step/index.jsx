@@ -36,7 +36,7 @@ export const ProcedureModal1Step = () => {
       <table>
         <thead>
           <tr>
-            <th></th>
+            <th>Selecionar</th>
             <th>Procedimentos</th>
             <th>Valor</th>
             <th>Tempo médio (min)</th>
