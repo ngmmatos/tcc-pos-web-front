@@ -8,12 +8,19 @@ import { ImScissors } from 'react-icons/im';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import RHpicture from '../../../resources/rhbarbeariadiminuido.jpg'
 import { useWindowDimensions } from '../../../hooks/useDimensions';
+import { useAuth } from '../../../hooks/useAuth';
+import { FaExchangeAlt } from "react-icons/fa";
 
 import '../styles.scss';
 
 export const SidebarCliente = () => {
     const { width } = useWindowDimensions();
     const [pinned, setPinned] = useState(true);
+
+    const { userSigned, signed } = useAuth();
+
+    const adm = userSigned.roles.find( obj => 'admin' in obj );
+    const barb = userSigned.roles.find( obj => 'barbeiro' in obj );
 
     useEffect(() => {
         if (width >= 768) {
@@ -78,6 +85,25 @@ export const SidebarCliente = () => {
                             <BsInfoCircleFill size="2rem" />
                             <span className={pinned ? 'itemList pinned' : 'itemList'}>RH Barbearia</span>
                         </Link>
+                    </li>
+                    <li className='withSubMenu' id="chageRole">
+                        <div id={barb === undefined && adm === undefined ? 'hiddenTrue' : 'hiddenFalse'}>
+                            <Link onClick={ () => document.getElementById('subMenu3').classList.toggle('expanded')}>
+                                <FaExchangeAlt size="2rem"/>
+                                <span className={pinned ? 'itemList pinned' : 'itemList'}>Alterar Visão</span>
+                            </Link>
+                        </div>  
+                        <ul id="subMenu3" className="subMenu">
+                            <li>{barb !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "barbeiro"
+                            }}>Barbeiro</Link> : null}</li>
+
+                            <li>{adm !== undefined ? <Link to={{
+                                pathname: "/geral",
+                                state: "adm"
+                            }}>Administrador</Link> : null}</li>
+                        </ul>
                     </li>
                 </ul>
             </div>

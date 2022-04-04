@@ -85,15 +85,16 @@ export const SidebarAdm = () => {
                             </Link>
                         </div>  
                         <ul id="subMenu3" className="subMenu">
+                            <li><Link to={{
+                                pathname: "/geral",
+                                state: "cliente"
+                            }}>Cliente</Link></li>
+
                             <li>{barb !== undefined ? <Link to={{
                                 pathname: "/geral",
                                 state: "barbeiro"
                             }}>Barbeiro</Link> : null}</li>
 
-                            <li>{cliente !== undefined ? <Link to={{
-                                pathname: "/geral",
-                                state: "cliente"
-                            }}>Cliente</Link> : null}</li>
                         </ul>
                     </li>
                     

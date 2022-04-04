@@ -73,15 +73,15 @@ export const SidebarBarbeiro = () => {
                             </Link>
                         </div>  
                         <ul id="subMenu2" className="subMenu">
+                            <li><Link to={{
+                                pathname: "/geral",
+                                state: "cliente"
+                            }}>Cliente</Link></li>
+
                             <li>{adm !== undefined ? <Link to={{
                                 pathname: "/geral",
                                 state: "adm"
                             }}>Administrador</Link> : null}</li>
-
-                            <li>{cliente !== undefined ? <Link to={{
-                                pathname: "/geral",
-                                state: "cliente"
-                            }}>Cliente</Link> : null}</li>
                         </ul>
                     </li>
                 </ul>
