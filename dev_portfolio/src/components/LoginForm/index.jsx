@@ -5,18 +5,23 @@ import { FaUserAlt, FaLock, FaEyeSlash, FaEye  } from 'react-icons/fa'
 import Loading from '../Loading';
 import { Link } from 'react-router-dom';
 import { api } from "../../services/api";
+import { GoogleLogin } from 'react-google-login'
 
 import './styles.scss';
 import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 export const LoginForm = () => {
-
+    
+    
+    const clientId = `${process.env.REACT_APP_GOOGLE}`;
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
-
+    
     const { userSigned , signin, loading } = useAuth();
-
+    
     const history = useHistory()
 
     const setNewPass = () => {
@@ -33,11 +38,21 @@ export const LoginForm = () => {
 
         try {
 
-            signin(email, password);
+            signin(email, password, null);
 
         } catch(error) {
             console.log(error);
         }
+    };
+
+
+    const onSuccess = (res) => {
+
+        signin(null, null, res.getAuthResponse().id_token);
+    };
+
+    const onFailure = (res) => {
+        toast.error("Falha ao realizar login com Google")
     };
 
     return(
@@ -77,7 +92,18 @@ export const LoginForm = () => {
             </div>
 
             <button type="submit" className="emailLoginButton">{loading ? <Loading /> : "Entrar"}</button>
-            <button disabled type="submit" className="googleLoginButton"><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
+            <GoogleLogin
+            render = {renderProps => (
+                <button type="button" className="googleLoginButton"
+                onClick={renderProps.onClick} disabled={renderProps.disabled}
+                ><ImGooglePlus size="1.5rem"/><span>{loading ? <Loading /> : "Entrar com Google"}</span></button>
+            )}
+            clientId={clientId}
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
+            isSignedIn={false}
+            />
            
             <div className="loginHelperContainer">
                 <button className="firstAccess" onClick={() => { history.push("/cadastro") }}>Primeiro Acesso</button>

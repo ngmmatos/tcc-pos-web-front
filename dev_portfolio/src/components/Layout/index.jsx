@@ -17,7 +17,7 @@ export const Layout = ({ title, children}) => {
 
 
     const choiceSideBar = () => {
-        console.log(routerInfo)
+
         if (routerInfo !== undefined) {
             if (routerInfo === 'adm') {
                 return <SidebarAdm />;        

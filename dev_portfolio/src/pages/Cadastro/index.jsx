@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import InputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
+import { useHistory, useLocation } from 'react-router-dom';
 import Loading from "../../components/Loading";
 import { FaUserAlt, FaLock, FaEyeSlash, FaEye, FaCalendarAlt } from 'react-icons/fa';
 import { IoMaleFemale } from "react-icons/io5";
@@ -29,8 +29,12 @@ export const Cadastro = () => {
     const [togglePassword, setTogglePassword] = useState(false);
     const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
 
-    const { createUser , loading } = useAuth();
+    const { createUser , loading, alterUser } = useAuth();
     const history = useHistory();
+    const location = useLocation()
+    const routerInfo = location.state
+
+    console.log(routerInfo) 
 
 
     // const dateNow = moment().format("YYYY-MM-DD")
@@ -40,30 +44,58 @@ export const Cadastro = () => {
     function handleSubmit(event) {
         
         event.preventDefault();
-        createUser(name, email, password, confirmPassword, birthDate, tel, gender );
+        if (routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) {
+            if (password !== '') {
+                if (confirmPassword === ''){
+                    toast.error("Preencha a confirmação de senha");
+                    throw new Error("Preencha a confirmação de senha");
+                }
+                if (password !== confirmPassword) {
+                    toast.error("Senhas diferentes!");
+                    throw new Error("Senhas diferentes");
+                }
+            } else {
+                if (confirmPassword !== ''){
+                    toast.error("Preencha o campo senha ");
+                    throw new Error("Preencha o campo senha");
+                }
+            }
 
+            alterUser(routerInfo.nome, tel, gender, birthDate, password, routerInfo.id, password, routerInfo.data );
+
+        }else {
+        createUser(name, email, password, confirmPassword, birthDate, tel, gender);
+        }
     }
 
     return(
     <>
         <section className="mainSection">
             <div className="registerContainer">
-                <h1>Faça seu cadastro</h1>
+                <h1>{!routerInfo ? "Faça seu cadastro" : "Complete seu Cadastro"}</h1>
                 <form onSubmit={handleSubmit}>
+                    {(routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) ?
+                        <div></div>
+                        :
                         <div className='inputContainer inputMask'>
                             <FaUserAlt />
                             <div>
                                 <label htmlFor="email">Nome Completo</label>
                                 <input type="text" id="nome"  onChange={ ({target}) => setName(target.value)} required/>
                             </div>
-                        </div>  
+                        </div>
+                        }
+                    {(routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) ?
+                        <div></div>
+                        :  
                         <div className='inputContainer'>
                             <FiMail />
                             <div>
-                                <label htmlFor="email">E-mail</label>
+                                <label htmlFor="email">Email</label>
                                 <input type="email" id="email"  onChange={ ({target}) => setEmail(target.value)} required/>
                             </div>
-                        </div>  
+                        </div>
+                        }  
                         <div className='inputContainer'>
                             <FaCalendarAlt />
                             <div>
