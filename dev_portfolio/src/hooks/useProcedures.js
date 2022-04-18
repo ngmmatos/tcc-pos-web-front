@@ -63,32 +63,45 @@ export const ProcedureProvider = ({ children }) => {
 
 
     async function getClientScheduler(id) {
+        const hora = new Date(Date.now());
+        const agora = hora.getTime()
+
         const { data } = await api.get(`/agendamento?id_cliente=${id}`)
-        const dataFormatted = data.map( scheduler => {
-
-            let lista_procedimentos = []
-            let valor_total = 0
-
-            const procedimento = (scheduler.ProcedimentoAgendamentos).map(proc =>{
-                lista_procedimentos.push(`${proc.Procedimento.procedimento}, `)
-
-                valor_total = valor_total + proc.Procedimento.valor
-            });
-
-            const hora_correta = (scheduler.data_realizacao + 10800)
-
-            return {
-                id: scheduler.id_agendamento,
-                id_barbeiro: scheduler.Agenda.id_barbeiro,
-                barbeiro: scheduler.Agenda.Barbeiro.Usuario.nome,
-                periodo: scheduler.Agenda.periodo,
-                realizacao: moment.unix(scheduler.data_realizacao).format('DD/MM/yyy'),
-                agendamento: moment.unix(scheduler.data_agendamento).format('DD/MM/yyy'),
-                hora_atendimento: moment.unix(hora_correta).format('HH:mm'),
-                procedimentos: lista_procedimentos,
-                valor: valor_total
+        const dataFiltrade = data.filter(function(value) {
+            if (value.data_realizacao > parseInt((agora/1000)-10800)){
+            return value;
             }
-        })
+        });
+
+        const dataFormatted = dataFiltrade.map( scheduler => {
+
+            console.log(scheduler.data_realizacao)
+            console.log(parseInt((agora/1000)-10800))
+               
+                let lista_procedimentos = []
+                let valor_total = 0
+    
+                const procedimento = (scheduler.ProcedimentoAgendamentos).map(proc =>{
+    
+                    lista_procedimentos.push(`${proc.Procedimento.procedimento}, `)
+    
+                    valor_total = valor_total + proc.Procedimento.valor
+                });
+    
+                const hora_correta = (scheduler.data_realizacao + 10800)
+    
+                return {
+                    id: scheduler.id_agendamento,
+                    id_barbeiro: scheduler.Agenda.id_barbeiro,
+                    barbeiro: scheduler.Agenda.Barbeiro.Usuario.nome,
+                    periodo: scheduler.Agenda.periodo,
+                    realizacao: moment.unix(scheduler.data_realizacao).format('DD/MM/yyy'),
+                    agendamento: moment.unix(scheduler.data_agendamento).format('DD/MM/yyy'),
+                    hora_atendimento: moment.unix(hora_correta).format('HH:mm'),
+                    procedimentos: lista_procedimentos,
+                    valor: valor_total
+                }
+            });
              setClientScheduler(dataFormatted);
         }
 

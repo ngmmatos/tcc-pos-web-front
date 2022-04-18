@@ -96,7 +96,7 @@ export const LoginForm = () => {
             render = {renderProps => (
                 <button type="button" className="googleLoginButton"
                 onClick={renderProps.onClick} disabled={renderProps.disabled}
-                ><ImGooglePlus size="1.5rem"/><span>{loading ? <Loading /> : "Entrar com Google"}</span></button>
+                ><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
             )}
             clientId={clientId}
             onSuccess={onSuccess}
