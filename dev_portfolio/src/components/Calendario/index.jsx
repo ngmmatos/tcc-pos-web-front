@@ -177,6 +177,7 @@ export const CustomCalendar = ({ setToggleModal }) => {
               handleOpenProcedureModal();
               setDaySelected(value.getDate());
             }
+
             // if (
             //   value.getMonth() === calendarMonth &&
             //   eventsByDay?.filter((item) => {
