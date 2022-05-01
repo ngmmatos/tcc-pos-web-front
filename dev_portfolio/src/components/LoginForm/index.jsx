@@ -46,14 +46,14 @@ export const LoginForm = () => {
     };
 
 
-    // const onSuccess = (res) => {
+    const onSuccess = (res) => {
 
-    //     signin(null, null, res.getAuthResponse().id_token);
-    // };
+        signin(null, null, res.getAuthResponse().id_token);
+    };
 
-    // const onFailure = (res) => {
-    //     toast.error("Falha ao realizar login com Google")
-    // };
+    const onFailure = (res) => {
+        toast.error(`Falha ao realizar login com Google - ${res}`)
+    };
 
     return(
         <div className="loginSideContainer">
@@ -92,15 +92,15 @@ export const LoginForm = () => {
             </div>
 
             <button type="submit" className="emailLoginButton">{loading ? <Loading /> : "Entrar"}</button>
-            <GoogleLogin disabled
+            <GoogleLogin
             render = {renderProps => (
-                <button type="button" className="googleLoginButton" disabled
+                <button type="button" className="googleLoginButton"
                 onClick={renderProps.onClick} disabled={renderProps.disabled}
                 ><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
             )}
             clientId={clientId}
-            // onSuccess={onSuccess}
-            // onFailure={onFailure}
+            onSuccess={onSuccess}
+            onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
             isSignedIn={false}
             />
