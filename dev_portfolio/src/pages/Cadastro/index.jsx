@@ -32,7 +32,7 @@ export const Cadastro = () => {
     const { createUser , loading, alterUser } = useAuth();
     const history = useHistory();
     const location = useLocation()
-    const routerInfo = location.state
+    const routerInfo = location
 
     console.log(routerInfo) 
 
