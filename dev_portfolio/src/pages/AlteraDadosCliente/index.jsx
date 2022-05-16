@@ -87,7 +87,7 @@ export function AlteraDadosCliente () {
             <section className="Section">
                 <div className="registerContainer disableSection" id="disable">
                     <form onSubmit={handleSubmit}>
-                        <div>    
+                        <div className="optionButton">    
                             <p>Alterar</p>
                             <label className="switch">
                                 <input type="checkbox" id="check" name="check" onClick={enableCreateUser} />

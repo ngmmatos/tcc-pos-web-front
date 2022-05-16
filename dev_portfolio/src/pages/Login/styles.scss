@@ -1,20 +1,36 @@
 .loginContainer {
   
   width: 100%;
-  background-color: #444;
-  height: 100vh;
+  background-color: #201e21;
+  height: 100%;
   display: flex;
-  overflow-y: hidden;
+  
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+
+  }
 
   .imageSideContainer {
-    width: 50%;
-    height: 100vh;
-    overflow-y: hidden;
+  
+  
+   
+  @media screen and (max-width: 768px) {
+    padding: 0;
 
     img {
+      max-width: 200px;
+    }
+
+  }
+
+    img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
-      height: 100%;
-      object-fit: inherit;
     }
   }
 }

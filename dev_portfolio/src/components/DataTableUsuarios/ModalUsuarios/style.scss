@@ -1,0 +1,23 @@
+.modal-section{
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+
+
+
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  
+  padding: 1rem;
+
+  .btn.btn-primary {
+    margin: 0;
+  }
+}

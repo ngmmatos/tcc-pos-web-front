@@ -1,7 +1,5 @@
 .image-text {
-  border: none;
-  height: 4.5rem;
-  width: 4.5rem;
+  
   border-radius: 50%;
 }
 
@@ -9,30 +7,20 @@
 
   position: relative;
   height: 100vh;
-  width: 250px;
-  background: #9d8b2c;
+  
+  background: var(--gold);
   transition: all 0.3s ease;
-  border-right: 2px solid black;
+  box-shadow: 0.25rem 0.25rem 0.25rem 0 rgb(0 0 0 / 50%);
 
   &.close{
     width:5rem;
   }
 
-  header {
-    background: #8D7C1F;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5rem;
-    border-bottom: 2px solid black;
-    border-right:  1px solid black;
-
     button {
       position: absolute;
       top: 0.4rem;
       right: -0.85rem;
-    
+      
       border: none;
       height: 1.5rem;
       width: 1.5rem;
@@ -45,7 +33,7 @@
         margin-left: 1px;
         color: #fff;
       }
-    }
+    
   }
 
   .menuContainer {
@@ -54,19 +42,18 @@
     justify-content: center;
     width: 100%;
     height: auto;
-    margin: 4rem auto;
+    margin-top: 5rem;
     transition: all 1s ease;
 
 
-    ul {
-      padding: 0;
-      margin: 0;
+   .menuPrincipal {
+     margin-top: 5rem;
+     padding: 1rem;
 
       li {
         font-size: 5rem;
         list-style: none;
-        margin-bottom: 1rem;
-        padding: 0.5rem 0.25rem;
+        padding: 0.5rem 0;
         white-space: nowrap;
         
           
@@ -75,20 +62,21 @@
           align-items: center;
           text-decoration: none;
           color: black;
-          
-            position: relative;
-            padding: 0.2rem 0.5 rem;
-
+          margin: 0;
+          width: 100%;          
+          position: relative;
+          padding: 0.2rem 0.5rem;
+          gap: 1rem;
           svg {
 
-            margin-right: 1rem;
+            margin: 0;
             color:black;
           }
   
           .itemList {
             width: fit-content;
             font-size: 1.5rem;
-            margin-top: 0.25rem;
+   
             // visibility: hidden;
             display: none;
 
@@ -115,6 +103,7 @@
 
             &.pinned {
               display: block;
+              margin: 0;
             }
           }
         }
@@ -137,9 +126,9 @@
             }
           
           .subMenu {
-
+            padding: 0.5rem;
             display: none;
-            padding: 1rem 0 0 3rem;
+            
 
             li {
               font-size: 1.25rem;

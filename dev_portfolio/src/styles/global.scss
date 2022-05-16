@@ -4,13 +4,18 @@
   --green-500: #34af23;;
   --red-500: #E62E4D;
   --yellow-500: #eba417;
-  --gold: #9d8b2c;
+  --gold: #c59a18;
 
   --gray-300: #a8a8b3;
   --gray-500: #444;
   --gray-800: #29292e;
   --gray-850: #1f2729;
   --gray-900: #121214;
+
+  $breakpoint-tablet: 768px;
+  $breakpoint-desktop: 1024px;
+  $breakpoint-large: 1440px;
+  
 
 }
 html {
@@ -19,13 +24,13 @@ html {
 }
 
 body {
-  background-color: var(--background);
+  background-color: var(--gray-500);
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
 }
 
 body, input, textarea,h1, p, button {
@@ -69,7 +74,7 @@ a {
   position: relative;
   border-radius:0.75rem;
   height: fit-content;
-  overflow-y: none;
+  
 }
 .react-modal-close {
   position:absolute;
@@ -82,4 +87,23 @@ a {
   &:hover {
     filter:brightness(0.8)
   }
+}
+.btn.btn-primary {
+
+  background-color: var(--gold);
+  border: none;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  
+  color: #222;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffbf00;
+  
+    color: #444;
+  }
+
 }
