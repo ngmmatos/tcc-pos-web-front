@@ -68,7 +68,7 @@ export const SidebarBarbeiro = () => {
               <li>
                 <Link
                   to={{
-                    pathname: '/meusagendamentos',
+                    pathname: '/agendamentodetalhado',
                     state: 'barbeiro',
                   }}
                 >
@@ -78,7 +78,7 @@ export const SidebarBarbeiro = () => {
               <li>
                 <Link
                   to={{
-                    pathname: '/agendamentodetalhado',
+                    pathname: '/meusagendamentos',
                     state: 'barbeiro',
                   }}
                 >
@@ -164,19 +164,6 @@ export const SidebarBarbeiro = () => {
                 ) : null}
               </li>
             </ul>
-          </li>
-          <li>
-            <Link
-              to={{
-                pathname: '/datatable',
-                state: 'barbeiro',
-              }}
-            >
-              <FaExchangeAlt size='2rem' />
-              <span className={pinned ? 'itemList pinned' : 'itemList'}>
-                DataTable
-              </span>
-            </Link>
           </li>
         </ul>
       </div>

@@ -89,10 +89,21 @@ export const SidebarAdm = () => {
             </div>
             <ul id='subMenu2' className='subMenu'>
               <li>
-                <Link>Consultar</Link>
+              <Link
+              to={{
+                pathname: '/datatable',
+                state: 'adm',
+              }}
+              >Usuários</Link>
               </li>
               <li>
-                <Link>Editar</Link>
+                <Link>Contas</Link>
+              </li>
+              <li>
+                <Link>Insumos</Link>
+              </li>
+              <li>
+                <Link>Fornecedores</Link>
               </li>
             </ul>
           </li>
