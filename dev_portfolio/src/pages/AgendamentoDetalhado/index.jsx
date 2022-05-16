@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Layout } from '../../components/Layout';
 
-import { CardDetalhe } from './../../components/CardAgendamento/index';
+import { CardDetalhe } from '../../components/CardAgendamento/index';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import './styles.scss';

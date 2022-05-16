@@ -5,7 +5,7 @@ import { AiFillPlayCircle, AiFillPauseCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { RiCurrencyFill } from 'react-icons/ri';
-import { ConfirmComponent } from './../../components/ConfirmComponent/index';
+import { ConfirmComponent } from '../ConfirmComponent/index';
 
 import './style.scss';
 

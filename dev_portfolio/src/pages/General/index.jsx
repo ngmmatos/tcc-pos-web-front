@@ -4,7 +4,7 @@ import { ProcedureModal } from '../../components/Modals/ProcedureModal';
 
 import { useAuth } from '../../hooks/useAuth';
 import Carrosel from '../../components/Carrosel';
-import { CarouselComponent } from './../../components/CarouselComponent/index';
+import { CarouselComponent } from '../../components/CarouselComponent/index';
 
 export function General() {
   const { userSigned } = useAuth();

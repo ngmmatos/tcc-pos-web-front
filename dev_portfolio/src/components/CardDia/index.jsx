@@ -8,7 +8,7 @@ import './style.scss';
 
 import ModalAdicionaHora from './ModalAdicionaHora/ModalAdicionaHora';
 
-import { ConfirmRemove } from './../ConfirmRemove/index';
+import { ConfirmRemove } from '../ConfirmRemove/index';
 import { DataTableComponent } from '../DataTableComponent';
 const moment = require('moment');
 

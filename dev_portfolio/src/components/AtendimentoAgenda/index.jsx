@@ -2,7 +2,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useEffect, useState } from 'react';
 
 import { useAtendimento } from '../../hooks/useAtendimento';
-import { CardAtendimento } from './../CardAtendimento/index';
+import { CardAtendimento } from '../CardAtendimento/index';
 
 export const AtendimentoAgenda = ({
   tabAgenda,
