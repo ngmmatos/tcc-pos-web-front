@@ -1,0 +1,42 @@
+.section-data-table{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+
+  padding: 5rem 2rem;
+}
+
+.wrapper-data-table {
+
+  
+  background: white;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+
+  button {
+    margin: 0rem 0rem 0rem 0rem;
+  }
+
+  form {
+    margin: 0;
+    padding: 0rem 0rem 0rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    
+    
+    input {
+      height: auto;
+      size: 200;
+      padding: 0.25rem 20rem 0.25rem 0.25rem;
+      border-radius: 0.5rem;
+    }
+
+  }
+}

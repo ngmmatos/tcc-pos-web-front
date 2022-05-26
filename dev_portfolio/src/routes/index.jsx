@@ -15,7 +15,11 @@ import { AgendamentoDetalhado } from '../pages/AgendamentoDetalhado';
 import { AgendaBarbeiro } from '../pages/AgendaBarbeiro';
 import { Graficos } from '../pages/Graficos';
 import { DataTableExemplo } from '../pages/DataTableExemplo';
-
+import { DataTableFornecedor } from '../pages/DataTableFornecedor';
+import { DataTableCont } from '../pages/DataTableConta';
+import { DataTableIns } from '../pages/DataTableInsumo';
+import { DataTablePag } from '../pages/DataTablePagamento';
+import { DataTableProc } from '../pages/DataTableProcedimento';
 export const Routes = () => {
   return (
     <Switch>
@@ -23,8 +27,38 @@ export const Routes = () => {
       <Route exact path='/' component={Login} />
       <AuthRoute
         exact
+        path='/datatableprocedimentos'
+        component={DataTableProc}
+        isPrivate
+      />
+      <AuthRoute
+        exact
+        path='/datatablepagamentos'
+        component={DataTablePag}
+        isPrivate
+      />
+      <AuthRoute
+        exact
+        path='/datatableinsumo'
+        component={DataTableIns}
+        isPrivate
+      />
+      <AuthRoute
+        exact
         path='/datatable'
         component={DataTableExemplo}
+        isPrivate
+      />
+      <AuthRoute
+        exact
+        path='/datatablefornecedores'
+        component={DataTableFornecedor}
+        isPrivate
+      />
+      <AuthRoute
+        exact
+        path='/datatablecontas'
+        component={DataTableCont}
         isPrivate
       />
       <AuthRoute exact path='/geral' component={General} isPrivate />

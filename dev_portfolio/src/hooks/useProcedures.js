@@ -14,7 +14,9 @@ export const ProcedureProvider = ({ children }) => {
   const [dailyAgenda, setDailyAgenda] = useState([]);
   const [todaAgenda, setTodaAgenda] = useState([]);
   const [barberId, setBarberId] = useState('');
+  const [fornecedorId, setFornecedorId] = useState('');
   const [barberList, setBarberList] = useState([]);
+  const [fornecedoresList, setFornecedoresList] = useState([]);
   const [procedureList, setProcedureList] = useState([]);
   const [clientScheduler, setClientScheduler] = useState([]);
   // const [ barber, setBarber ] = useState([]);
@@ -37,6 +39,11 @@ export const ProcedureProvider = ({ children }) => {
   async function getBarberList() {
     const { data } = await api.get('/barbeiro');
     setBarberList(data);
+  }
+
+  async function getFornecedoresList() {
+    const { data } = await api.get('/fornecedor');
+    setFornecedoresList(data);
   }
 
   // async function getBarber(id) {
@@ -221,7 +228,7 @@ export const ProcedureProvider = ({ children }) => {
       console.log(error);
     }
   }
-
+  
   return (
     <ProcedureContext.Provider
       value={{
@@ -229,6 +236,7 @@ export const ProcedureProvider = ({ children }) => {
         getClientScheduler,
         getProcedureList,
         getBarberList,
+        getFornecedoresList,
         loadAgenda,
         loadProceduresByDay,
         getAgendaByBarber,
@@ -239,10 +247,13 @@ export const ProcedureProvider = ({ children }) => {
         setDateSelected,
         createProcedure,
         setBarberId,
+        setFornecedorId,
+        fornecedorId,
         todaAgenda,
         monthlyAgenda,
         dailyAgenda,
         barberSelected,
+        fornecedoresList,
         agenda,
         barberList,
         procedureList,

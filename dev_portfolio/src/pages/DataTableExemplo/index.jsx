@@ -5,9 +5,9 @@ import { Layout } from '../../components/Layout';
 export const DataTableExemplo = () => {
   const [tabDataTable, setTabDataTable] = useState('Usuarios');
   return (
-    <Layout title='DataTableExemplo'>
+    <Layout title='Usuários'>
       <div className='tabsButtons-principal'>
-        <button
+        {/* <button
           type='button'
           className={tabDataTable === 'Usuarios' ? 'active' : ''}
           onClick={() => setTabDataTable('Fornecedores')}
@@ -20,14 +20,14 @@ export const DataTableExemplo = () => {
           onClick={() => setTabDataTable('Usuarios')}
         >
           Usuários
-        </button>
+        </button> */}
       </div>
       <div style={{ width: '100%' }}>
         {tabDataTable === 'Usuarios' ? (
           <DataTableUser />
         ) : (
           <div>
-            <h1>Fornecedores</h1>
+            <h1>Usuários</h1>
           </div>
         )}
       </div>

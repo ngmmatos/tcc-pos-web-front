@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { ProcedureModal1Step } from './ProcedureModal1Step';
 import { ProcedureModal2Step } from './ProcedureModal2Step';
-import Loading from "../../Loading";
+import Loading from "../../../components/Loading";
 import { HiX } from 'react-icons/hi';
 import './styles.scss';
 import { useProcedures } from '../../../hooks/useProcedures';

@@ -43,8 +43,8 @@ export const ProcedureModal2Step = () => {
     return data.map((item) => {
       return {
         ...item,
-        hr_inicio: convertTimestampValue(item.hr_inicio),
-        hr_fim: convertTimestampValue(item.hr_fim),
+        hr_inicio: convertTimestampValue(item.hr_inicio + 10800),
+        hr_fim: convertTimestampValue(item.hr_fim + 10800),
       };
     });
   };

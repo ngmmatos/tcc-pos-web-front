@@ -36,7 +36,7 @@ export const DataTableComponent = ({ fieldsDataTable, sortDataTable }) => {
   };
 
   return (
-    <table className='tableCustom'>
+    <table className='tableCustom' id="tableCustom">
       <thead className='thCustom'>
         <tr>
           {fieldsDataTable[0].headers.map((item, index) => {

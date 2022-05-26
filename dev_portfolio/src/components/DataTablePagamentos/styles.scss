@@ -1,0 +1,55 @@
+.section-data-table-pagamento{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+
+  padding: 5rem 2rem;
+}
+
+
+.wrapper-data-table {
+
+  
+  background: white;
+  padding: 0.5rem;
+  margin-top: 1rem;
+}
+
+.section-header-pagamento{
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+
+  button {
+    margin: 0rem 0rem 0rem 0rem;
+  }
+
+  form {
+    margin: 0;
+    padding: 0rem 0rem 0rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    
+    
+    input {
+      height: auto;
+      size: 20;
+      padding: 0.25rem 3rem 0.25rem 0.25rem;
+      border-radius: 0.5rem;
+    }
+
+    p {
+      margin: 0rem 0.5rem 0rem 1rem;
+    }
+
+  }
+}
+
+
+.inputDate {
+  height: auto;
+  size: 20;
+  padding: 0.25rem 3rem 0.25rem 0.25rem;
+  border-radius: 0.5rem;
+}

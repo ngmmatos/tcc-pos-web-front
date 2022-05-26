@@ -1,7 +1,7 @@
 import Calendar from 'react-calendar';
 import { FaTrash } from 'react-icons/fa';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { api } from '../../../services/api';
@@ -13,9 +13,12 @@ import { BaseModal } from '../../../components/BaseModal';
 import 'moment/locale/pt-br';
 import { toast } from 'react-toastify';
 import { CustomLoading } from '../../../components/CustomLoading';
+import { useAuth } from '../../../hooks/useAuth';
 const moment = require('moment');
 
-export const ModalAdicionarDia = ({ idBarbeiro, isOpen, toggleModal }) => {
+export const ModalAdicionarDia = ({ isOpen, toggleModal }) => {
+  const { userSigned } = useAuth();
+  const { barbeiro } = userSigned.roles.find((item) => item.barbeiro);
   const { daysAgendaMonthCurrent, setDaysAgendaMonthCurrent } = useProcedures();
 
   const date = new Date();
@@ -34,25 +37,26 @@ export const ModalAdicionarDia = ({ idBarbeiro, isOpen, toggleModal }) => {
       1000
   );
 
-  useEffect(() => {
-    const getSchedulerBarber = async (idBarbeiro) => {
-      try {
-        const { data } = await api.get('/agenda', {
-          params: {
-            id_barbeiro: idBarbeiro,
-            hr_inicio: firstDayMonth,
-            hr_fim: lastDayMonth,
-          },
-        });
+  const getSchedulerBarber = useCallback(async () => {
+    try {
+      const { data } = await api.get('/agenda', {
+        params: {
+          id_barbeiro: barbeiro,
+          hr_inicio: firstDayMonth,
+          hr_fim: lastDayMonth,
+        },
+      });
 
-        setDaysAgendaMonthCurrent(data);
-      } catch (e) {
-        console.log(e);
-        setDaysAgendaMonthCurrent([]);
-      }
-    };
+      setDaysAgendaMonthCurrent(data);
+    } catch (e) {
+      console.log(e);
+      setDaysAgendaMonthCurrent([]);
+    }
+  }, [barbeiro, firstDayMonth, lastDayMonth, setDaysAgendaMonthCurrent]);
+
+  useEffect(() => {
     getSchedulerBarber();
-  }, [idBarbeiro, firstDayMonth, lastDayMonth]);
+  }, [getSchedulerBarber]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -60,7 +64,7 @@ export const ModalAdicionarDia = ({ idBarbeiro, isOpen, toggleModal }) => {
       const result = await Promise.all(
         objectDays.map(async (item) => {
           const data = {
-            id_barbeiro: idBarbeiro,
+            id_barbeiro: barbeiro,
             dias: item.day,
             mes: item.month + 1,
             ano: item.year,

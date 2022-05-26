@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { BaseModal } from '../../BaseModal';
 import { MdPersonAdd, MdEdit, MdDelete } from 'react-icons/md';
-import { FaUserAlt, FaTrash } from 'react-icons/fa';
+import { FaUserAlt, FaTrash, FaLock, FaEyeSlash, FaEye, FaCalendarAlt } from 'react-icons/fa';
 import './style.scss';
 import { InputBase } from '../../Input';
 import { format, fromUnixTime, getUnixTime, parseISO } from 'date-fns';
 import { CustomLoading } from '../../CustomLoading';
 import { ConfirmComponent } from '../../ConfirmComponent';
+
+import { IoMaleFemale } from "react-icons/io5";
+import { FiMail } from 'react-icons/fi';
+import { BsFillTelephoneFill } from 'react-icons/bs';
+
+const moment = require("moment");
 
 export default function ModalUsuarios({
   open,
@@ -20,14 +26,16 @@ export default function ModalUsuarios({
     return format(fromUnixTime(date), 'yyyy-MM-dd');
   };
 
+
   const [dataUser, setDataUser] = useState(data);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [stateBarbeiro, setStateBarbeiro] = useState(false);
+  const [statedAdm, setStateAdm] = useState(false);
   const [aniversario, setAniversario] = useState(
     dataUser && dataUser.data_nascimento
       ? formatDate(dataUser.data_nascimento)
       : ''
   );
-  console.log(dataUser);
 
   let title = '';
   let icon = null;
@@ -49,9 +57,56 @@ export default function ModalUsuarios({
     buttonTitle = 'Excluir';
   }
 
+
+  const enableBarbeiro = () => {
+      let alteraBarbeiro = dataUser
+      if (alteraBarbeiro.barbeiro) {
+        alteraBarbeiro.barbeiro = false
+        setDataUser(alteraBarbeiro)
+      } else {
+      alteraBarbeiro.barbeiro = true
+      setDataUser(alteraBarbeiro)
+    }
+  }
+
+  const enableAdm = () => {
+    let alteraAdm = dataUser
+    if (alteraAdm.adm) {
+      alteraAdm.adm = false
+      setDataUser(alteraAdm)
+    } else {
+      alteraAdm.adm = true
+      setDataUser(alteraAdm)
+    }
+  }
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'data_nascimento') {
+
+    if (name === 'adm') {
+      let alteraAdm = dataUser
+      if (alteraAdm.adm) {
+        alteraAdm.adm = false
+        setDataUser(alteraAdm)
+      } else {
+        alteraAdm.adm = true
+        setDataUser(alteraAdm)
+      }
+    } else if (name === 'barbeiro') {
+      let alteraBarbeiro = dataUser
+      if (alteraBarbeiro.barbeiro) {
+        alteraBarbeiro.barbeiro = false
+        setDataUser(alteraBarbeiro)
+      } else {
+      alteraBarbeiro.barbeiro = true
+      setDataUser(alteraBarbeiro)
+      }
+    } else if (name === 'sexo') {
+      let alteraSexo = dataUser
+      alteraSexo.sexo = value
+      setDataUser(alteraSexo)
+    }
+    else if (name === 'data_nascimento') {
       setAniversario(value);
     } else {
       setDataUser((prevState) => ({
@@ -90,7 +145,7 @@ export default function ModalUsuarios({
               />
               <InputBase
                 disabled={type === 'delete'}
-                icon={FaUserAlt}
+                icon={FiMail}
                 name='email'
                 value={dataUser.email}
                 label='Email'
@@ -98,43 +153,80 @@ export default function ModalUsuarios({
                 type='email'
                 handleChange={handleChange}
               />
-
+              <div className="inputBase-root2">
+                <IoMaleFemale />
+                  <div>
+                      <label htmlFor="sexo">Sexo</label>
+                      <select onChange={handleChange} required name="sexo"> 
+                          <option value="">Selecione</option>
+                          <option value="M">Masculino</option>
+                          <option value="F">Feminino</option>
+                      </select>
+                  </div>
+              </div>
               <InputBase
-                icon={FaUserAlt}
-                disabled={type === 'delete'}
-                required
-                name='sexo'
-                value={dataUser.sexo}
-                label='Sexo'
-                type='text'
-                handleChange={handleChange}
-              />
-              <InputBase
-                icon={FaUserAlt}
+                icon={BsFillTelephoneFill}
                 disabled={type === 'delete'}
                 value={dataUser.telefone}
                 name='telefone'
                 label='Telefone'
                 required
                 type='tel'
+                mask="(99)99999-9999"
                 handleChange={handleChange}
               />
               <InputBase
-                icon={FaUserAlt}
+                icon={FaCalendarAlt}
                 disabled={type === 'delete'}
                 name='data_nascimento'
+                max={moment().format("YYYY-MM-DD")}
+                min={`${(moment().format("YYYY")-120)}-${moment().format("MM-DD")}`}
                 value={aniversario}
                 label='Aniversário'
                 required
                 type='date'
                 handleChange={handleChange}
               />
+              <InputBase
+                icon={FaLock}
+                disabled={type !== 'create'}
+                name='senha'
+                value={dataUser.senha}
+                label='Senha'
+                required
+                type='password'
+                handleChange={handleChange}
+              />
+              <div className="barbAdmButton">    
+                <p>Barbeiro</p>
+                <label className="switchButton">
+                    {/* <input type="checkbox" onChange={handleChange} name="barbeiro"/> */}
+                    {dataUser.barbeiro ?
+                    <input type="checkbox" onChange={enableBarbeiro} name="barbeiro" defaultChecked/>
+                    :
+                    <input type="checkbox" onChange={enableBarbeiro} name="barbeiro" />
+                }
+                    {/* <span className="slider round"></span> */}
+                </label>
+              </div> 
+              <div className="barbAdmButton">    
+                <p>Administrador</p>
+                <label className="switchButton">
+                    {/* <input type="checkbox" onChange={handleChange} name="adm"/> */}
+                    {dataUser.adm ?
+                    <input type="checkbox" onChange={enableAdm} name="adm" defaultChecked/>
+                    :
+                    <input type="checkbox" onChange={enableAdm} name="adm" />
+                }
+                    {/* <span className="slider round"></span> */}
+                </label>
+              </div> 
             </div>
             <div className='btn-group'>
               <button
                 className='btn btn-primary'
                 onClick={() =>
-                  (type = 'delete'
+                  (type == 'delete'
                     ? handleConfirmDelete()
                     : handleSubmit({
                         ...dataUser,

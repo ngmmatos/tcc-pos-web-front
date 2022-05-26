@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import {
   BiUser,
   BiCalendarEvent,
@@ -15,15 +14,19 @@ import { useAuth } from '../../../hooks/useAuth';
 import '../styles.scss';
 
 export const SidebarAdm = () => {
-  const [pinned, setPinned] = useState(true);
+  const [pinned, setPinned] = useState(false);
   const { userSigned, signed } = useAuth();
+  const [subMenu, setSubMenu] = useState([false, false, false]);
 
   const barb = userSigned.roles.find((obj) => 'barbeiro' in obj);
   const cliente = userSigned.roles.find((obj) => 'cliente' in obj);
 
-  function handlePinSidebar() {
-    setPinned(!pinned);
-  }
+  const toggleSubMenu = (e, id) => {
+    e.preventDefault();
+    const newState = subMenu.slice(0);
+    newState[id] = !subMenu[id];
+    setSubMenu(newState);
+  };
 
   return (
     <nav className={pinned ? 'sidebar' : 'sidebar close'}>
@@ -37,7 +40,11 @@ export const SidebarAdm = () => {
         </button> */}
       </header>
 
-      <div className='menuContainer'>
+      <div
+        className='menuContainer'
+        onMouseEnter={() => setPinned(true)}
+        onMouseLeave={() => setPinned(false)}
+      >
         <ul className='menuPrincipal'>
           <li>
             <Link to='/alteracliente'>
@@ -51,11 +58,10 @@ export const SidebarAdm = () => {
           <li className='withSubMenu'>
             <div>
               <Link
-                onClick={() =>
-                  document
-                    .getElementById('subMenu1')
-                    .classList.toggle('expanded')
-                }
+              to={{
+                pathname: '/datatablepagamentos',
+                state: 'adm',
+              }}
               >
                 <BiCreditCard size='2rem' />
                 <span className={pinned ? 'itemList pinned' : 'itemList'}>
@@ -63,31 +69,33 @@ export const SidebarAdm = () => {
                 </span>
               </Link>
             </div>
-            <ul id='subMenu1' className='subMenu'>
+            {/* <ul id='subMenu1' className='subMenu'>
               <li>
                 <Link>Recebidos</Link>
               </li>
               <li>
                 <Link>Realizados</Link>
               </li>
-            </ul>
+            </ul> */}
           </li>
           <li className='withSubMenu'>
             <div>
-              <Link
-                onClick={() =>
-                  document
-                    .getElementById('subMenu2')
-                    .classList.toggle('expanded')
-                }
-              >
+                <Link onClick={(e) => toggleSubMenu(e, 2)}>
                 <BiCalendarEvent size='2rem' />
                 <span className={pinned ? 'itemList pinned' : 'itemList'}>
                   Itens Gerenciados
                 </span>
               </Link>
             </div>
-            <ul id='subMenu2' className='subMenu'>
+            <ul id='subMenu2' 
+                className={
+                  !pinned
+                    ? 'subMenu'
+                    : subMenu[2]
+                    ? 'subMenu expanded'
+                    : 'subMenu'
+                }
+            >
               <li>
               <Link
               to={{
@@ -97,13 +105,36 @@ export const SidebarAdm = () => {
               >Usuários</Link>
               </li>
               <li>
-                <Link>Contas</Link>
+                <Link
+                to={{
+                  pathname: '/datatablecontas',
+                  state: 'adm',
+                }}
+                >Contas</Link>
               </li>
               <li>
-                <Link>Insumos</Link>
+                <Link
+                to={{
+                  pathname: '/datatableinsumo',
+                  state: 'adm',
+                }}                
+                >Insumo</Link>
               </li>
               <li>
-                <Link>Fornecedores</Link>
+                <Link
+                to={{
+                  pathname: '/datatablefornecedores',
+                  state: 'adm',
+                }}
+                >Fornecedores</Link>
+              </li>
+              <li>
+                <Link
+                to={{
+                  pathname: '/datatableprocedimentos',
+                  state: 'adm',
+                }}                
+                >Procedimentos</Link>
               </li>
             </ul>
           </li>
@@ -117,7 +148,7 @@ export const SidebarAdm = () => {
               >
                 <BiLineChartDown size='2rem' />
                 <span className={pinned ? 'itemList pinned' : 'itemList'}>
-                  Relatorios
+                  Gráficos
                 </span>
               </Link>
             </div>
@@ -130,20 +161,22 @@ export const SidebarAdm = () => {
                   : 'hiddenFalse'
               }
             >
-              <Link
-                onClick={() =>
-                  document
-                    .getElementById('subMenu3')
-                    .classList.toggle('expanded')
-                }
-              >
+            <Link onClick={(e) => toggleSubMenu(e, 3)}>
                 <FaExchangeAlt size='2rem' />
                 <span className={pinned ? 'itemList pinned' : 'itemList'}>
                   Alterar Visão
                 </span>
               </Link>
             </div>
-            <ul id='subMenu3' className='subMenu'>
+            <ul id='subMenu3' 
+              className={
+                !pinned
+                  ? 'subMenu'
+                  : subMenu[3]
+                  ? 'subMenu expanded'
+                  : 'subMenu'
+              }
+            >
               <li>
                 <Link
                   to={{

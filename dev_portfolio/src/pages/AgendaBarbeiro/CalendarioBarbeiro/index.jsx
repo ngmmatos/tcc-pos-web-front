@@ -1,7 +1,7 @@
 import Calendar from 'react-calendar';
 
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { api } from '../../../services/api';
@@ -11,16 +11,17 @@ import {
   filterDaysAvaliable,
 } from '../../../components/Calendario/filterDaysAvaliable';
 import './style.scss';
+import { useAuth } from '../../../hooks/useAuth';
 
 export const CalendarioBarbeiro = ({
-  idBarbeiro,
   setDaySelect,
   reloadAgenda,
   setReloadAgenda,
   children,
 }) => {
   const { daysAgendaMonthCurrent, setDaysAgendaMonthCurrent } = useProcedures();
-
+  const { userSigned } = useAuth();
+  const { barbeiro } = userSigned.roles.find((item) => item.barbeiro);
   const date = new Date();
   const [year, setYear] = useState(0);
   const [day, setDay] = useState(0);
@@ -34,25 +35,28 @@ export const CalendarioBarbeiro = ({
       1000
   );
 
+  const getSchedulerBarber = useCallback(async () => {
+    console.log(barbeiro);
+    try {
+      const { data } = await api.get('/agenda', {
+        params: {
+          id_barbeiro: barbeiro,
+          hr_inicio: firstDayMonth,
+          hr_fim: lastDayMonth,
+        },
+      });
+      console.log(data);
+      setReloadAgenda(false);
+      setDaysAgendaMonthCurrent(data);
+    } catch (e) {
+      console.log(e);
+      setDaysAgendaMonthCurrent([]);
+    }
+  }, [firstDayMonth, lastDayMonth, setDaysAgendaMonthCurrent, setReloadAgenda]);
+
   useEffect(() => {
-    const getSchedulerBarber = async (idBarbeiro) => {
-      try {
-        const { data } = await api.get('/agenda', {
-          params: {
-            id_barbeiro: idBarbeiro,
-            hr_inicio: firstDayMonth,
-            hr_fim: lastDayMonth,
-          },
-        });
-        setReloadAgenda(false);
-        setDaysAgendaMonthCurrent(data);
-      } catch (e) {
-        console.log(e);
-        setDaysAgendaMonthCurrent([]);
-      }
-    };
     getSchedulerBarber();
-  }, [idBarbeiro, firstDayMonth, lastDayMonth, reloadAgenda]);
+  }, [getSchedulerBarber]);
 
   const handleSelectDay = (day) => {
     const dayUnit = day.getDate();

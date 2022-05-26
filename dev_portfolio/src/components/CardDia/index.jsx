@@ -8,13 +8,15 @@ import './style.scss';
 
 import ModalAdicionaHora from './ModalAdicionaHora/ModalAdicionaHora';
 
-import { ConfirmRemove } from '../ConfirmRemove/index';
+import { ConfirmRemove } from './../ConfirmRemove/index';
 import { DataTableComponent } from '../DataTableComponent';
+import { CustomLoading } from './../CustomLoading/index';
 const moment = require('moment');
 
 export default function CardDiaBarbeiro({ daySelect }) {
   const { userSigned } = useAuth();
   const [agendaDia, setAgendaDia] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const [sortOrderHour, setSortOrderHour] = useState(false);
   const [deleteAll, setDeleteAll] = useState(false);
@@ -28,6 +30,7 @@ export default function CardDiaBarbeiro({ daySelect }) {
   let Icon = sortOrderHour ? BsArrowDownCircleFill : BsArrowUpCircleFill;
 
   const getSchedulerBarber = async () => {
+    setLoading(true);
     try {
       const { data } = await api.get('/agenda', {
         params: {
@@ -47,6 +50,8 @@ export default function CardDiaBarbeiro({ daySelect }) {
     } catch (e) {
       console.log(e);
       setAgendaDia([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,28 +128,6 @@ export default function CardDiaBarbeiro({ daySelect }) {
     setAgendaDia(changeChecked);
   };
 
-  // const filterFields = agendaDia.map((field) => {
-  //   const hrInicio = moment.unix(field.hr_inicio + 10800).format('HH:mm');
-  //   return {
-  //     preiodo: field.periodo,
-  //     horaInicio: hrInicio,
-  //     agendado: field.agendado === true ? 'Sim' : 'Não',
-  //     tempoDisponivel: field.minutos_disponiveis,
-  //     handleDelete: () => handleDeleteHour(field.id_agenda),
-  //   };
-  // });
-
-  // console.log(filterFields);
-
-  // const fieldsDataTable = [
-  //   {
-  //     headers: ['Período', 'Horário', 'Agendado', 'Tempo Livre', 'Excluir'],
-  //   },
-  //   {
-  //     fields: filterFields,
-  //   },
-  // ];
-
   return (
     <>
       <div className='cardDia-container'>
@@ -162,60 +145,63 @@ export default function CardDiaBarbeiro({ daySelect }) {
             Remover Selecionados
           </button>
         </div>
-        {/* <DataTableComponent fieldsDataTable={fieldsDataTable} /> */}
-        <table className='tableCardDia'>
-          <thead className='thCardDia'>
-            <tr>
-              <th className='check-all-items'>
-                <input
-                  type='checkbox'
-                  name='selectAll'
-                  onChange={handleSelectAll}
-                />
-              </th>
-              <th>Período</th>
-              <th className='sortDia' onClick={handleSort}>
-                <p>Horário</p>
-                <Icon />
-              </th>
-              <th>Agendado</th>
-              <th>Tempo Livre</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody className='tbodyCardDia'>
-            {agendaDia.map((item) => (
-              <tr key={item.id_agenda}>
-                <td className='check-all-items'>
+        {loading ? (
+          <CustomLoading />
+        ) : (
+          <table className='tableCardDia'>
+            <thead className='thCardDia'>
+              <tr>
+                <th className='check-all-items'>
                   <input
                     type='checkbox'
-                    name='select'
-                    checked={item.checked}
-                    onChange={() => handleSelectUnits(item.id_agenda)}
+                    name='selectAll'
+                    onChange={handleSelectAll}
                   />
-                </td>
-                <td>{item.periodo}</td>
-                <td>{moment.unix(item.hr_inicio + 10800).format('HH:mm')}</td>
-                <td>
-                  {item.agendado === true ? (
-                    <span className=''>Sim</span>
-                  ) : (
-                    <span className=''>Não</span>
-                  )}
-                </td>
-                <td>{item.minutos_disponiveis} min</td>
-                <td>
-                  <FaTrash
-                    type='button'
-                    onClick={() => {
-                      handleDeleteHour(item.id_agenda);
-                    }}
-                  />
-                </td>
+                </th>
+                <th>Período</th>
+                <th className='sortDia' onClick={handleSort}>
+                  <p>Horário</p>
+                  <Icon />
+                </th>
+                <th>Agendado</th>
+                <th>Tempo Livre</th>
+                <th>Excluir</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className='tbodyCardDia'>
+              {agendaDia.map((item) => (
+                <tr key={item.id_agenda}>
+                  <td className='check-all-items'>
+                    <input
+                      type='checkbox'
+                      name='select'
+                      checked={item.checked}
+                      onChange={() => handleSelectUnits(item.id_agenda)}
+                    />
+                  </td>
+                  <td>{item.periodo}</td>
+                  <td>{moment.unix(item.hr_inicio + 10800).format('HH:mm')}</td>
+                  <td>
+                    {item.agendado === true ? (
+                      <span className=''>Sim</span>
+                    ) : (
+                      <span className=''>Não</span>
+                    )}
+                  </td>
+                  <td>{item.minutos_disponiveis} min</td>
+                  <td>
+                    <FaTrash
+                      type='button'
+                      onClick={() => {
+                        handleDeleteHour(item.id_agenda);
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
         <div className='adicionaAgenda'>
           <button type='button' onClick={toggleModal}>
             Adicionar Novo horário{' '}

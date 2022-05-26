@@ -14,6 +14,7 @@ export const InputBaseRef = (
   { children, name, label, icon, value, handleChange, type, ...props },
   ref
 ) => {
+  
   const [focus, setFocus] = useState(false);
 
   const onBlur = (e) => {

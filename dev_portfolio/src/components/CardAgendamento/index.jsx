@@ -5,7 +5,7 @@ import { FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { RiCurrencyFill } from 'react-icons/ri';
-import { ConfirmComponent } from '../ConfirmComponent/index';
+import { ConfirmComponent } from './../../components/ConfirmComponent/index';
 
 import '../CardAtendimento/style.scss';
 

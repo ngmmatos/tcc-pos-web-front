@@ -127,20 +127,22 @@ export const SidebarCliente = () => {
                   : 'hiddenFalse'
               }
             >
-              <Link
-                onClick={() =>
-                  document
-                    .getElementById('subMenu3')
-                    .classList.toggle('expanded')
-                }
-              >
+              <Link onClick={(e) => toggleSubMenu(e, 0)}>
                 <FaExchangeAlt size='2rem' />
                 <span className={pinned ? 'itemList pinned' : 'itemList'}>
                   Alterar Visão
                 </span>
               </Link>
             </div>
-            <ul id='subMenu3' className='subMenu'>
+            <ul id='subMenu3'
+              className={
+                !pinned
+                  ? 'subMenu'
+                  : subMenu[0]
+                  ? 'subMenu expanded'
+                  : 'subMenu'
+              }
+            >
               <li>
                 {barb !== undefined ? (
                   <Link

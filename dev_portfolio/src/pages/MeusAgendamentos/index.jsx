@@ -43,7 +43,7 @@ export function MeusAgendamentos() {
         <div className='meusAgendamentos'>
           <table>
             <thead>
-              {clientScheduler == '' ? (
+              {clientScheduler === [] ? (
                 <tr></tr>
               ) : (
                 <tr>
@@ -59,10 +59,8 @@ export function MeusAgendamentos() {
               )}
             </thead>
             <tbody>
-              {clientScheduler === '' ? (
-                <tr>
-                  <td>Não há agendamentos marcados</td>
-                </tr>
+              {clientScheduler === [] ? (
+                <p>Não há agendamentos marcados</p>
               ) : (
                 clientScheduler.map((scheduler) => (
                   <tr key={scheduler.id}>

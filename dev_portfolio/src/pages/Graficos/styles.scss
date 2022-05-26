@@ -4,9 +4,15 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
+  // margin: 10rem auto
   // height: 100px;
   // width: 100px;
+
+  canvas {
+    height: 20rem;
+    width: 50rem;
+  }
 }
 
 .tabsDates{

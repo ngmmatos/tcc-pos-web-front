@@ -12,9 +12,10 @@ export const AgendaBarbeiro = () => {
   const [daySelect, setDaySelect] = useState();
   const [modalAdicionarDias, setModalAdicionarDias] = useState(false);
   const [reloadAgenda, setReloadAgenda] = useState(false);
+  console.log(userSigned);
 
-  const getIdBarbeiro = userSigned.roles.find((item) => item.barbeiro);
-  const convertIdBarbeiro = getIdBarbeiro.barbeiro;
+  const { barbeiro } = userSigned.roles.find((item) => item.barbeiro);
+  console.log(barbeiro);
 
   const toggleModal = () => {
     setModalAdicionarDias(!modalAdicionarDias);
@@ -25,7 +26,7 @@ export const AgendaBarbeiro = () => {
     <Layout title='Minha Agenda'>
       <div style={{ width: '100%', padding: '2rem 5rem' }}>
         <CalendarioBarbeiro
-          idBarbeiro={convertIdBarbeiro}
+          idBarbeiro={barbeiro}
           setDaySelect={setDaySelect}
           reloadAgenda={reloadAgenda}
           setReloadAgenda={setReloadAgenda}
@@ -39,13 +40,13 @@ export const AgendaBarbeiro = () => {
             Adicionar Dias na Agenda
           </button>
         </CalendarioBarbeiro>
-        <CardDiaBarbeiro daySelect={daySelect} idBarbeiro={convertIdBarbeiro} />
+        <CardDiaBarbeiro daySelect={daySelect} idBarbeiro={barbeiro} />
       </div>
 
       <ModalAdicionarDia
         isOpen={modalAdicionarDias}
         toggleModal={toggleModal}
-        idBarbeiro={convertIdBarbeiro}
+        idBarbeiro={barbeiro}
       />
     </Layout>
   );

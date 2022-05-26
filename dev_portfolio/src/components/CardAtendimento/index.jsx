@@ -5,7 +5,7 @@ import { AiFillPlayCircle, AiFillPauseCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { RiCurrencyFill } from 'react-icons/ri';
-import { ConfirmComponent } from '../ConfirmComponent/index';
+import { ConfirmComponent } from './../../components/ConfirmComponent/index';
 
 import './style.scss';
 
@@ -21,6 +21,7 @@ export const CardAtendimento = ({ atendimento, refreshingAtendimento }) => {
   const handleFinish = async () => {
     setLoading(true);
     try {
+      console.log(atendimento)
       const dataAtendimento = {
         valorTotal: atendimento.valor,
         id_agendamento: atendimento.idAgendamento,
@@ -34,7 +35,21 @@ export const CardAtendimento = ({ atendimento, refreshingAtendimento }) => {
         dataAtendimento
       );
 
-      toast.success(response.message);
+      // const recebimento = {
+      //   id_status_recebimento: 52,
+      //   id_atendimento: atendimento.idAtendimento,
+      //   data_recebimento: getUnixTime(new Date()) - 10800,
+      //   informacao: "Atendimento finalizado e pagamento recebido",
+      // };
+
+    const responseRecebimento = await api.post('/recebimento', {
+        id_status_recebimento: 54,
+        id_atendimento: atendimento.idAtendimento,
+        data_recebimento: getUnixTime(new Date()) - 10800,
+        informacao: "Atendimento finalizado e pagamento recebido"
+    });
+
+    toast.success('Atendimento finalizado e pagamento recebido com sucesso');
     } catch (e) {
       setLoading(false);
 
