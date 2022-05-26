@@ -307,11 +307,14 @@ export const DataTableUser = () => {
 
 
       } else if (modalOpen.type === 'delete') {
+
         const getCleinte =  await api.get(`/cliente?id_usuario=${modalOpen.user.id_usuario}`);
+
           if (getCleinte.data.length > 0) {
 
-            const clientesAgen = await api.get(`/agendamento?id_cliente=${getCleinte.data.id_cliente}&data_realizacao_maior=${parseInt(agora)}`)
+            const clientesAgen = await api.get(`/agendamento?id_cliente=${getCleinte.data[0].id_cliente}&data_realizacao_maior=${parseInt(agora)}`)
             if (controleCliente && modalOpen.user.Barbeiro !== null) {
+
               const barbeiroAgen =  await api.get(`/agendamento?id_barbeiro=${modalOpen.user.Barbeiro.id_barbeiro}&data_realizacao_maior=${parseInt(agora)}`)
               const barbeiroAgenda =  await api.get(`/agenda?id_barbeiro=${modalOpen.user.Barbeiro.id_barbeiro}&hr_inicio=${parseInt(agora)}`)
               if (barbeiroAgen.data.length > 0) {
@@ -333,7 +336,8 @@ export const DataTableUser = () => {
             } else if (!controleAgenda) {
               toast.error("Há agenda vinculada a esse barbeiro, o mesmo não pode ser excluído")
             } else {
-              if (modalOpen.user.Babeiro !== null) {
+
+              if (modalOpen.user.Barbeiro !== null) {
                   const delBarbeiro = api.delete(`/barbeiro/${modalOpen.user.Barbeiro.id_barbeiro}`);
               } 
   
@@ -342,6 +346,7 @@ export const DataTableUser = () => {
               }
               
                 const delCliente = api.delete(`/cliente/${getCleinte.data[0].id_cliente}`);
+
                   function sleep(ms) {
                     return new Promise(resolve => setTimeout(resolve, ms));
                 }
