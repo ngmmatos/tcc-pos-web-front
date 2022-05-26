@@ -32,7 +32,7 @@ export function AlteraDadosCliente () {
     const [ currentPassword, setCurrentPassword ] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
     const [toggleConfirmPassword, setToggleConfirmPassword] = useState(false);
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     const { alterUser , loading, searchUser } = useAuth();
 
