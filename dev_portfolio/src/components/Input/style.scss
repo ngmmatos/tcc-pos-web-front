@@ -1,0 +1,82 @@
+.inputBase-root {
+
+  border: 1px solid #444;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 2.5rem;
+
+  svg {
+    margin: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--gold);
+  }
+
+
+  div {
+    width: 100%;
+    display: flex;
+    margin: 0px;
+    justify-content: space-between;
+
+    label {
+      font-size: 0.75rem;
+
+      color: #444;
+      display: block;
+      position: absolute;
+      transform: translate(0.5rem, 0.5rem);
+      transition: all 0.3s ease;
+
+      &.focused {
+
+        color: var(--gold);
+        background-color: white;
+        padding: 0 0.2rem;
+        transform: translate(0px, -15px);
+      }
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.25rem 0.5rem;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #444;
+      display: flex;
+
+      &:disabled {
+        cursor: not-allowed;
+        color: #ccc;
+      }
+
+      &:focus {
+        background: transparent;
+      }
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px #fff inset;
+      }
+
+      &:-webkit-autofill {
+        -webkit-text-fill-color: #444;
+      }
+    }
+  }
+
+  &:focus-within {
+    border: 2px solidrgb(157, 139, 44);
+  }
+
+
+
+
+
+}

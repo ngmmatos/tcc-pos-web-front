@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useHistory, useLocation  } from "react-router-dom";
 import InputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
-import { useHistory, useLocation } from 'react-router-dom';
 import Loading from "../../components/Loading";
 import { FaUserAlt, FaLock, FaEyeSlash, FaEye, FaCalendarAlt } from 'react-icons/fa';
 import { IoMaleFemale } from "react-icons/io5";
@@ -32,14 +32,12 @@ export const Cadastro = () => {
     const { createUser , loading, alterUser } = useAuth();
     const history = useHistory();
     const location = useLocation()
-    const routerInfo = location
+    const routerInfo = location 
 
     console.log(routerInfo) 
 
-
     // const dateNow = moment().format("YYYY-MM-DD")
     // console.log(`${(moment().format("YYYY")-120)}-${moment().format("MM")}-${moment().format("DD")}`)
-    
 
     function handleSubmit(event) {
         
@@ -64,8 +62,9 @@ export const Cadastro = () => {
             alterUser(routerInfo.nome, tel, gender, birthDate, password, routerInfo.id, password, routerInfo.data );
 
         }else {
-        createUser(name, email, password, confirmPassword, birthDate, tel, gender);
-        }
+            createUser(name, email, password, confirmPassword, birthDate, tel, gender);
+            }
+
     }
 
     return(
@@ -74,7 +73,7 @@ export const Cadastro = () => {
             <div className="registerContainer">
                 <h1>{!routerInfo ? "Faça seu cadastro" : "Complete seu Cadastro"}</h1>
                 <form onSubmit={handleSubmit}>
-                    {(routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) ?
+                {(routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) ?
                         <div></div>
                         :
                         <div className='inputContainer inputMask'>
@@ -83,7 +82,7 @@ export const Cadastro = () => {
                                 <label htmlFor="email">Nome Completo</label>
                                 <input type="text" id="nome"  onChange={ ({target}) => setName(target.value)} required/>
                             </div>
-                        </div>
+                            </div>
                         }
                     {(routerInfo.hasOwnProperty('cadastro') && !routerInfo.cadastro) ?
                         <div></div>
@@ -94,8 +93,8 @@ export const Cadastro = () => {
                                 <label htmlFor="email">Email</label>
                                 <input type="email" id="email"  onChange={ ({target}) => setEmail(target.value)} required/>
                             </div>
-                        </div>
-                        }  
+                            </div>
+                        }   
                         <div className='inputContainer'>
                             <FaCalendarAlt />
                             <div>

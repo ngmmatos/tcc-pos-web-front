@@ -1,0 +1,42 @@
+.calendario-barbeiro {
+
+  max-width: 800px;
+
+  .react-calendar {
+    background-color: var(--gold);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: auto;
+    border: none;
+  .react-calendar__navigation {
+    background-color: var(--gold);
+  }
+
+  .react-calendar__navigation button[disabled] {
+    display: none;
+  }
+  .react-calendar__navigation button:enabled:hover{
+    background-color:#ffbf00;
+  }
+  .react-calendar__month-view__weekdays {
+    background-color: var(--gold);
+    border: 1px solid #444;
+  }
+  .react-calendar__tile {
+    background-color: white;
+    border: 1px solid #444;
+  }
+  .react-calendar__tile:disabled {
+    background-color: #444;
+    border-color: var(--gold);
+  }
+  .react-calendar__tile:enabled:hover  {
+    background-color: #ffbf00;
+  }
+  .react-calendar__tile--active{
+    background-color: #ffbf00;
+    color: black;
+  }
+  }
+}

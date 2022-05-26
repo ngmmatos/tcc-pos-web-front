@@ -30,6 +30,13 @@
 
         form {
 
+            .optionButton {
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0 auto;
+                width: 100%;
+            }
+
             p {
                 font-size: 1.5rem;
                 color: #fff;
@@ -48,20 +55,20 @@
                     padding: 0.25rem 1rem;
                     display: flex;
                     align-items: center;
-                    // width: 100%;
+                    width: 100%;
                     border-radius: 2.5rem;
           
                     svg {
-                        margin-right: 0.75em;
+                        margin: 0;
                         width: 1.25rem;
                         height: 1.25rem;
-                        color:rgb(157, 139, 44);
-          
+                        color: var(--gold);
                     }
           
                     
                     div {
                         display: block;
+                        margin-left: 1rem;
           
                         label {
                             font-size: 0.75rem;
@@ -110,14 +117,14 @@
                     padding: 0.25rem 1rem;
                     display: flex;
                     align-items: center;
-                    // width: 100%;
+                    width: 100%;
                     border-radius: 2.5rem;
           
                     svg {
                         margin-right: 0.75em;
                         width: 1.25rem;
                         height: 1.25rem;
-                        color:rgb(157, 139, 44);
+                        color: #c59a18;
           
                     }
 
@@ -165,7 +172,7 @@
                         margin-right: 0.75em;
                         width: 1.25rem;
                         height: 1.25rem;
-                        color:rgb(157, 139, 44);
+                        color: #c59a18;
                     }
           
                     
@@ -214,7 +221,7 @@
                         svg {
                             width: 1.25rem;
                             height: 1.25rem;
-                            color:rgb(157, 139, 44);
+                            color: #c59a18;
                         }
           
                     }
@@ -250,7 +257,7 @@
                     font-size: 1.5rem;
                     margin-top: 2.25rem;
                     transition: all 0.2s ease-in-out;
-                    background:rgb(157, 139, 44);
+                    background:#c59a18;
                     font-weight: 700;
     
                     &:hover {
@@ -321,11 +328,11 @@
   }
   
   input:checked + .slider {
-    background-color:rgb(157, 139, 44);
+    background-color: #c59a18;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1pxrgb(157, 139, 44);
+    box-shadow: 0 0 1px #c59a18;
   }
   
   input:checked + .slider:before {

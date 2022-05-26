@@ -1,18 +1,24 @@
-.loginSideContainer {
-      flex: 1;
+.loginSideContainer {      
+      background-color: #444;
+      max-width: 500px;
+      width: 100%;
+      min-width: 300px;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 2rem 0;
-      overflow-y: hidden;
-      height: 100vh;
+
+  
   
       .title {
         font-size: 3rem;
         color: #fff;
         font-weight: 600;
-        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5rem 0 0 0;
       }
   
       .form {
@@ -38,7 +44,7 @@
               margin-right: 0.75em;
               width: 1.25rem;
               height: 1.25rem;
-              color: #8d7c1f;
+              color: var(--gold);;
 
           }
 
@@ -75,7 +81,7 @@
           }
 
           &:focus-within {
-            border: 2px solid #8d7c1f;
+            border: 2px solid var(--gold);;
           }
 
       }
@@ -95,7 +101,7 @@
               margin-right: 0.75em;
               width: 1.25rem;
               height: 1.25rem;
-              color: #8d7c1f;
+              color: var(--gold);;
           }
 
           
@@ -141,13 +147,13 @@
               svg {
                   width: 1.25rem;
                   height: 1.25rem;
-                  color: #8d7c1f;
+                  color: var(--gold);;
               }
 
           }
 
           &:focus-within {
-            border: 2px solid #8d7c1f;
+            border: 2px solid var(--gold);;
           }
       }
   
@@ -161,7 +167,7 @@
           transition: all 0.2s ease-in-out;
 
           &:hover {
-            background: #8d7c1f;
+            background: var(--gold);;
             color: #fff;
             font-weight: 600;
           }
@@ -174,11 +180,12 @@
           padding: 0.5rem 1rem;
           font-size: 1.5rem;
           margin: 1rem 0;
-
+          background-color: #EA4335;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.2s ease-in-out;
+          color: #fff;
   
           svg {
             margin-right: 1rem;
@@ -205,13 +212,28 @@
             transition: all 0.2s ease-in-out;
             
             &:hover {
-              background: #8d7c1f;
+              background: var(--gold);;
               color: #fff;
               font-weight: 600;
             }
           }
       
         }
+      }
+          
+      @media screen and (max-width: 768px) {
+        max-width: 100%;
+        justify-content: flex-start;
+        .title {
+          font-size: 2rem;
+          padding: 1rem;
+        }
+
+        .form{
+          margin: 0 auto;
+          justify-content: flex-start;
+        }
+       
       }
 }
   

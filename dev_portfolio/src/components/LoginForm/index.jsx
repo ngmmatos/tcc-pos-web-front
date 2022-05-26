@@ -6,27 +6,34 @@ import Loading from '../Loading';
 import { Link } from 'react-router-dom';
 import { api } from "../../services/api";
 import { GoogleLogin } from 'react-google-login'
+import { toast } from 'react-toastify';
 
 import './styles.scss';
 import { useAuth } from '../../hooks/useAuth';
-import { toast } from 'react-toastify';
 
 export const LoginForm = () => {
-    
-    
+
     const clientId = `${process.env.REACT_APP_GOOGLE}`;
-    
+    console.log(clientId)
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
-    
+
     const { userSigned , signin, loading } = useAuth();
-    
+
     const history = useHistory()
 
     const setNewPass = () => {
         setTimeout(() => {
             history.push('/solicitasenha'); 
+            
+        }, 100);
+    }
+
+    const firstAcess = () => {
+        setTimeout(() => {
+            history.push('/cadastro'); 
             
         }, 100);
     }
@@ -45,14 +52,13 @@ export const LoginForm = () => {
         }
     };
 
-
     const onSuccess = (res) => {
 
         signin(null, null, res.getAuthResponse().id_token);
     };
 
     const onFailure = (res) => {
-        toast.error(`Falha ao realizar login com Google - ${res}`)
+        toast.error("Falha ao realizar login com Google")
     };
 
     return(
@@ -92,11 +98,12 @@ export const LoginForm = () => {
             </div>
 
             <button type="submit" className="emailLoginButton">{loading ? <Loading /> : "Entrar"}</button>
+            {/* <button disabled type="submit" className="googleLoginButton"><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button> */}
             <GoogleLogin
             render = {renderProps => (
                 <button type="button" className="googleLoginButton"
                 onClick={renderProps.onClick} disabled={renderProps.disabled}
-                ><ImGooglePlus size="1.5rem"/><span>Entrar com Google</span></button>
+                ><ImGooglePlus size="1.5rem"/><span>{loading ? <Loading /> : "Entrar com Google"}</span></button>
             )}
             clientId={clientId}
             onSuccess={onSuccess}
@@ -106,7 +113,7 @@ export const LoginForm = () => {
             />
            
             <div className="loginHelperContainer">
-                <button className="firstAccess" onClick={() => { history.push("/cadastro") }}>Primeiro Acesso</button>
+                <button className="firstAccess" onClick={firstAcess}>Primeiro Acesso</button>
                 <button onClick={setNewPass} >Esqueci a senha</button>
             </div>
         </form>

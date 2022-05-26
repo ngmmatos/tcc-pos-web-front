@@ -62,79 +62,80 @@ export const AuthContextProvider = ({ children }) => {
               setLoading(false);
               toast.error('Usuário ou senha incorretos');
           }
-        } else {
+         
+    } else {
 
-          try 
-          {
-            setLoading(true);
+        try 
+        {
+          setLoading(true);
 
-            const response = await api.post('/loginOauth', {
-                token,
-            });
+          const response = await api.post('/loginOauth', {
+              token,
+          });
 
-            setUserSigned(response.data);
+          setUserSigned(response.data);
 
-            api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+          api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-            const dataJson = response.data
+          const dataJson = response.data
 
-            if (dataJson.hasOwnProperty('completo')) {
+          if (dataJson.hasOwnProperty('completo')) {
 
-              if (!response.data.completo) {
+            if (!response.data.completo) {
 
 
-                if (redirect === true) {
-                  setTimeout(() => {
-                    history.push("/cadastro", {"cadastro": false,
-                    "nome": response.data.user.nome,
-                    "id": response.data.user.id_usuario,
-                    "data": response.data });
-                  }, 800);
-                  
-                  setSigned(true);
-                  setLoading(false); 
-                }
-              } else {
+              if (redirect === true) {
+                setTimeout(() => {
+                  history.push("/cadastro", {"cadastro": false,
+                  "nome": response.data.user.nome,
+                  "id": response.data.user.id_usuario,
+                  "data": response.data });
+                }, 800);
 
-                  cookies.set('barbearia', response.data, { 
-                    path: '/' ,
-                    expires: new Date(Date.now() + 3600 * 1000)
-                });
-
-                  setSigned(true);
-                  setLoading(false);
-
-                  if (redirect === true) {
-                    setTimeout(() => {
-                        
-                    history.push('/geral');
-                    }, 800);
-                  }
+                setSigned(true);
+                setLoading(false); 
               }
             } else {
-              cookies.set('barbearia', response.data, { 
+
+                cookies.set('barbearia', response.data, { 
                   path: '/' ,
                   expires: new Date(Date.now() + 3600 * 1000)
               });
-  
-              setSigned(true);
-              setLoading(false);
-  
-              if (redirect === true) {
-                setTimeout(() => {
-                    
-                history.push('/geral');
-                }, 800);
-              }
-            }
 
-          } catch (error) {
-              setLoading(false);
-              toast.error('Falha no login com Oauth' + error);
+                setSigned(true);
+                setLoading(false);
+
+                if (redirect === true) {
+                  setTimeout(() => {
+
+                  history.push('/geral');
+                  }, 800);
+                }
+            }
+          } else {
+            cookies.set('barbearia', response.data, { 
+                path: '/' ,
+                expires: new Date(Date.now() + 3600 * 1000)
+            });
+
+            setSigned(true);
+            setLoading(false);
+
+            if (redirect === true) {
+              setTimeout(() => {
+
+              history.push('/geral');
+              }, 800);
+            }
           }
 
+        } catch (error) {
+            setLoading(false);
+            toast.error('Falha no login com Oauth' + error);
         }
-    }
+
+      }
+  }
 
     const signout = async () => {
         try {
@@ -144,16 +145,16 @@ export const AuthContextProvider = ({ children }) => {
         } catch(error){
             console.log(error);
         } finally {
-          setSigned(false);
-          setUserSigned(undefined);
-          
-          const auth2 = window.gapi.auth2.getAuthInstance()
-          if (auth2 != null) {
-            auth2.signOut().then(
-              auth2.disconnect().then(console.log("Logout OK"))
-              )
-            }
-            
+            setSigned(false);
+            setUserSigned(undefined);
+
+            const auth2 = window.gapi.auth2.getAuthInstance()
+            if (auth2 != null) {
+              auth2.signOut().then(
+                auth2.disconnect().then(console.log("Logout OK"))
+                )
+              }  
+
             cookies.remove('barbearia');
             api.defaults.headers.common['Authorization'] = '';
             localStorage.clear();
@@ -343,7 +344,6 @@ export const AuthContextProvider = ({ children }) => {
       };
 
       if (alter === true) {
-
         if (data !== undefined){
 
           cookies.set('barbearia', data, { 
@@ -355,7 +355,7 @@ export const AuthContextProvider = ({ children }) => {
           setLoading(false);
 
           setTimeout(() => {
-              
+
           history.push('/geral');
           }, 800);
 

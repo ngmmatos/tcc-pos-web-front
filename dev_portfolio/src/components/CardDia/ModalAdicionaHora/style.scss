@@ -1,0 +1,142 @@
+.modal-dia {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .modal-dia-content{
+    width: 50%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    
+
+    .modal-dia-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-radius: 10px 10px 0 0;
+      padding: 1rem;
+      width: 100%;
+      background-color: var(--gold);
+      .modal-dia-text {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        gap: 0.25rem;
+        h1 {
+          width: 100%;
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 0;
+      
+          }
+      }
+      .modal-dia-close {
+        cursor: pointer;
+        :hover {
+          color: #444;
+        }
+      }
+    }
+
+    .modal-dia-form {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .modal-dia-form-content {
+
+        padding: 1rem;
+
+        input {
+          width: 100%;
+          min-width: 180px;
+          border: 1px solid #444;
+          border-radius: 10px;
+          padding: 0.5rem;
+          margin: 0.5rem 0;
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+          background-color: #fff;
+          :focus {
+            outline: none;
+          }
+          :invalid+span:after {
+            position: absolute;
+            content: '✖';
+            padding-left: 5px;
+          }
+          
+          :valid+span:after {
+            position: absolute;
+            content: '✓';
+            padding-left: 5px;
+          }
+        }
+        select {
+          width: 100%;
+          min-width: 180px;
+          border: 1px solid #444;
+          border-radius: 10px;
+          padding: 0.5rem;
+          margin: 0.5rem 0;
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #333;
+          background-color: #fff;
+          :focus {
+            outline: none;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.Adicionar-button {
+    
+  min-width: 180px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  background-color: #fff;
+
+  button[disabled] {
+    
+    min-width: 180px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #888;
+  
+  }
+  &:hover{
+    background-color: var(--gold);
+    color: #fff;
+    outline: none;
+    border: 1px solid var(--gold);
+  }
+}

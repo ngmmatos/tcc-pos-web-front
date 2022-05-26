@@ -14,16 +14,15 @@ import { ProcedureModal } from '../Modals/ProcedureModal';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useWindowDimensions } from '../../hooks/useDimensions';
 
-import { filterDaysAvaliable, catchDays } from './filterDaysAvaliable'
-import { getTimeSelectedProcedures } from './filterProcedures'
+import { filterDaysAvaliable, catchDays } from './filterDaysAvaliable';
+import { getTimeSelectedProcedures } from './filterProcedures';
 
-import { api } from '../../services/api'
+import { api } from '../../services/api';
 
 import 'react-calendar/dist/Calendar.css';
 import './styles.scss';
 
 export const CustomCalendar = ({ setToggleModal }) => {
-
   const { width } = useWindowDimensions();
 
   const {
@@ -31,16 +30,21 @@ export const CustomCalendar = ({ setToggleModal }) => {
     proceduresSelected,
     daysAgendaMonthCurrent,
     setDaysAgendaMonthCurrent,
-    setDaySelected
+    setDaySelected,
   } = useProcedures();
 
-  const date = new Date()
+  const date = new Date();
   const [eventsByDay, setEventsByDay] = useState([]);
   const [day, setDay] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
 
-  const [firstDayMonth, setFirstDayMonth] = useState(getUnixTime(new Date(date.getFullYear(), date.getMonth(), 1)));
-  const [lastDayMonth, setLastDayMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
+  const [firstDayMonth, setFirstDayMonth] = useState(
+    getUnixTime(new Date(date.getFullYear(), date.getMonth(), 1))
+  );
+  const [lastDayMonth, setLastDayMonth] = useState(
+    new Date(date.getFullYear(), date.getMonth() + 1, 0).setHours(23, 59, 59) /
+      1000
+  );
   const [daysAvailable, setDaysAvailable] = useState([]);
 
   const [isProcedureModalOpen, setIsProcedureModalOpen] = useState(false);
@@ -51,46 +55,47 @@ export const CustomCalendar = ({ setToggleModal }) => {
 
   useEffect(() => {
     if (width > 1093) {
-      setCalendarWidth('')
+      setCalendarWidth('');
     } else if (width < 1093 && width > 870) {
-      setCalendarWidth('calendar-Md')
+      setCalendarWidth('calendar-Md');
     } else if (width < 870 && width > 513) {
-      setCalendarWidth('calendar-Sm')
+      setCalendarWidth('calendar-Sm');
     } else if (width < 513) {
-      setCalendarWidth('calendar-Ssm')
+      setCalendarWidth('calendar-Ssm');
     }
-  }, [width])
+  }, [width]);
 
   useEffect(() => {
     (async () => {
       if (barberId.length === 6) {
         try {
           const { data } = await api.get('/agenda', {
-            params:
-            {
+            params: {
               id_barbeiro: barberId,
               hr_inicio: firstDayMonth,
-              hr_fim: lastDayMonth
-            }
-          })
-          console.log(data)
+              hr_fim: lastDayMonth,
+            },
+          });
+          console.log(data);
           setDaysAgendaMonthCurrent(data);
         } catch (e) {
-          console.log(e)
+          console.log(e);
         }
-
       } else {
-        setDaysAgendaMonthCurrent([])
+        setDaysAgendaMonthCurrent([]);
       }
-    })()
+    })();
   }, [barberId, firstDayMonth, lastDayMonth]);
 
   useEffect(() => {
     if (proceduresSelected.length > 0) {
-      const { finalArrayFiltered } = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
-      setDaysAvailable(finalArrayFiltered)
+      const { finalArrayFiltered } = filterDaysAvaliable(
+        daysAgendaMonthCurrent,
+        getTimeSelectedProcedures(proceduresSelected)
+      );
+      setDaysAvailable(finalArrayFiltered);
     }
-  }, [daysAgendaMonthCurrent, proceduresSelected])
+  }, [daysAgendaMonthCurrent, proceduresSelected]);
 
   useEffect(() => {
     const today = new Date(Date.now());
@@ -108,31 +113,48 @@ export const CustomCalendar = ({ setToggleModal }) => {
   }
 
   function tileDisabled({ date, view }) {
-    const monthSelected = fromUnixTime(firstDayMonth).getMonth()
+    const monthSelected = fromUnixTime(firstDayMonth).getMonth();
 
-    const constDaysMonthSelected = fromUnixTime(lastDayMonth)
+    const constDaysMonthSelected = fromUnixTime(lastDayMonth);
 
-    const { finalArray } = filterDaysAvaliable(daysAgendaMonthCurrent, getTimeSelectedProcedures(proceduresSelected))
+    const { finalArray } = filterDaysAvaliable(
+      daysAgendaMonthCurrent,
+      getTimeSelectedProcedures(proceduresSelected)
+    );
 
-    const disableDates = catchDays(constDaysMonthSelected.getDate(), finalArray)
+    const disableDates = catchDays(
+      constDaysMonthSelected.getDate(),
+      finalArray
+    );
 
-    if (view === 'month' && date.getUTCMonth() === currentMonth && barberId.length === 6) {
-      const daysArray = (Array.from(Array(day + 1).keys()))
-      daysArray.shift()
+    if (
+      view === 'month' &&
+      date.getUTCMonth() === currentMonth &&
+      barberId.length === 6
+    ) {
+      const daysArray = Array.from(Array(day + 1).keys());
+      daysArray.shift();
       return (
-        daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || disableDates.find(dDate => date.getUTCDate() === dDate) || daysArray.find(dDate => date.getUTCDate() === dDate)
-      )
+        daysAvailable.find((dDate) => date.getUTCDate() === dDate.data) ||
+        disableDates.find((dDate) => date.getUTCDate() === dDate) ||
+        daysArray.find((dDate) => date.getUTCDate() === dDate)
+      );
     }
 
-    if (view === 'month' && date.getUTCMonth() === monthSelected && barberId.length === 6) {
+    if (
+      view === 'month' &&
+      date.getUTCMonth() === monthSelected &&
+      barberId.length === 6
+    ) {
       return (
-        daysAvailable.find(dDate => date.getUTCDate() === dDate.data) || disableDates.find(dDate => date.getUTCDate() === dDate)
-      )
+        daysAvailable.find((dDate) => date.getUTCDate() === dDate.data) ||
+        disableDates.find((dDate) => date.getUTCDate() === dDate)
+      );
     }
   }
 
   return (
-    <div className="Calendario" >
+    <div className='Calendario'>
       <ProcedureModal
         isOpen={isProcedureModalOpen}
         onRequestClose={() => handleCloseProcedureModal()}
@@ -144,14 +166,15 @@ export const CustomCalendar = ({ setToggleModal }) => {
             let formatDate = format(date, "MMMM 'de' yyyy", {
               locale: ptBR,
             });
-            formatDate = formatDate.charAt(0).toUpperCase() + formatDate.slice(1);
+            formatDate =
+              formatDate.charAt(0).toUpperCase() + formatDate.slice(1);
             return formatDate;
           }}
           /* calendarType="US" */
-          locale="pt-BR"
+          locale='pt-BR'
           showNavigation
-          maxDetail="month"
-          minDetail="month"
+          maxDetail='month'
+          minDetail='month'
           maxDate={new Date(year, 11, 31)}
           minDate={new Date(year, new Date().getUTCMonth(), 1)}
           next2Label={null}
@@ -163,8 +186,15 @@ export const CustomCalendar = ({ setToggleModal }) => {
             if (value.action) {
               const newMonth = new Date(value.activeStartDate);
 
-              const firstDayMonth = getUnixTime(new Date(newMonth.getFullYear(), newMonth.getMonth()));
-              const lastDayMonth = (new Date(newMonth.getFullYear(), newMonth.getMonth() + 1, 0).setHours(23, 59, 59) / 1000);
+              const firstDayMonth = getUnixTime(
+                new Date(newMonth.getFullYear(), newMonth.getMonth())
+              );
+              const lastDayMonth =
+                new Date(
+                  newMonth.getFullYear(),
+                  newMonth.getMonth() + 1,
+                  0
+                ).setHours(23, 59, 59) / 1000;
 
               setFirstDayMonth(firstDayMonth);
               setLastDayMonth(lastDayMonth);
@@ -177,7 +207,6 @@ export const CustomCalendar = ({ setToggleModal }) => {
               handleOpenProcedureModal();
               setDaySelected(value.getDate());
             }
-
             // if (
             //   value.getMonth() === calendarMonth &&
             //   eventsByDay?.filter((item) => {
